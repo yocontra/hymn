@@ -8,16 +8,18 @@ window.React = React; // for dev
 
 var songs = [
   {
-    src: 'chopin.mp3',
-    artwork: 'chopin.jpg',
-    artist: 'Frederic Chopin',
-    title: 'Nocturne in E Flat Major'
+    src: 'res/chopin-c.mp3',
+    artwork: 'res/chopin-c.jpg',
+    artist: 'Frédéric Chopin',
+    album: 'Life and Works',
+    title: 'Nocturne in C Sharp Minor'
   },
   {
-    src: 'chopin-c.mp3',
-    artwork: 'chopin-c.jpg',
-    artist: 'Frederic Chopin',
-    title: 'Nocturne in C Sharp Minor'
+    src: 'res/chopin.mp3',
+    artwork: 'res/chopin.jpg',
+    artist: 'Frédéric Chopin',
+    album: 'The Very Best Of Chopin',
+    title: 'Nocturne in E Flat Major'
   }
 ];
 
@@ -48,6 +50,7 @@ var App = React.createClass({
       autoPlay: true,
       artwork: song.artwork,
       artist: song.artist,
+      album: song.album,
       title: song.title,
       onEnd: this.nextSong,
       onSkip: this.nextSong

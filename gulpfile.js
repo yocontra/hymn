@@ -19,7 +19,8 @@ var ecstatic = require('ecstatic');
 var reactify = require('reactify');
 
 var paths = {
-  js: 'src/**/*.js'
+  js: 'src/**/*.js',
+  static: ['samples/sandbox/src/**/*', '!samples/sandbox/src/**/*.js']
 };
 
 var bundleCache = {};
@@ -49,7 +50,7 @@ gulp.task('watch', function(){
   sampleBundler.on('update', function(){
     gulp.start('samples');
   });
-  gulp.watch(['samples/sandbox/src/**/*', '!samples/sandbox/src/**/*.js'], ['static']);
+  gulp.watch(paths.static, ['static']);
 });
 
 gulp.task('js', function(){
@@ -82,7 +83,7 @@ gulp.task('samples', function(){
 });
 
 gulp.task('static', function(){
-  return gulp.src(['samples/sandbox/src/**/*', '!samples/sandbox/src/**/*.js'])
+  return gulp.src(paths.static)
     .pipe(cached('static-samples'))
     .pipe(gulp.dest('samples/sandbox/dist'))
     .pipe(lr());

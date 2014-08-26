@@ -9,10 +9,13 @@ var Player = ReactCompositeComponent.createClass({
   propTypes: {
     title: PropTypes.string.isRequired,
     artist: PropTypes.string.isRequired,
+    album: PropTypes.string.isRequired,
+
     autoPlay: PropTypes.bool,
     loop: PropTypes.bool,
     muted: PropTypes.bool,
     preload: PropTypes.bool,
+
     onSkip: PropTypes.func,
     onEnd: PropTypes.func
   },
@@ -104,30 +107,41 @@ var Player = ReactCompositeComponent.createClass({
     }, this.props.children);
 
     // information
-    var artwork = DOM.img({
+    var artwork = DOM.div({
       ref: 'artwork',
       key: 'artwork',
       className: 'hymn-artwork',
-      src: this.props.artwork
+      style: {
+        backgroundImage: 'url('+this.props.artwork+')'
+      }
     });
 
     var title = DOM.div({
       ref: 'title',
       key: 'title',
-      className: 'hymn-title'
+      className: 'hymn-title',
+      title: this.props.title
     }, this.props.title);
+
+    var album = DOM.div({
+      ref: 'album',
+      key: 'album',
+      className: 'hymn-album',
+      title: this.props.album
+    }, this.props.album);
 
     var artist = DOM.div({
       ref: 'artist',
       key: 'artist',
-      className: 'hymn-artist'
+      className: 'hymn-artist',
+      title: this.props.artist
     }, this.props.artist);
 
     var info = DOM.div({
       ref: 'info',
       key: 'info',
       className: 'hymn-info'
-    }, [title, artist]);
+    }, [title, album, artist]);
 
     // controls
     var playPauseClass = this.state.playing ? 'hymn-pause' : 'hymn-play';
