@@ -5,7 +5,7 @@
   position: relative;
   height: 325px;
   width: 300px;
-  color: #333;
+  color: rgba(0,0,0,0.8);
   background-color: #fff;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-weight: 300;
@@ -53,16 +53,16 @@
   border: none;
   height: 5px;
   width: 240px;
-  background-color: #bdc3c7;
+  background-color: rgba(0,0,0,0.1);
 }
 .hymn-player .hymn-progress::-webkit-progress-bar {
-  background-color: #bdc3c7;
+  background-color: rgba(0,0,0,0.1);
 }
 .hymn-player .hymn-progress::-webkit-progress-value {
-  background-color: #3498db;
+  background-color: #039be5;
 }
 .hymn-player .hymn-progress::-moz-progress-bar {
-  background-color: #3498db;
+  background-color: #039be5;
 }
 .hymn-player .hymn-control {
   -webkit-font-smoothing: antialiased;
@@ -87,10 +87,10 @@
   transition: color 0.05s;
 }
 .hymn-player .hymn-control:hover {
-  color: #555;
+  color: rgba(0,0,0,0.7);
 }
 .hymn-player .hymn-control:active {
-  color: #777;
+  color: rgba(0,0,0,0.6);
 }
 .hymn-player .hymn-skip:before {
   content: '\e604';
