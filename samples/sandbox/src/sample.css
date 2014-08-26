@@ -35,6 +35,14 @@ html, body {
   height: 1em;
 }
 
+.hymn-progress::-webkit-progress-bar {
+  background-color: black;
+}
+
+.hymn-progress::-webkit-progress-value {
+  background-color: blue;
+}
+
 .hymn-control {
   display: inline-block;
   font-family: 'icomoon';
