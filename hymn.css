@@ -33,6 +33,7 @@
   transform: translate3d(0, 0, 0);
   height: 300px;
   width: 300px;
+  background-color: rgba(0,0,0,0.6);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
