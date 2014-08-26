@@ -8,7 +8,6 @@ var PropTypes = require('react/lib/ReactPropTypes');
 var Player = ReactCompositeComponent.createClass({
   displayName: 'Player',
   propTypes: {
-    src: PropTypes.string.isRequired,
     title: PropTypes.string,
     album: PropTypes.string,
     artist: PropTypes.string,
@@ -16,7 +15,8 @@ var Player = ReactCompositeComponent.createClass({
     loop: PropTypes.bool,
     muted: PropTypes.bool,
     preload: PropTypes.bool,
-    onSkip: PropTypes.func
+    onSkip: PropTypes.func,
+    onEnd: PropTypes.func
   },
 
   getDefaultProps: function() {
@@ -24,7 +24,6 @@ var Player = ReactCompositeComponent.createClass({
       autoPlay: false,
       loop: false,
       muted: false,
-      volume: 1,
       preload: true
     };
   },
@@ -32,7 +31,8 @@ var Player = ReactCompositeComponent.createClass({
   getInitialState: function() {
     return {
       playing: this.props.autoPlay,
-      volume: this.props.volume
+      duration: 0,
+      position: 0
     };
   },
 
@@ -40,27 +40,25 @@ var Player = ReactCompositeComponent.createClass({
   toggle: function() {
     this.setState({
       playing: !this.state.playing
-    });
-    this.sync();
-  },
-
-  setVolume: function(e) {
-    this.setState({
-      volume: e.target.value
-    });
-    this.sync();
+    }, this.sync);
   },
 
   // sync all non-props
   // back to the dom element
   sync: function() {
     var audioTag = this.refs.audioTag.getDOMNode();
-    audioTag.volume = this.state.volume;
 
     if (this.state.playing) {
       audioTag.play();
     } else {
       audioTag.pause();
+    }
+
+    if (!isNaN(audioTag.duration)) {
+      this.setState({
+        duration: audioTag.duration,
+        position: audioTag.currentTime
+      });
     }
   },
 
@@ -73,12 +71,16 @@ var Player = ReactCompositeComponent.createClass({
       ref: 'audioTag',
       key: 'audioTag',
       controls: false,
-      src: this.props.src,
+
       loop: this.props.loop,
       muted: this.props.muted,
       preload: this.props.preload,
-      autoPlay: this.props.autoPlay
-    });
+      autoPlay: this.props.autoPlay,
+
+      onDurationChange: this.sync,
+      onTimeUpdate: this.sync,
+      onEnded: this.props.onEnd
+    }, this.props.children);
 
     var playPauseClass = this.state.playing ? 'hymn-pause' : 'hymn-play';
     var playPause = DOM.button({
@@ -95,26 +97,12 @@ var Player = ReactCompositeComponent.createClass({
       onClick: this.props.onSkip
     });
 
-    /*
-    var volumeSlider = DOM.input({
-      ref: 'volumeSlider',
-      key: 'volumeSlider',
-      className: 'hymn-volume-slider',
-      type: 'range',
-      step: 0.01,
-      min: 0,
-      max: 1,
-      value: this.state.volume,
-      onChange: this.setVolume
-    });
-    */
-
     var progressBar = DOM.progress({
       ref: 'progressBar',
       key: 'progressBar',
       className: 'hymn-progress',
-      value: 1,
-      max: 2
+      value: this.state.position,
+      max: this.state.duration
     });
 
     var artwork = DOM.img({
@@ -124,11 +112,15 @@ var Player = ReactCompositeComponent.createClass({
       className: 'hymn-artwork'
     });
 
+    var controlChildren = [playPause, progressBar];
+    if (!this.props.onSkip) {
+      controlChildren.push(skipButton);
+    }
     var controls = DOM.div({
       ref: 'controls',
       key: 'controls',
       className: 'hymn-controls'
-    }, [playPause, progressBar, skipButton]);
+    }, controlChildren);
 
     var container = DOM.div({
       ref: 'container',
