@@ -7,9 +7,9 @@ var PropTypes = require('react/lib/ReactPropTypes');
 var Player = ReactCompositeComponent.createClass({
   displayName: 'Player',
   propTypes: {
-    title: PropTypes.string,
-    album: PropTypes.string,
-    artist: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    album: PropTypes.string.isRequired,
+    artist: PropTypes.string.isRequired,
     autoPlay: PropTypes.bool,
     loop: PropTypes.bool,
     muted: PropTypes.bool,
@@ -95,6 +95,33 @@ var Player = ReactCompositeComponent.createClass({
       onEnded: this.props.onEnd
     }, this.props.children);
 
+    // information
+    var artwork = DOM.img({
+      ref: 'artwork',
+      key: 'artwork',
+      className: 'hymn-artwork',
+      src: this.props.artwork
+    });
+
+    var title = DOM.div({
+      ref: 'title',
+      key: 'title',
+      className: 'hymn-title'
+    }, this.props.title);
+
+    var artist = DOM.div({
+      ref: 'artist',
+      key: 'artist',
+      className: 'hymn-artist'
+    }, this.props.artist);
+
+    var info = DOM.div({
+      ref: 'info',
+      key: 'info',
+      className: 'hymn-info'
+    }, [title, artist]);
+
+    // controls
     var playPauseClass = this.state.playing ? 'hymn-pause' : 'hymn-play';
     var playPause = DOM.button({
       ref: 'playPause',
@@ -119,13 +146,6 @@ var Player = ReactCompositeComponent.createClass({
       onClick: this.setPosition
     });
 
-    var artwork = DOM.img({
-      ref: 'artwork',
-      key: 'artwork',
-      src: this.props.artwork,
-      className: 'hymn-artwork'
-    });
-
     var controlChildren = [playPause, progressBar];
     if (!this.props.onSkip) {
       controlChildren.push(skipButton);
@@ -136,10 +156,11 @@ var Player = ReactCompositeComponent.createClass({
       className: 'hymn-controls'
     }, controlChildren);
 
+    // bring it all in
     var container = DOM.div({
       ref: 'container',
       className: 'hymn-player'
-    }, [artwork, controls, audioTag]);
+    }, [artwork, controls, info, audioTag]);
     return container;
   }
 });
