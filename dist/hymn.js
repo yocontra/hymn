@@ -117,21 +117,21 @@ var Player = ReactCompositeComponent.createClass({
       }
     });
 
-    var title = DOM.div({
+    var title = DOM.p({
       ref: 'title',
       key: 'title',
       className: 'hymn-title',
       title: this.props.title
     }, this.props.title);
 
-    var album = DOM.div({
+    var album = DOM.p({
       ref: 'album',
       key: 'album',
       className: 'hymn-album',
       title: this.props.album
     }, this.props.album);
 
-    var artist = DOM.div({
+    var artist = DOM.p({
       ref: 'artist',
       key: 'artist',
       className: 'hymn-artist',
