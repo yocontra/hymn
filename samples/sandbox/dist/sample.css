@@ -31,7 +31,7 @@ html, body {
   background-repeat: no-repeat;
   height: 250px;
   width: 250px;
-  transition: all 0.4s ease-in-out 0.2s;
+  transition: all 0.4s ease-in-out 0.4s;
   backface-visibility: hidden;
 }
 
@@ -120,7 +120,7 @@ html, body {
   position: absolute;
   text-align: center;
   opacity: 0;
-  transition: opacity 0.4s ease-in-out 0.2s;
+  transition: all 0.4s ease-in-out 0.4s;
   cursor: default;
   width: 250px;
   bottom: 0;
@@ -128,10 +128,12 @@ html, body {
   padding: 10px;
   margin-bottom: 30px;
   line-height: 1.9em;
+  transform: translateY(50px);
 }
 
 .hymn-player:hover .hymn-info {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .hymn-title {
