@@ -18704,6 +18704,14 @@ var Player = ReactCompositeComponent.createClass({
     }, this.sync);
   },
 
+  setPosition: function(e) {
+    var audioTag = this.refs.audioTag.getDOMNode();
+    var x = e.pageX - e.target.offsetLeft;
+    var scale = e.target.clientWidth;
+    var time = this.state.duration*(x/scale);
+    audioTag.currentTime = time;
+  },
+
   // sync all non-props
   // back to the dom element
   sync: function() {
@@ -18717,13 +18725,20 @@ var Player = ReactCompositeComponent.createClass({
 
     if (!isNaN(audioTag.duration)) {
       this.setState({
-        duration: audioTag.duration,
-        position: audioTag.currentTime
+        duration: Math.floor(audioTag.duration*10)/10,
+        position: Math.floor(audioTag.currentTime*10)/10
       });
     }
   },
 
   componentDidMount: function() {
+    // hacks around react bug
+    var audioTag = this.refs.audioTag.getDOMNode();
+    audioTag.addEventListener('timeupdate', this.sync, false);
+    if (this.props.onEnd) {
+      audioTag.addEventListener('ended', this.props.onEnd, false);
+    }
+
     this.sync();
   },
 
@@ -18738,7 +18753,6 @@ var Player = ReactCompositeComponent.createClass({
       preload: this.props.preload,
       autoPlay: this.props.autoPlay,
 
-      onDurationChange: this.sync,
       onTimeUpdate: this.sync,
       onEnded: this.props.onEnd
     }, this.props.children);
@@ -18763,7 +18777,8 @@ var Player = ReactCompositeComponent.createClass({
       key: 'progressBar',
       className: 'hymn-progress',
       value: this.state.position,
-      max: this.state.duration
+      max: this.state.duration,
+      onClick: this.setPosition
     });
 
     var artwork = DOM.img({

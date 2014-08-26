@@ -17,6 +17,8 @@
 </tr>
 </table>
 
+This is a work in progress. Follow @contrahacks or @wearefractal for an update when it is finished.
+
 ### Usage
 
 ```js

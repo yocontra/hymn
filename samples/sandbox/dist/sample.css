@@ -4,7 +4,7 @@ html, body {
 
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-weight: 300;
 }
 
@@ -29,33 +29,44 @@ html, body {
   -webkit-appearance: none;
   appearance: none;
   vertical-align: middle;
-  border-radius: 10px;
 
   width: 190px;
-  height: 1em;
+  height: 10px;
 }
 
 .hymn-progress::-webkit-progress-bar {
-  background-color: black;
+  background-color: #EDEDED;
+  border-radius: 5px;
+  border: 1px solid #CFCFCF;
+  z-index: 2;
 }
 
 .hymn-progress::-webkit-progress-value {
-  background-color: blue;
+  background-color: #3B99FC;
+  border-radius: 5px;
+  z-index: 1;
 }
 
 .hymn-control {
   display: inline-block;
-  font-family: 'icomoon';
   text-align: center;
   width: 30px;
   vertical-align: middle;
   outline: none;
-  -webkit-font-smoothing: antialiased;
   font-size: 1em;
-  font-weight: 300;
   background-color: #fff;
   border: none;
   color: inherit;
+
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .hymn-control:active {
@@ -63,15 +74,15 @@ html, body {
 }
 
 .hymn-skip:before {
-  content: "\e604";
+  content: '\e604';
 }
 
 .hymn-play:before {
-  content: "\e600";
+  content: '\e600';
 }
 
 .hymn-pause:before {
-  content: "\e601";
+  content: '\e601';
 }
 
 /* icon font lol */
@@ -86,7 +97,7 @@ html, body {
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^='icon-'], [class*=' icon-'] {
   font-family: 'icomoon';
   speak: none;
   font-style: normal;
@@ -101,32 +112,32 @@ html, body {
 }
 
 .icon-play:before {
-  content: "\e600";
+  content: '\e600';
 }
 .icon-pause:before {
-  content: "\e601";
+  content: '\e601';
 }
 .icon-stop:before {
-  content: "\e602";
+  content: '\e602';
 }
 .icon-first:before {
-  content: "\e603";
+  content: '\e603';
 }
 .icon-last:before {
-  content: "\e604";
+  content: '\e604';
 }
 .icon-volume-high:before {
-  content: "\e605";
+  content: '\e605';
 }
 .icon-volume-medium:before {
-  content: "\e606";
+  content: '\e606';
 }
 .icon-volume-low:before {
-  content: "\e607";
+  content: '\e607';
 }
 .icon-volume-mute:before {
-  content: "\e608";
+  content: '\e608';
 }
 .icon-volume-mute2:before {
-  content: "\e609";
+  content: '\e609';
 }
