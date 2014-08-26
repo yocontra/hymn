@@ -8,7 +8,6 @@ var Player = ReactCompositeComponent.createClass({
   displayName: 'Player',
   propTypes: {
     title: PropTypes.string.isRequired,
-    album: PropTypes.string.isRequired,
     artist: PropTypes.string.isRequired,
     autoPlay: PropTypes.bool,
     loop: PropTypes.bool,
@@ -80,6 +79,15 @@ var Player = ReactCompositeComponent.createClass({
     this.sync();
   },
 
+  componentWillUnmount: function() {
+    // hacks around react bug
+    var audioTag = this.refs.audioTag.getDOMNode();
+    audioTag.removeEventListener('timeupdate', this.sync, false);
+    if (this.props.onEnd) {
+      audioTag.removeEventListener('ended', this.props.onEnd, false);
+    }
+  },
+
   render: function(){
     var audioTag = DOM.audio({
       ref: 'audioTag',
@@ -147,7 +155,7 @@ var Player = ReactCompositeComponent.createClass({
     });
 
     var controlChildren = [playPause, progressBar];
-    if (!this.props.onSkip) {
+    if (this.props.onSkip) {
       controlChildren.push(skipButton);
     }
     var controls = DOM.div({
