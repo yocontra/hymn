@@ -1,81 +1,70 @@
-/* TODO: redo this in stylus */
 .hymn-player {
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  position: relative;
+  height: 325px;
+  width: 300px;
+  color: #333;
+  background-color: #fff;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-weight: 300;
-
-  position: relative;
-  color: #333;
-  height: 275px;
-  width: 250px;
-  background-color: #ecf0f1;
 }
-
-.hymn-artwork {
+.hymn-player:hover .hymn-artwork {
+  border-radius: 100%;
+  -webkit-transform: scale(0.8) translateY(-120px);
+  -ms-transform: scale(0.8) translateY(-120px);
+  transform: scale(0.8) translateY(-120px);
+}
+.hymn-player:hover .hymn-info {
+  opacity: 1;
+  -ms-filter: none;
+  -webkit-filter: none;
+          filter: none;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+.hymn-player .hymn-artwork {
+  -webkit-transition: all 0.4s ease-in-out 0.4s;
+  transition: all 0.4s ease-in-out 0.4s;
+  height: 300px;
+  width: 300px;
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
-  height: 250px;
-  width: 250px;
-  transition: all 0.4s ease-in-out 0.4s;
-  backface-visibility: hidden;
 }
-
-.hymn-player:hover .hymn-artwork {
-  border-radius: 100%;
-  transform: scale(0.8) translateY(-120px);
-}
-
-.hymn-controls {
+.hymn-player .hymn-controls {
   position: absolute;
   bottom: 0;
   left: 0;
   height: 25px;
-  width: 250px;
+  width: 300px;
 }
-
-.hymn-progress {
-  display: inline-block;
+.hymn-player .hymn-progress {
   cursor: pointer;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   vertical-align: middle;
   border: none;
-  width: 190px;
   height: 5px;
+  width: 240px;
   background-color: #bdc3c7;
 }
-
-.hymn-progress::-webkit-progress-bar {
+.hymn-player .hymn-progress::-webkit-progress-bar {
   background-color: #bdc3c7;
 }
-
-.hymn-progress::-webkit-progress-value {
+.hymn-player .hymn-progress::-webkit-progress-value {
   background-color: #3498db;
-  max-width: 190px;
 }
-
-.hymn-progress::-moz-progress-bar {
+.hymn-player .hymn-progress::-moz-progress-bar {
   background-color: #3498db;
-  max-width: 190px;
 }
-
-.hymn-control {
-  cursor: pointer;
-  transition: color 0.05s;
-  display: inline-block;
-  text-align: center;
-  height: 25px;
-  width: 30px;
-  vertical-align: middle;
-  outline: none;
-  border: none;
-  font-size: 1em;
-  background-color: inherit;
-  color: inherit;
-
+.hymn-player .hymn-control {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   font-family: 'icomoon';
   speak: none;
   font-style: normal;
@@ -83,83 +72,81 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  background-color: inherit;
+  color: inherit;
+  height: 25px;
+  width: 30px;
+  -webkit-transition: color 0.05s;
+  transition: color 0.05s;
 }
-
-.hymn-control:hover {
+.hymn-player .hymn-control:hover {
   color: #555;
 }
-
-.hymn-control:active {
-  color: #888;
+.hymn-player .hymn-control:active {
+  color: #777;
 }
-
-.hymn-skip:before {
+.hymn-player .hymn-skip:before {
   content: '\e604';
 }
-
-.hymn-play:before {
+.hymn-player .hymn-play:before {
   content: '\e600';
 }
-
-.hymn-pause:before {
+.hymn-player .hymn-pause:before {
   content: '\e601';
 }
-
-.hymn-info {
-  box-sizing: border-box;
-  backface-visibility: hidden;
-  pointer-events: none;
+.hymn-player .hymn-info {
+  -webkit-transition: all 0.4s ease-in-out 0.4s;
+  transition: all 0.4s ease-in-out 0.4s;
   position: absolute;
+  bottom: 25px;
+  left: 0;
+  width: 300px;
+  padding: 10px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   text-align: center;
   opacity: 0;
-  transition: all 0.4s ease-in-out 0.4s;
-  cursor: default;
-  width: 250px;
-  bottom: 0;
-  left: 0;
-  padding: 10px;
-  margin-bottom: 30px;
-  line-height: 1.9em;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  pointer-events: none;
+  -webkit-transform: translateY(50px);
+  -ms-transform: translateY(50px);
   transform: translateY(50px);
 }
-
-.hymn-player:hover .hymn-info {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hymn-title {
-  font-size: 22px;
-  overflow: hidden;
+.hymn-player .hymn-info .hymn-title {
   white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.hymn-album {
-  font-size: 18px;
   overflow: hidden;
-  white-space: nowrap;
+  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+  font-size: 1.5rem;
+  line-height: 150%;
 }
-
-.hymn-artist {
+.hymn-player .hymn-info .hymn-album {
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  font-size: 1.2rem;
+  line-height: 150%;
+}
+.hymn-player .hymn-info .hymn-artist {
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
   font-style: italic;
-  font-size: 16px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  font-size: 1.1rem;
+  line-height: 150%;
 }
-
 /* icon font lol */
 @font-face {
   font-family: 'icomoon';
-  src:url('fonts/icomoon.eot?8sfyn6');
-  src:url('fonts/icomoon.eot?#iefix8sfyn6') format('embedded-opentype'),
-    url('fonts/icomoon.woff?8sfyn6') format('woff'),
-    url('fonts/icomoon.ttf?8sfyn6') format('truetype'),
-    url('fonts/icomoon.svg?8sfyn6#icomoon') format('svg');
+  src: url("fonts/icomoon.eot?8sfyn6");
+  src: url("fonts/icomoon.eot?#iefix8sfyn6") format('embedded-opentype'), url("fonts/icomoon.woff?8sfyn6") format('woff'), url("fonts/icomoon.ttf?8sfyn6") format('truetype'), url("fonts/icomoon.svg?8sfyn6#icomoon") format('svg');
   font-weight: normal;
   font-style: normal;
 }

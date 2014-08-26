@@ -1,0 +1,176 @@
+@import 'nib'
+
+darkColor = #333
+lightColor = #555
+lighterColor = #777
+progressColor = #3498db
+progressBackground = #bdc3c7
+playerBackground = #fff
+
+artworkHeight = 300px
+artworkWidth = 300px
+controlBarHeight = 25px
+controlButtonWidth = 30px
+playerHeight = artworkHeight + controlBarHeight
+playerWidth = artworkWidth
+progressBarHeight = 5px
+progressBarWidth = playerWidth - (controlButtonWidth * 2)
+
+infoWidth = artworkWidth
+infoHideHeight = controlBarHeight * 2
+infoPadding = 10px
+
+artScale = 0.8
+artShift = -((artworkHeight / 2) * artScale)
+
+betterfont()
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  text-rendering: optimizeLegibility
+
+iconfont()
+  betterfont()
+  font-family: 'icomoon'
+  speak: none
+  font-style: normal
+  font-weight: normal
+  font-variant: normal
+  text-transform: none
+  line-height: 1
+
+transitionit()
+  transition: all 0.4s ease-in-out 0.4s
+
+reset-progress()
+  cursor: pointer
+  appearance: none
+  vertical-align: middle
+  border: none
+
+reset-button()
+  vertical-align: middle
+  outline: none
+  border: none
+  font-size: 1rem
+  background-color: inherit
+  color: inherit
+
+.hymn-player
+  betterfont()
+
+  position: relative
+  height: playerHeight
+  width: playerWidth
+
+  color: darkColor
+  background-color: playerBackground
+
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif
+  font-weight: 300
+
+  &:hover
+    .hymn-artwork
+      border-radius: 100%
+      transform: scale(artScale) translateY(artShift)
+
+    .hymn-info
+      opacity: 1
+      transform: translateY(0)
+
+  .hymn-artwork
+    transitionit()
+
+    height: artworkHeight
+    width: artworkWidth
+    background-size: cover
+    background-position: 50% 50%
+    background-repeat: no-repeat
+
+  .hymn-controls
+    absolute: bottom left
+    height: controlBarHeight
+    width: playerWidth
+
+  .hymn-progress
+    reset-progress()
+
+    height: progressBarHeight
+    width: progressBarWidth
+    background-color: progressBackground
+
+    &::-webkit-progress-bar
+      background-color: progressBackground
+
+    &::-webkit-progress-value
+      background-color: progressColor
+
+    &::-moz-progress-bar
+      background-color: progressColor
+
+  .hymn-control
+    iconfont()
+    reset-button()
+
+    height: controlBarHeight
+    width: controlButtonWidth
+    transition: color 0.05s
+
+    &:hover
+      color: lightColor
+
+    &:active
+      color: lighterColor
+
+  .hymn-skip
+    &:before
+      content: '\e604'
+
+  .hymn-play
+    &:before
+      content: '\e600'
+
+  .hymn-pause
+    &:before
+      content: '\e601'
+
+  .hymn-info
+    transitionit()
+
+    absolute: bottom controlBarHeight left
+    width: infoWidth
+    padding: infoPadding
+    box-sizing: border-box
+    text-align: center
+    opacity: 0
+    pointer-events: none
+
+    // hide it down so it can pop up on hover
+    transform: translateY(infoHideHeight)
+
+    .hymn-title
+      overflow: ellipsis
+      font-size: 1.5rem
+      line-height: 150%
+
+    .hymn-album
+      overflow: ellipsis
+      font-size: 1.2rem
+      line-height: 150%
+
+    .hymn-artist
+      overflow: ellipsis
+      font-style: italic
+      font-size: 1.1rem
+      line-height: 150%
+
+
+/* icon font lol */
+@font-face
+  font-family: 'icomoon'
+  src: url('fonts/icomoon.eot?8sfyn6')
+  src: url('fonts/icomoon.eot?#iefix8sfyn6') format('embedded-opentype'),
+    url('fonts/icomoon.woff?8sfyn6') format('woff'),
+    url('fonts/icomoon.ttf?8sfyn6') format('truetype'),
+    url('fonts/icomoon.svg?8sfyn6#icomoon') format('svg')
+  font-weight: normal
+  font-style: normal

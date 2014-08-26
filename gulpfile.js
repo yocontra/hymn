@@ -4,11 +4,15 @@ var http = require('http');
 var path = require('path');
 
 var gulp = require('gulp');
+var stylus = require('gulp-stylus');
+var nib = require('nib');
+var autoprefix = require('autoprefixer-stylus');
 var jshint = require('gulp-jshint');
 var sourcemaps = require('gulp-sourcemaps');
 var lr = require('gulp-livereload');
 var cached = require('gulp-cached');
 var deploy = require('gulp-gh-pages');
+var gif = require('gulp-if');
 
 var merge = require('merge-stream');
 var source = require('vinyl-source-stream');
@@ -85,6 +89,12 @@ gulp.task('samples', function(){
 gulp.task('static', function(){
   return gulp.src(paths.static)
     .pipe(cached('static-samples'))
+    .pipe(gif('*.styl', stylus({
+      use: [
+        nib(),
+        autoprefix()
+      ]
+    })))
     .pipe(gulp.dest('samples/sandbox/dist'))
     .pipe(lr());
 });

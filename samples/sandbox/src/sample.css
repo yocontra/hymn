@@ -7,5 +7,10 @@ html, body {
 }
 
 .hymn-player {
-  margin: 100px auto;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
