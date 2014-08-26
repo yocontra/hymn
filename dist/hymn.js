@@ -64,8 +64,8 @@ var Player = ReactCompositeComponent.createClass({
 
     if (!isNaN(audioTag.duration)) {
       this.setState({
-        duration: audioTag.duration,
-        position: audioTag.currentTime
+        duration: Math.floor(audioTag.duration*100)/100,
+        position: Math.floor(audioTag.currentTime*100)/100
       });
     }
   },
@@ -161,7 +161,7 @@ var Player = ReactCompositeComponent.createClass({
     var container = DOM.div({
       ref: 'container',
       className: 'hymn-player'
-    }, [artwork, controls, info, audioTag]);
+    }, [artwork, info, controls, audioTag]);
     return container;
   }
 });

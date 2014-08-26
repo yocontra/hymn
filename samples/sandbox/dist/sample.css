@@ -10,17 +10,17 @@ html, body {
   font-weight: 300;
 }
 
-* {
+*, *:after, *:before {
   box-sizing: border-box;
 }
 
 .hymn-player {
-  position: relative;
   margin: 100px auto;
 }
 
 /* reusable sheet */
 .hymn-player {
+  position: relative;
   color: #333;
   width: 250px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
@@ -30,6 +30,12 @@ html, body {
 .hymn-artwork {
   height: 250px;
   width: 250px;
+  transition: all 0.4s ease-in-out;
+}
+
+.hymn-artwork:hover {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  transform: translateY(-80px);
 }
 
 .hymn-controls {
@@ -50,13 +56,11 @@ html, body {
   background-color: #bdc3c7;
   border-radius: 5px;
   border: 1px solid #CFCFCF;
-  z-index: 2;
 }
 
 .hymn-progress::-webkit-progress-value {
   background-color: #3498db;
   border-radius: 5px;
-  z-index: 1;
 }
 
 .hymn-control {
@@ -103,27 +107,27 @@ html, body {
 }
 
 .hymn-info {
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.8);
-  height: 200px;
-  width: 250px;
-  color: #fff;
   position: absolute;
-  top: 0;
-  right: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  cursor: default;
+  width: 250px;
+  bottom: 0;
+  left: 0;
   text-align: right;
   padding: 10px;
+  margin-bottom: 30px;
   line-height: 150%;
-  transition: opacity 0.4s ease-out;
-  opacity: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.9), transparent);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.hymn-info:hover {
+.hymn-artwork:hover ~ .hymn-info {
   opacity: 1;
+  transition: opacity 0.4s ease-in-out 0.2s;
 }
+
 
 .hymn-title {
   font-size: 1.3em;
