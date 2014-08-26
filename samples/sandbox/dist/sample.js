@@ -18706,7 +18706,7 @@ var Player = ReactCompositeComponent.createClass({
 
   setPosition: function(e) {
     var audioTag = this.refs.audioTag.getDOMNode();
-    var x = e.pageX - e.target.offsetLeft;
+    var x = e.pageX - e.target.getBoundingClientRect().left;
     var scale = e.target.clientWidth;
     var time = this.state.duration*(x/scale);
     audioTag.currentTime = time;

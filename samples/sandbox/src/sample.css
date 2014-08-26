@@ -10,6 +10,10 @@ html, body {
   font-weight: 300;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .hymn-player {
   position: relative;
   margin: 100px auto;
@@ -99,24 +103,25 @@ html, body {
 }
 
 .hymn-info {
-  height: 250px;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.8);
+  height: 200px;
   width: 250px;
   color: #fff;
   position: absolute;
   top: 0;
   right: 0;
-  text-align: center;
-  padding-top: 10px;
+  text-align: right;
+  padding: 10px;
   line-height: 150%;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.4s ease-out;
   opacity: 0;
-  background: linear-gradient(rgba(0, 0, 0, 1), transparent);
+  background: linear-gradient(rgba(0, 0, 0, 0.9), transparent);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.hymn-player:hover .hymn-info {
+.hymn-info:hover {
   opacity: 1;
 }
 
