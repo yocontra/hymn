@@ -19,6 +19,7 @@ progressBarWidth = playerWidth - (controlButtonWidth * 2)
 infoWidth = artworkWidth
 infoHideHeight = controlBarHeight * 2
 infoPadding = 10px
+infoSpacing = (controlBarHeight + infoPadding)
 
 artScale = 0.8
 artShift = -((artworkHeight / 2) * artScale)
@@ -40,6 +41,7 @@ iconfont()
 
 transitionit()
   transition: all 0.4s ease-in-out 0.4s
+  transform: translate3d(0, 0, 0)
 
 reset-progress()
   cursor: pointer
@@ -83,7 +85,7 @@ reset-button()
     height: artworkHeight
     width: artworkWidth
     background-size: cover
-    background-position: 50% 50%
+    background-position: center center
     background-repeat: no-repeat
 
   .hymn-controls
@@ -136,7 +138,7 @@ reset-button()
   .hymn-info
     transitionit()
 
-    absolute: bottom controlBarHeight left
+    absolute: bottom infoSpacing left
     width: infoWidth
     padding: infoPadding
     box-sizing: border-box
