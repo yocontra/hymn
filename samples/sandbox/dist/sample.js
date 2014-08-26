@@ -18725,8 +18725,8 @@ var Player = ReactCompositeComponent.createClass({
 
     if (!isNaN(audioTag.duration)) {
       this.setState({
-        duration: Math.floor(audioTag.duration*10)/10,
-        position: Math.floor(audioTag.currentTime*10)/10
+        duration: audioTag.duration,
+        position: audioTag.currentTime
       });
     }
   },
