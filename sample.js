@@ -18768,6 +18768,7 @@ var Player = ReactCompositeComponent.createClass({
 
   componentDidMount: function() {
     // hacks around react bug
+    // TODO: break this out into an audio wrapper
     var audioTag = this.refs.audioTag.getDOMNode();
     audioTag.addEventListener('timeupdate', this.sync, false);
     if (this.props.onEnd) {
@@ -18779,6 +18780,7 @@ var Player = ReactCompositeComponent.createClass({
 
   componentWillUnmount: function() {
     // hacks around react bug
+    // TODO: break this out into an audio wrapper
     var audioTag = this.refs.audioTag.getDOMNode();
     audioTag.removeEventListener('timeupdate', this.sync, false);
     if (this.props.onEnd) {
