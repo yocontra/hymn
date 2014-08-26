@@ -50,28 +50,30 @@ html, body {
 }
 
 .hymn-progress {
+  position: relative;
   display: inline-block;
+  cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
   vertical-align: middle;
-
+  border: none;
   width: 190px;
-  height: 10px;
+  height: 5px;
 }
 
 .hymn-progress::-webkit-progress-bar {
   background-color: #bdc3c7;
-  border-radius: 5px;
   border: 1px solid #CFCFCF;
 }
 
 .hymn-progress::-webkit-progress-value {
+  position: relative;
   background-color: #3498db;
-  border-radius: 5px;
 }
 
 .hymn-control {
-  transition: color 0.05s ease-in-out;
+  cursor: pointer;
+  transition: color 0.05s;
   display: inline-block;
   text-align: center;
   width: 30px;
