@@ -7,21 +7,51 @@ var Player = require('../../../src');
 var React = require('react');
 window.React = React; // for dev
 
+var songs = [
+  {
+    src: 'chopin.mp3',
+    artwork: 'chopin.jpg',
+    artist: 'Frederic Chopin',
+    title: 'Nocturne in E Flat Major'
+  },
+  {
+    src: 'chopin-c.mp3',
+    artwork: 'chopin-c.jpg',
+    artist: 'Frederic Chopin',
+    title: 'Nocturne in C Sharp Minor'
+  }
+];
+
 var App = React.createClass({
   displayName: 'demo',
+  getInitialState: function(){
+    return {
+      songs: songs,
+      idx: 0
+    };
+  },
+  nextSong: function(){
+    var atEnd = (this.state.idx === this.state.songs.length-1);
+    this.setState({
+      idx: (atEnd ? 0 : ++this.state.idx)
+    });
+  },
   render: function(){
+    var song = this.state.songs[this.state.idx];
     var mp3 = React.DOM.source({
       type: 'audio/mp3',
-      src: 'chopin.mp3'
+      src: song.src
     });
 
     var player = Player({
-      src: 'chopin.mp3',
-      artwork: 'chopin.jpg',
+      ref: 'songPlayer',
+      key: this.state.idx,
       autoPlay: true,
-      artist: 'Frederic Chopin',
-      album: 'Greatest Hits',
-      title: 'Nocturne in E Flat Major'
+      artwork: song.artwork,
+      artist: song.artist,
+      title: song.title,
+      onEnd: this.nextSong,
+      onSkip: this.nextSong
     }, mp3);
     return player;
   }
@@ -18670,7 +18700,6 @@ var Player = ReactCompositeComponent.createClass({
   displayName: 'Player',
   propTypes: {
     title: PropTypes.string.isRequired,
-    album: PropTypes.string.isRequired,
     artist: PropTypes.string.isRequired,
     autoPlay: PropTypes.bool,
     loop: PropTypes.bool,
@@ -18742,6 +18771,15 @@ var Player = ReactCompositeComponent.createClass({
     this.sync();
   },
 
+  componentWillUnmount: function() {
+    // hacks around react bug
+    var audioTag = this.refs.audioTag.getDOMNode();
+    audioTag.removeEventListener('timeupdate', this.sync, false);
+    if (this.props.onEnd) {
+      audioTag.removeEventListener('ended', this.props.onEnd, false);
+    }
+  },
+
   render: function(){
     var audioTag = DOM.audio({
       ref: 'audioTag',
@@ -18809,7 +18847,7 @@ var Player = ReactCompositeComponent.createClass({
     });
 
     var controlChildren = [playPause, progressBar];
-    if (!this.props.onSkip) {
+    if (this.props.onSkip) {
       controlChildren.push(skipButton);
     }
     var controls = DOM.div({
