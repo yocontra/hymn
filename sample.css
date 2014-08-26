@@ -22,12 +22,7 @@ html, body {
   color: #333;
   height: 275px;
   width: 250px;
-  transition: height 0.4s ease-in-out;
   background-color: #ecf0f1;
-}
-
-.hymn-player:hover {
-  height: 290px;
 }
 
 .hymn-artwork {
@@ -36,7 +31,7 @@ html, body {
   background-repeat: no-repeat;
   height: 250px;
   width: 250px;
-  transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out 0.2s;
   backface-visibility: hidden;
 }
 
@@ -76,7 +71,7 @@ html, body {
 }
 
 .hymn-control {
-  transition: color 0.1s ease-in-out;
+  transition: color 0.05s ease-in-out;
   display: inline-block;
   text-align: center;
   width: 30px;
@@ -125,7 +120,7 @@ html, body {
   position: absolute;
   text-align: center;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.4s ease-in-out 0.2s;
   cursor: default;
   width: 250px;
   bottom: 0;
@@ -137,7 +132,6 @@ html, body {
 
 .hymn-player:hover .hymn-info {
   opacity: 1;
-  transition: opacity 0.4s ease-in-out 0.2s;
 }
 
 .hymn-title {
