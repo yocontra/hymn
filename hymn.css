@@ -28,10 +28,13 @@
 .hymn-player .hymn-artwork {
   -webkit-transition: all 0.4s ease-in-out 0.4s;
   transition: all 0.4s ease-in-out 0.4s;
+  -webkit-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   height: 300px;
   width: 300px;
   background-size: cover;
-  background-position: 50% 50%;
+  background-position: center center;
   background-repeat: no-repeat;
 }
 .hymn-player .hymn-controls {
@@ -101,8 +104,11 @@
 .hymn-player .hymn-info {
   -webkit-transition: all 0.4s ease-in-out 0.4s;
   transition: all 0.4s ease-in-out 0.4s;
+  -webkit-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   position: absolute;
-  bottom: 25px;
+  bottom: 35px;
   left: 0;
   width: 300px;
   padding: 10px;
