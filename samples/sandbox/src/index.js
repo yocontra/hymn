@@ -23,7 +23,7 @@ var songs = [
   }
 ];
 
-var App = React.createClass({
+var App = React.createFactory(React.createClass({
   displayName: 'demo',
   getInitialState: function(){
     return {
@@ -57,6 +57,6 @@ var App = React.createClass({
     }, mp3);
     return player;
   }
-});
+}));
 
-React.renderComponent(App(), document.body);
+React.render(App(), document.body);

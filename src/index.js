@@ -1,23 +1,21 @@
 'use strict';
 
-var ReactCompositeComponent = require('react/lib/ReactCompositeComponent');
-var DOM = require('react/lib/ReactDOM');
-var PropTypes = require('react/lib/ReactPropTypes');
+var React = require('react');
 
-var Player = ReactCompositeComponent.createClass({
+var Player = React.createClass({
   displayName: 'Player',
   propTypes: {
-    title: PropTypes.string.isRequired,
-    artist: PropTypes.string.isRequired,
-    album: PropTypes.string.isRequired,
+    title: React.PropTypes.string.isRequired,
+    artist: React.PropTypes.string.isRequired,
+    album: React.PropTypes.string.isRequired,
 
-    autoPlay: PropTypes.bool,
-    loop: PropTypes.bool,
-    muted: PropTypes.bool,
-    preload: PropTypes.bool,
+    autoPlay: React.PropTypes.bool,
+    loop: React.PropTypes.bool,
+    muted: React.PropTypes.bool,
+    preload: React.PropTypes.bool,
 
-    onSkip: PropTypes.func,
-    onEnd: PropTypes.func
+    onSkip: React.PropTypes.func,
+    onEnd: React.PropTypes.func
   },
 
   getDefaultProps: function() {
@@ -94,7 +92,7 @@ var Player = ReactCompositeComponent.createClass({
   },
 
   render: function(){
-    var audioTag = DOM.audio({
+    var audioTag = React.DOM.audio({
       ref: 'audioTag',
       key: 'audioTag',
       controls: false,
@@ -109,7 +107,7 @@ var Player = ReactCompositeComponent.createClass({
     }, this.props.children);
 
     // information
-    var artwork = DOM.div({
+    var artwork = React.DOM.div({
       ref: 'artwork',
       key: 'artwork',
       className: 'hymn-artwork',
@@ -118,28 +116,28 @@ var Player = ReactCompositeComponent.createClass({
       }
     });
 
-    var title = DOM.p({
+    var title = React.DOM.p({
       ref: 'title',
       key: 'title',
       className: 'hymn-title',
       title: this.props.title
     }, this.props.title);
 
-    var album = DOM.p({
+    var album = React.DOM.p({
       ref: 'album',
       key: 'album',
       className: 'hymn-album',
       title: this.props.album
     }, this.props.album);
 
-    var artist = DOM.p({
+    var artist = React.DOM.p({
       ref: 'artist',
       key: 'artist',
       className: 'hymn-artist',
       title: this.props.artist
     }, this.props.artist);
 
-    var info = DOM.div({
+    var info = React.DOM.div({
       ref: 'info',
       key: 'info',
       className: 'hymn-info'
@@ -147,21 +145,21 @@ var Player = ReactCompositeComponent.createClass({
 
     // controls
     var playPauseClass = this.state.playing ? 'hymn-pause' : 'hymn-play';
-    var playPause = DOM.button({
+    var playPause = React.DOM.button({
       ref: 'playPause',
       key: 'playPause',
       className: 'hymn-control ' + playPauseClass,
       onClick: this.toggle
     });
 
-    var skipButton = DOM.button({
+    var skipButton = React.DOM.button({
       ref: 'skipButton',
       key: 'skipButton',
       className: 'hymn-control hymn-skip',
       onClick: this.props.onSkip
     });
 
-    var progressBar = DOM.progress({
+    var progressBar = React.DOM.progress({
       ref: 'progressBar',
       key: 'progressBar',
       className: 'hymn-progress',
@@ -174,14 +172,14 @@ var Player = ReactCompositeComponent.createClass({
     if (this.props.onSkip) {
       controlChildren.push(skipButton);
     }
-    var controls = DOM.div({
+    var controls = React.DOM.div({
       ref: 'controls',
       key: 'controls',
       className: 'hymn-controls'
     }, controlChildren);
 
     // bring it all in
-    var container = DOM.div({
+    var container = React.DOM.div({
       ref: 'container',
       className: 'hymn-player'
     }, [artwork, info, controls, audioTag]);
@@ -189,4 +187,4 @@ var Player = ReactCompositeComponent.createClass({
   }
 });
 
-module.exports = Player;
+module.exports = React.createFactory(Player);

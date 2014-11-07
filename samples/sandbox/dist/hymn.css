@@ -113,7 +113,6 @@
   left: 0;
   width: 300px;
   padding: 10px;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   text-align: center;
   opacity: 0;
