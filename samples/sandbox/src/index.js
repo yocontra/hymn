@@ -2,8 +2,9 @@
 
 'use strict';
 
-var Player = require('../../../src');
 var React = require('react');
+var Player = React.createFactory(require('../../../src'));
+
 window.React = React; // for dev
 
 var songs = [
@@ -23,7 +24,7 @@ var songs = [
   }
 ];
 
-var App = React.createFactory(React.createClass({
+var App = React.createClass({
   displayName: 'demo',
   getInitialState: function(){
     return {
@@ -57,6 +58,7 @@ var App = React.createFactory(React.createClass({
     }, mp3);
     return player;
   }
-}));
+});
+App = React.createFactory(App);
 
 React.render(App(), document.body);

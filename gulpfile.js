@@ -20,11 +20,11 @@ var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var browserify = require('browserify');
 var ecstatic = require('ecstatic');
-var reactify = require('reactify');
 
 var paths = {
   js: 'src/**/*.js',
-  static: ['samples/sandbox/src/**/*', '!samples/sandbox/src/**/*.js']
+  static: ['samples/sandbox/src/**/*', '!samples/sandbox/**/*.js'],
+  soundcloud: ['samples/soundcloud/src/**/*', '!samples/soundcloud/**/*.js']
 };
 
 var bundleCache = {};
@@ -45,7 +45,14 @@ var sampleBundler = watchify(browserify('./samples/sandbox/src/index.js', {
   standalone: 'sample',
   debug: true
 }));
-sampleBundler.transform(reactify);
+
+var soundcloudBundler = watchify(browserify('./samples/soundcloud/src/index.js', {
+  cache: bundleCache,
+  packageCache: pkgCache,
+  fullPaths: true,
+  standalone: 'soundcloud',
+  debug: true
+}));
 
 gulp.task('watch', function(){
   bundler.on('update', function(){
@@ -54,7 +61,11 @@ gulp.task('watch', function(){
   sampleBundler.on('update', function(){
     gulp.start('samples');
   });
+  soundcloudBundler.on('update', function(){
+    gulp.start('soundcloud');
+  });
   gulp.watch(paths.static, ['static']);
+  gulp.watch(paths.soundcloud, ['soundcloud-static']);
 });
 
 gulp.task('js', function(){
@@ -86,6 +97,18 @@ gulp.task('samples', function(){
     .pipe(lr());
 });
 
+gulp.task('soundcloud', function(){
+  return soundcloudBundler.bundle()
+    // browserify -> gulp transfer
+    .pipe(source('sample.js'))
+    .pipe(buffer())
+    .pipe(cached('samples'))
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('samples/soundcloud/dist'))
+    .pipe(lr());
+});
+
 gulp.task('static', function(){
   return gulp.src(paths.static)
     .pipe(cached('static-samples'))
@@ -96,6 +119,19 @@ gulp.task('static', function(){
       ]
     })))
     .pipe(gulp.dest('samples/sandbox/dist'))
+    .pipe(lr());
+});
+
+gulp.task('soundcloud-static', function(){
+  return gulp.src(paths.soundcloud)
+    .pipe(cached('static-soundcloud'))
+    .pipe(gif('*.styl', stylus({
+      use: [
+        nib(),
+        autoprefix()
+      ]
+    })))
+    .pipe(gulp.dest('samples/soundcloud/dist'))
     .pipe(lr());
 });
 
@@ -111,4 +147,4 @@ gulp.task('deploy', function(){
     .pipe(deploy());
 });
 
-gulp.task('default', ['js', 'samples', 'static', 'sample-server', 'watch']);
+gulp.task('default', ['js', 'samples', 'static', 'soundcloud', 'soundcloud-static', 'sample-server', 'watch']);

@@ -3,8 +3,9 @@
 
 'use strict';
 
-var Player = require('../../../src');
 var React = require('react');
+var Player = React.createFactory(require('../../../src'));
+
 window.React = React; // for dev
 
 var songs = [
@@ -24,7 +25,7 @@ var songs = [
   }
 ];
 
-var App = React.createFactory(React.createClass({
+var App = React.createClass({
   displayName: 'demo',
   getInitialState: function(){
     return {
@@ -58,7 +59,8 @@ var App = React.createFactory(React.createClass({
     }, mp3);
     return player;
   }
-}));
+});
+App = React.createFactory(App);
 
 React.render(App(), document.body);
 },{"../../../src":"/Users/contra/Projects/hymn/src/index.js","react":"/Users/contra/Projects/hymn/node_modules/react/react.js"}],"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
@@ -18363,8 +18365,8 @@ var Player = React.createClass({
   displayName: 'Player',
   propTypes: {
     title: React.PropTypes.string.isRequired,
-    artist: React.PropTypes.string.isRequired,
-    album: React.PropTypes.string.isRequired,
+    artist: React.PropTypes.string,
+    album: React.PropTypes.string,
 
     autoPlay: React.PropTypes.bool,
     loop: React.PropTypes.bool,
@@ -18480,19 +18482,19 @@ var Player = React.createClass({
       title: this.props.title
     }, this.props.title);
 
-    var album = React.DOM.p({
+    var album = this.props.album ? React.DOM.p({
       ref: 'album',
       key: 'album',
       className: 'hymn-album',
       title: this.props.album
-    }, this.props.album);
+    }, this.props.album) : null;
 
-    var artist = React.DOM.p({
+    var artist = this.props.artist ? React.DOM.p({
       ref: 'artist',
       key: 'artist',
       className: 'hymn-artist',
       title: this.props.artist
-    }, this.props.artist);
+    }, this.props.artist) : null;
 
     var info = React.DOM.div({
       ref: 'info',

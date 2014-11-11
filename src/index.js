@@ -6,8 +6,8 @@ var Player = React.createClass({
   displayName: 'Player',
   propTypes: {
     title: React.PropTypes.string.isRequired,
-    artist: React.PropTypes.string.isRequired,
-    album: React.PropTypes.string.isRequired,
+    artist: React.PropTypes.string,
+    album: React.PropTypes.string,
 
     autoPlay: React.PropTypes.bool,
     loop: React.PropTypes.bool,
@@ -123,19 +123,19 @@ var Player = React.createClass({
       title: this.props.title
     }, this.props.title);
 
-    var album = React.DOM.p({
+    var album = this.props.album ? React.DOM.p({
       ref: 'album',
       key: 'album',
       className: 'hymn-album',
       title: this.props.album
-    }, this.props.album);
+    }, this.props.album) : null;
 
-    var artist = React.DOM.p({
+    var artist = this.props.artist ? React.DOM.p({
       ref: 'artist',
       key: 'artist',
       className: 'hymn-artist',
       title: this.props.artist
-    }, this.props.artist);
+    }, this.props.artist) : null;
 
     var info = React.DOM.div({
       ref: 'info',
