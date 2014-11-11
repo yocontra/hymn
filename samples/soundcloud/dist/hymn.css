@@ -99,12 +99,7 @@
   line-height: 150%;
 }
 .hymn-player .hymn-info .hymn-album {
-  white-space: nowrap;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  font-size: 30px;
-  line-height: 150%;
+  display: none;
 }
 .hymn-player .hymn-info .hymn-artist {
   white-space: nowrap;

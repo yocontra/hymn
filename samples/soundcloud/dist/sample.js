@@ -59,7 +59,7 @@ var App = React.createClass({
       ref: 'songPlayer',
       key: this.state.idx,
       autoPlay: true,
-      artwork: song.artwork_url,
+      artwork: song.artwork_url.replace('-large', '-t500x500'),
       artist: song.user.username,
       title: song.title,
       onEnd: this.nextSong,
