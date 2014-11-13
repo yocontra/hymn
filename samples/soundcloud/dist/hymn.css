@@ -83,9 +83,9 @@
   top: 0;
   left: 0;
   text-align: center;
-  -webkit-transform: translateY(-100%);
-  -ms-transform: translateY(-100%);
-  transform: translateY(-100%);
+  -webkit-transform: translateY(-80px);
+  -ms-transform: translateY(-80px);
+  transform: translateY(-80px);
 }
 .hymn-player .hymn-skip {
   display: none;

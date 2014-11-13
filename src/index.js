@@ -42,15 +42,24 @@ var Player = React.createClass({
 
   // component states
   toggle: function() {
-    this.setState({
-      playing: !this.state.playing
-    }, this.sync);
+    if (this.state.playing) {
+      this.setPaused();
+    } else {
+      this.setPlaying();
+    }
+  },
+
+  setPlaying: function() {
+    this.setState({playing: true}, this.sync);
+  },
+  setPaused: function() {
+    this.setState({playing: false}, this.sync);
   },
 
   setPosition: function(e) {
     var audioTag = this.refs.audioTag.getDOMNode();
     var x = e.pageX - e.target.getBoundingClientRect().left;
-    var scale = e.target.clientWidth;
+    var scale = e.target.offsetWidth;
     var time = this.state.duration*(x/scale);
     audioTag.currentTime = time;
   },
@@ -60,12 +69,13 @@ var Player = React.createClass({
   sync: function() {
     var audioTag = this.refs.audioTag.getDOMNode();
 
-    if (this.state.playing) {
+    if (audioTag.paused && this.state.playing === true) {
       audioTag.play();
-    } else {
+    } else if (!audioTag.paused && this.state.playing === false) {
       audioTag.pause();
     }
 
+    this.setState({playing: !audioTag.paused});
     if (!isNaN(audioTag.duration)) {
       this.setState({
         duration: Math.floor(audioTag.duration*10)/10,
@@ -79,7 +89,10 @@ var Player = React.createClass({
     // TODO: break this out into an audio wrapper
     var audioTag = this.refs.audioTag.getDOMNode();
     audioTag.addEventListener('timeupdate', this.sync, false);
-    
+    audioTag.addEventListener('play', this.setPlaying, false);
+    audioTag.addEventListener('playing', this.setPlaying, false);
+    audioTag.addEventListener('pause', this.setPaused, false);
+
     if (this.props.onEnd) {
       audioTag.addEventListener('ended', this.props.onEnd, false);
     }
@@ -92,6 +105,9 @@ var Player = React.createClass({
     // TODO: break this out into an audio wrapper
     var audioTag = this.refs.audioTag.getDOMNode();
     audioTag.removeEventListener('timeupdate', this.sync, false);
+    audioTag.removeEventListener('play', this.setPlaying, false);
+    audioTag.removeEventListener('pause', this.setPaused, false);
+
     if (this.props.onEnd) {
       audioTag.removeEventListener('ended', this.props.onEnd, false);
     }
@@ -106,7 +122,6 @@ var Player = React.createClass({
       loop: this.props.loop,
       muted: this.props.muted,
       preload: this.props.preload,
-      autoPlay: this.props.autoPlay,
 
       onTimeUpdate: this.sync,
       onEnded: this.props.onEnd
