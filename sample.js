@@ -23494,8 +23494,13 @@ var Player = React.createClass({
   componentDidMount: function() {
     // hacks around react bug
     // TODO: break this out into an audio wrapper
+    var setPlaying = this.setState.bind(this, {playing: true});
+    var setPaused = this.setState.bind(this, {playing: false});
+
     var audioTag = this.refs.audioTag.getDOMNode();
     audioTag.addEventListener('timeupdate', this.sync, false);
+    audioTag.addEventListener('onplay', setPlaying, false);
+    audioTag.addEventListener('onpause', setPaused, false);
     if (this.props.onEnd) {
       audioTag.addEventListener('ended', this.props.onEnd, false);
     }
