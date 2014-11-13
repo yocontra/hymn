@@ -24,7 +24,7 @@
 .hymn-player .hymn-controls {
   position: absolute;
   bottom: 0;
-  right: 0;
+  left: 0;
   height: 3%;
   width: 100%;
 }
@@ -65,7 +65,6 @@
   font-size: 1rem;
   background-color: inherit;
   color: inherit;
-  display: none;
   -webkit-transition: color 0.05s;
   transition: color 0.05s;
 }
@@ -74,6 +73,22 @@
 }
 .hymn-player .hymn-control:active {
   color: rgba(0,0,0,0.6);
+}
+.hymn-player .hymn-play,
+.hymn-player .hymn-pause {
+  width: 100%;
+  font-size: 40px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.hymn-player .hymn-skip {
+  display: none;
 }
 .hymn-player .hymn-skip:before {
   content: '\e604';
