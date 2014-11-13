@@ -34,7 +34,7 @@ var Player = React.createClass({
 
   getInitialState: function() {
     return {
-      playing: this.props.autoPlay,
+      playing: null,
       duration: 0,
       position: 0
     };
@@ -60,9 +60,9 @@ var Player = React.createClass({
   sync: function() {
     var audioTag = this.refs.audioTag.getDOMNode();
 
-    if (this.state.playing) {
+    if (this.state.playing === true) {
       audioTag.play();
-    } else {
+    } else if (this.state.playing === false) {
       audioTag.pause();
     }
 
@@ -74,11 +74,21 @@ var Player = React.createClass({
     }
   },
 
+  setPlaying: function(){
+    this.setState({playing: true});
+  },
+  setPaused: function(){
+    this.setState({playing: false});
+  },
+
   componentDidMount: function() {
     // hacks around react bug
     // TODO: break this out into an audio wrapper
+
     var audioTag = this.refs.audioTag.getDOMNode();
     audioTag.addEventListener('timeupdate', this.sync, false);
+    audioTag.addEventListener('play', this.setPlaying, false);
+    audioTag.addEventListener('pause', this.setPaused, false);
     if (this.props.onEnd) {
       audioTag.addEventListener('ended', this.props.onEnd, false);
     }
@@ -91,6 +101,8 @@ var Player = React.createClass({
     // TODO: break this out into an audio wrapper
     var audioTag = this.refs.audioTag.getDOMNode();
     audioTag.removeEventListener('timeupdate', this.sync, false);
+    audioTag.removeEventListener('play', this.setPlaying, false);
+    audioTag.removeEventListener('pause', this.setPaused, false);
     if (this.props.onEnd) {
       audioTag.removeEventListener('ended', this.props.onEnd, false);
     }

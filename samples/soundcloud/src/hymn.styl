@@ -65,7 +65,7 @@ reset-button()
     background-repeat: no-repeat
 
   .hymn-controls
-    absolute: bottom right
+    absolute: bottom left
     height: 3%
     width: 100%
 
@@ -88,7 +88,6 @@ reset-button()
   .hymn-control
     iconfont()
     reset-button()
-    display: none // TODO: style these
     transition: color 0.05s
 
     &:hover
@@ -97,7 +96,16 @@ reset-button()
     &:active
       color: lighterColor
 
+  .hymn-play, .hymn-pause
+    width: 100%
+    font-size: 40px
+    display: block
+    absolute: top left
+    text-align: center
+    transform: translateY(-100%)
+
   .hymn-skip
+    display: none
     &:before
       content: '\e604'
 
