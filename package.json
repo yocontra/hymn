@@ -22,7 +22,8 @@
     "component"
   ],
   "dependencies": {
-    "react": "^0.12.0"
+    "react": "^0.12.0",
+    "react-swipeable": "https://github.com/wearefractal/react-swipeable/archive/master.tar.gz"
   },
   "devDependencies": {
     "async": "^0.9.0",

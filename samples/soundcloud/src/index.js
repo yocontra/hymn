@@ -9,7 +9,9 @@ var async = require('async');
 window.React = React; // for dev
 
 var songs = [
-  'https://soundcloud.com/smallenginerepair/serve-yourself-1'
+  'https://soundcloud.com/gud-2/crushed',
+  'https://soundcloud.com/gud-2/u-want-me',
+  'https://soundcloud.com/gud-2/hello'
 ];
 
 function lookupSong(url, cb) {
@@ -62,7 +64,9 @@ var App = React.createClass({
       artist: song.user.username,
       title: song.title,
       onEnd: this.nextSong,
-      onSkip: this.nextSong
+      onSkip: this.nextSong,
+      onLike: this.nextSong,
+      onDislike: this.nextSong
     }, mp3);
     return player;
   }

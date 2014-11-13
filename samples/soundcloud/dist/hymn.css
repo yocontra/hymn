@@ -22,9 +22,6 @@
 .hymn-player .hymn-controls {
   height: 3%;
   width: 100%;
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }
 .hymn-player .hymn-progress {
   cursor: pointer;
@@ -83,6 +80,9 @@
   content: '\e601';
 }
 .hymn-player .hymn-info {
+  position: absolute;
+  bottom: 0;
+  right: 0;
   height: 17%;
   width: 100%;
   padding: 20px;
