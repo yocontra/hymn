@@ -143,7 +143,7 @@ gulp.task('sample-server', function(cb){
 });
 
 gulp.task('deploy', function(){
-  return gulp.src('./samples/sandbox/dist/**/*')
+  return gulp.src('./samples/soundcloud/dist/**/*')
     .pipe(deploy());
 });
 

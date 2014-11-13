@@ -43,6 +43,7 @@ reset-button()
 .hymn-player
   betterfont()
 
+  overflow: hidden
   position: relative
   height: 100%
   width: 100%
@@ -54,7 +55,8 @@ reset-button()
   font-weight: 300
 
   .hymn-artwork
-    height: 80%
+    display: block
+    height: 50%
     width: 100%
     max-height: 500px
     background-color: lighterColor
@@ -63,6 +65,7 @@ reset-button()
     background-repeat: no-repeat
 
   .hymn-controls
+    absolute: bottom right
     height: 3%
     width: 100%
 
@@ -107,10 +110,8 @@ reset-button()
       content: '\e601'
 
   .hymn-info
-    absolute: bottom right
-    height: 17%
     width: 100%
-    padding: 20px
+    padding: 40px
     box-sizing: border-box
     text-align: center
     pointer-events: none
