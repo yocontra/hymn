@@ -6,6 +6,8 @@ var React = require('react');
 var Player = React.createFactory(require('../../../src'));
 var lookup = require('soundcloud-lookup');
 var async = require('async');
+var attachFastClick = require('fastclick');
+attachFastClick(document.body);
 window.React = React; // for dev
 
 var songs = [
