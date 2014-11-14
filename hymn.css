@@ -1,3 +1,8 @@
+.liked .hymn-player .hymn-artwork-container {
+  -webkit-transition: background-color 1s ease-in-out;
+  transition: background-color 1s ease-in-out;
+  background-color: #008000;
+}
 .hymn-player {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -149,8 +154,30 @@
   font-size: 1rem;
   background-color: inherit;
   color: inherit;
+  font-size: 40px;
 }
-.hymn-player .hymn-controls .hymn-play,
+.hymn-player .hymn-controls .hymn-play {
+  *zoom: 1;
+  width: auto;
+  max-width: 1440px;
+  float: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+.hymn-player .hymn-controls .hymn-play:before,
+.hymn-player .hymn-controls .hymn-play:after {
+  content: '';
+  display: table;
+}
+.hymn-player .hymn-controls .hymn-play:after {
+  clear: both;
+}
+.hymn-player .hymn-controls .hymn-play:before {
+  content: '\e600';
+}
 .hymn-player .hymn-controls .hymn-pause {
   *zoom: 1;
   width: auto;
@@ -161,27 +188,25 @@
   margin-left: auto;
   padding-left: 0;
   padding-right: 0;
-  font-size: 40px;
 }
-.hymn-player .hymn-controls .hymn-play:before,
 .hymn-player .hymn-controls .hymn-pause:before,
-.hymn-player .hymn-controls .hymn-play:after,
 .hymn-player .hymn-controls .hymn-pause:after {
   content: '';
   display: table;
 }
-.hymn-player .hymn-controls .hymn-play:after,
 .hymn-player .hymn-controls .hymn-pause:after {
   clear: both;
-}
-.hymn-player .hymn-controls .hymn-play:before {
-  content: '\e600';
 }
 .hymn-player .hymn-controls .hymn-pause:before {
   content: '\e601';
 }
 .hymn-player .hymn-controls .hymn-skip {
-  display: none;
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+}
+.hymn-player .hymn-controls .hymn-skip:before {
+  content: '\e604';
 }
 /* icon font lol */
 @font-face {

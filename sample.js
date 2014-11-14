@@ -29,6 +29,7 @@ var App = React.createClass({
   },
   getInitialState: function(){
     return {
+      liked: false,
       songs: null,
       idx: 0
     };
@@ -43,14 +44,19 @@ var App = React.createClass({
   lastSong: function(){
     var atStart = (this.state.idx === 0);
     this.setState({
+      liked: false,
       idx: (atStart ? this.state.songs.length-1 : --this.state.idx)
     });
   },
   nextSong: function(){
     var atEnd = (this.state.idx === this.state.songs.length-1);
     this.setState({
+      liked: false,
       idx: (atEnd ? 0 : ++this.state.idx)
     });
+  },
+  likeSong: function(){
+    this.setState({liked: true});
   },
   currentSong: function(){
     return this.state.songs[this.state.idx];
@@ -73,10 +79,15 @@ var App = React.createClass({
       artist: song.user.username,
       title: song.title,
       onEnd: this.nextSong,
+      onSkip: this.nextSong,
       onLike: this.likeSong,
       onDislike: this.nextSong
     }, mp3);
-    return player;
+
+    var appClass = (this.state.liked ? 'liked' : null);
+    return React.DOM.div({
+      className: appClass
+    }, player);
   }
 });
 App = React.createFactory(App);
