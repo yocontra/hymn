@@ -6,6 +6,8 @@ var path = require('path');
 var gulp = require('gulp');
 var stylus = require('gulp-stylus');
 var nib = require('nib');
+var jeet = require('jeet');
+
 var autoprefix = require('autoprefixer-stylus');
 var jshint = require('gulp-jshint');
 var sourcemaps = require('gulp-sourcemaps');
@@ -128,6 +130,7 @@ gulp.task('soundcloud-static', function(){
     .pipe(gif('*.styl', stylus({
       use: [
         nib(),
+        jeet(),
         autoprefix()
       ]
     })))

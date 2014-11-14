@@ -138,7 +138,7 @@ var Player = React.createClass({
 
     // swipe right and left as skip if fns specified
     if (this.props.onLike || this.props.onDislike) {
-      var artwork = Swipeable({
+      artwork = Swipeable({
         key: 'artwork-container',
         onSwipeRight: this.props.onLike,
         onSwipeLeft: this.props.onDislike
@@ -152,7 +152,7 @@ var Player = React.createClass({
       title: this.props.title
     }, this.props.title);
 
-    var album = this.props.album ? ({
+    var album = this.props.album ? React.DOM.p({
       ref: 'album',
       key: 'album',
       className: 'hymn-album',

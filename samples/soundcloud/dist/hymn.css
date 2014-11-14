@@ -2,6 +2,25 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  display: block;
+  clear: both;
+  float: none;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  *zoom: 1;
+  width: auto;
+  max-width: 1440px;
+  float: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   overflow: hidden;
   position: relative;
   height: 100%;
@@ -11,44 +30,160 @@
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-weight: 300;
 }
+.hymn-player:first-child {
+  margin-left: auto;
+}
+.hymn-player:last-child {
+  margin-right: auto;
+}
+.hymn-player:before,
+.hymn-player:after {
+  content: '';
+  display: table;
+}
+.hymn-player:after {
+  clear: both;
+}
 .hymn-player .hymn-artwork {
-  display: block;
-  height: 50%;
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
   width: 100%;
+  margin-left: 0%;
+  margin-right: 3%;
+  *zoom: 1;
+  width: auto;
+  max-width: 1440px;
+  float: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+  height: 50%;
   max-height: 500px;
   background-color: rgba(0,0,0,0.6);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
 }
-.hymn-player .hymn-controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3%;
-  width: 100%;
+.hymn-player .hymn-artwork:before,
+.hymn-player .hymn-artwork:after {
+  content: '';
+  display: table;
 }
-.hymn-player .hymn-progress {
+.hymn-player .hymn-artwork:after {
+  clear: both;
+}
+.hymn-player .hymn-artwork:last-child {
+  margin-right: 0%;
+}
+.hymn-player .hymn-artwork:before,
+.hymn-player .hymn-artwork:after {
+  content: '';
+  display: table;
+}
+.hymn-player .hymn-artwork:after {
+  clear: both;
+}
+.hymn-player .hymn-info {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: 3%;
+  *zoom: 1;
+  width: auto;
+  max-width: 1440px;
+  float: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+  padding: 40px;
+  text-align: center;
+}
+.hymn-player .hymn-info:before,
+.hymn-player .hymn-info:after {
+  content: '';
+  display: table;
+}
+.hymn-player .hymn-info:after {
+  clear: both;
+}
+.hymn-player .hymn-info:last-child {
+  margin-right: 0%;
+}
+.hymn-player .hymn-info:before,
+.hymn-player .hymn-info:after {
+  content: '';
+  display: table;
+}
+.hymn-player .hymn-info:after {
+  clear: both;
+}
+.hymn-player .hymn-info .hymn-title {
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  font-size: 40px;
+  line-height: 150%;
+}
+.hymn-player .hymn-info .hymn-artist {
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  font-style: italic;
+  font-size: 20px;
+  line-height: 150%;
+}
+.hymn-player .hymn-controls .hymn-progress {
   cursor: pointer;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   vertical-align: middle;
   border: none;
-  height: 100%;
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
   width: 100%;
+  margin-left: 0%;
+  margin-right: 3%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 20px;
   background-color: rgba(0,0,0,0.1);
 }
-.hymn-player .hymn-progress::-webkit-progress-bar {
+.hymn-player .hymn-controls .hymn-progress:before,
+.hymn-player .hymn-controls .hymn-progress:after {
+  content: '';
+  display: table;
+}
+.hymn-player .hymn-controls .hymn-progress:after {
+  clear: both;
+}
+.hymn-player .hymn-controls .hymn-progress:last-child {
+  margin-right: 0%;
+}
+.hymn-player .hymn-controls .hymn-progress::-webkit-progress-bar {
   background-color: rgba(0,0,0,0.1);
 }
-.hymn-player .hymn-progress::-webkit-progress-value {
+.hymn-player .hymn-controls .hymn-progress::-webkit-progress-value {
   background-color: #039be5;
 }
-.hymn-player .hymn-progress::-moz-progress-bar {
+.hymn-player .hymn-controls .hymn-progress::-moz-progress-bar {
   background-color: #039be5;
 }
-.hymn-player .hymn-control {
+.hymn-player .hymn-controls .hymn-control {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -68,63 +203,66 @@
   -webkit-transition: color 0.05s;
   transition: color 0.05s;
 }
-.hymn-player .hymn-control:hover {
+.hymn-player .hymn-controls .hymn-control:hover {
   color: rgba(0,0,0,0.7);
 }
-.hymn-player .hymn-control:active {
+.hymn-player .hymn-controls .hymn-control:active {
   color: rgba(0,0,0,0.6);
 }
-.hymn-player .hymn-play,
-.hymn-player .hymn-pause {
+.hymn-player .hymn-controls .hymn-play,
+.hymn-player .hymn-controls .hymn-pause {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
   width: 100%;
-  font-size: 40px;
+  margin-left: 0%;
+  margin-right: 3%;
+  *zoom: 1;
+  width: auto;
+  max-width: 1440px;
+  float: none;
   display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  text-align: center;
-  -webkit-transform: translateY(-80px);
-  -ms-transform: translateY(-80px);
-  transform: translateY(-80px);
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 40px;
 }
-.hymn-player .hymn-skip {
-  display: none;
+.hymn-player .hymn-controls .hymn-play:before,
+.hymn-player .hymn-controls .hymn-pause:before,
+.hymn-player .hymn-controls .hymn-play:after,
+.hymn-player .hymn-controls .hymn-pause:after {
+  content: '';
+  display: table;
 }
-.hymn-player .hymn-skip:before {
-  content: '\e604';
+.hymn-player .hymn-controls .hymn-play:after,
+.hymn-player .hymn-controls .hymn-pause:after {
+  clear: both;
 }
-.hymn-player .hymn-play:before {
+.hymn-player .hymn-controls .hymn-play:last-child,
+.hymn-player .hymn-controls .hymn-pause:last-child {
+  margin-right: 0%;
+}
+.hymn-player .hymn-controls .hymn-play:before,
+.hymn-player .hymn-controls .hymn-pause:before,
+.hymn-player .hymn-controls .hymn-play:after,
+.hymn-player .hymn-controls .hymn-pause:after {
+  content: '';
+  display: table;
+}
+.hymn-player .hymn-controls .hymn-play:after,
+.hymn-player .hymn-controls .hymn-pause:after {
+  clear: both;
+}
+.hymn-player .hymn-controls .hymn-play:before {
   content: '\e600';
 }
-.hymn-player .hymn-pause:before {
+.hymn-player .hymn-controls .hymn-pause:before {
   content: '\e601';
 }
-.hymn-player .hymn-info {
-  width: 100%;
-  padding: 40px;
-  box-sizing: border-box;
-  text-align: center;
-  pointer-events: none;
-}
-.hymn-player .hymn-info .hymn-title {
-  white-space: nowrap;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  font-size: 40px;
-  line-height: 150%;
-}
-.hymn-player .hymn-info .hymn-album {
+.hymn-player .hymn-controls .hymn-skip {
   display: none;
-}
-.hymn-player .hymn-info .hymn-artist {
-  white-space: nowrap;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  font-style: italic;
-  font-size: 20px;
-  line-height: 150%;
 }
 /* icon font lol */
 @font-face {

@@ -139,7 +139,7 @@ var Player = React.createClass({
 
     // swipe right and left as skip if fns specified
     if (this.props.onLike || this.props.onDislike) {
-      var artwork = Swipeable({
+      artwork = Swipeable({
         key: 'artwork-container',
         onSwipeRight: this.props.onLike,
         onSwipeLeft: this.props.onDislike
@@ -153,7 +153,7 @@ var Player = React.createClass({
       title: this.props.title
     }, this.props.title);
 
-    var album = this.props.album ? ({
+    var album = this.props.album ? React.DOM.p({
       ref: 'album',
       key: 'album',
       className: 'hymn-album',
@@ -405,7 +405,22 @@ function merge(object) {
 
 module.exports = merge;
 
-},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._basemerge":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js","lodash._getarray":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._getarray/index.js","lodash._releasearray":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._releasearray/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js":[function(require,module,exports){
+},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._basemerge":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js","lodash._getarray":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._getarray/index.js","lodash._releasearray":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._releasearray/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/** Used to pool arrays and objects used internally */
+var arrayPool = [];
+
+module.exports = arrayPool;
+
+},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -532,71 +547,7 @@ var setBindData = !defineProperty ? noop : function(func, value) {
 
 module.exports = setBindData;
 
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-
-/** Used for native method references */
-var objectProto = Object.prototype;
-
-/** Used to resolve the internal [[Class]] of values */
-var toString = objectProto.toString;
-
-/** Used to detect if a method is native */
-var reNative = RegExp('^' +
-  String(toString)
-    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    .replace(/toString| for [^\]]+/g, '.*?') + '$'
-);
-
-/**
- * Checks if `value` is a native function.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if the `value` is a native function, else `false`.
- */
-function isNative(value) {
-  return typeof value == 'function' && reNative.test(value);
-}
-
-module.exports = isNative;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-
-/**
- * A no-operation function.
- *
- * @static
- * @memberOf _
- * @category Utilities
- * @example
- *
- * var object = { 'name': 'fred' };
- * _.noop(object) === undefined;
- * // => true
- */
-function noop() {
-  // no operation performed
-}
-
-module.exports = noop;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js":[function(require,module,exports){
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._isnative/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -746,7 +697,7 @@ function createWrapper(func, bitmask, partialArgs, partialRightArgs, thisArg, ar
 
 module.exports = createWrapper;
 
-},{"lodash._basebind":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js","lodash._basecreatewrapper":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isfunction":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js":[function(require,module,exports){
+},{"lodash._basebind":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js","lodash._basecreatewrapper":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isfunction":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -810,7 +761,7 @@ function baseBind(bindData) {
 
 module.exports = baseBind;
 
-},{"lodash._basecreate":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js","lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
+},{"lodash._basecreate":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreate/index.js","lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
 (function (global){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
@@ -856,11 +807,7 @@ if (!nativeCreate) {
 module.exports = baseCreate;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js":[function(require,module,exports){
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._isnative/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -940,38 +887,7 @@ function baseCreateWrapper(bindData) {
 
 module.exports = baseCreateWrapper;
 
-},{"lodash._basecreate":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/index.js","lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-
-/**
- * Checks if `value` is a function.
- *
- * @static
- * @memberOf _
- * @category Objects
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if the `value` is a function, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- */
-function isFunction(value) {
-  return typeof value == 'function';
-}
-
-module.exports = isFunction;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js":[function(require,module,exports){
+},{"lodash._basecreate":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreate/index.js","lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1000,6 +916,34 @@ function identity(value) {
 }
 
 module.exports = identity;
+
+},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.noop/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/**
+ * A no-operation function.
+ *
+ * @static
+ * @memberOf _
+ * @category Utilities
+ * @example
+ *
+ * var object = { 'name': 'fred' };
+ * _.noop(object) === undefined;
+ * // => true
+ */
+function noop() {
+  // no operation performed
+}
+
+module.exports = noop;
 
 },{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/index.js":[function(require,module,exports){
 (function (global){
@@ -1045,9 +989,7 @@ support.funcNames = typeof Function.name == 'string';
 module.exports = support;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js":[function(require,module,exports){
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1237,29 +1179,7 @@ var forOwn = function(collection, callback, thisArg) {
 
 module.exports = forOwn;
 
-},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js","lodash.keys":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-
-/** Used to determine if values are of the language type Object */
-var objectTypes = {
-  'boolean': false,
-  'function': true,
-  'object': true,
-  'number': false,
-  'string': false,
-  'undefined': false
-};
-
-module.exports = objectTypes;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/index.js":[function(require,module,exports){
+},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._objecttypes/index.js","lodash.keys":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1297,9 +1217,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js","lodash._shimkeys":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":[function(require,module,exports){
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._isnative/index.js","lodash._shimkeys":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1339,7 +1257,7 @@ var shimKeys = function(object) {
 
 module.exports = shimKeys;
 
-},{"lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/index.js":[function(require,module,exports){
+},{"lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1386,9 +1304,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/index.js":[function(require,module,exports){
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1450,9 +1366,7 @@ var isPlainObject = !getPrototypeOf ? shimIsPlainObject : function(value) {
 
 module.exports = isPlainObject;
 
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._isnative/index.js","lodash._shimisplainobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js":[function(require,module,exports){
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._isnative/index.js","lodash._shimisplainobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1506,7 +1420,7 @@ function shimIsPlainObject(value) {
 
 module.exports = shimIsPlainObject;
 
-},{"lodash.forin":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/index.js","lodash.isfunction":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/index.js":[function(require,module,exports){
+},{"lodash.forin":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/index.js","lodash.isfunction":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1562,11 +1476,7 @@ var forIn = function(collection, callback, thisArg) {
 
 module.exports = forIn;
 
-},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._getarray/index.js":[function(require,module,exports){
+},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._getarray/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1589,7 +1499,7 @@ function getArray() {
 
 module.exports = getArray;
 
-},{"lodash._arraypool":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
+},{"lodash._arraypool":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._isnative/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1599,10 +1509,53 @@ module.exports = getArray;
  * Available under MIT license <http://lodash.com/license>
  */
 
-/** Used to pool arrays and objects used internally */
-var arrayPool = [];
+/** Used for native method references */
+var objectProto = Object.prototype;
 
-module.exports = arrayPool;
+/** Used to resolve the internal [[Class]] of values */
+var toString = objectProto.toString;
+
+/** Used to detect if a method is native */
+var reNative = RegExp('^' +
+  String(toString)
+    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    .replace(/toString| for [^\]]+/g, '.*?') + '$'
+);
+
+/**
+ * Checks if `value` is a native function.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if the `value` is a native function, else `false`.
+ */
+function isNative(value) {
+  return typeof value == 'function' && reNative.test(value);
+}
+
+module.exports = isNative;
+
+},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/** Used to determine if values are of the language type Object */
+var objectTypes = {
+  'boolean': false,
+  'function': true,
+  'object': true,
+  'number': false,
+  'string': false,
+  'undefined': false
+};
+
+module.exports = objectTypes;
 
 },{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._releasearray/index.js":[function(require,module,exports){
 /**
@@ -1631,9 +1584,7 @@ function releaseArray(array) {
 
 module.exports = releaseArray;
 
-},{"lodash._arraypool":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._arraypool/index.js","lodash._maxpoolsize":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js":[function(require,module,exports){
+},{"lodash._arraypool":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._arraypool/index.js","lodash._maxpoolsize":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1688,6 +1639,35 @@ function slice(array, start, end) {
 
 module.exports = slice;
 
+},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/**
+ * Checks if `value` is a function.
+ *
+ * @static
+ * @memberOf _
+ * @category Objects
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if the `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ */
+function isFunction(value) {
+  return typeof value == 'function';
+}
+
+module.exports = isFunction;
+
 },{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
@@ -1729,9 +1709,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{"lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-draggable/index.js":[function(require,module,exports){
+},{"lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-draggable/index.js":[function(require,module,exports){
 module.exports = require('./lib/draggable');
 
 },{"./lib/draggable":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-draggable/lib/draggable.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-draggable/lib/draggable.js":[function(require,module,exports){
