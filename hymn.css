@@ -200,14 +200,6 @@
   font-size: 1rem;
   background-color: inherit;
   color: inherit;
-  -webkit-transition: color 0.05s;
-  transition: color 0.05s;
-}
-.hymn-player .hymn-controls .hymn-control:hover {
-  color: rgba(0,0,0,0.7);
-}
-.hymn-player .hymn-controls .hymn-control:active {
-  color: rgba(0,0,0,0.6);
 }
 .hymn-player .hymn-controls .hymn-play,
 .hymn-player .hymn-controls .hymn-pause {
