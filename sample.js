@@ -12,9 +12,9 @@ attachFastClick(document.body);
 window.React = React; // for dev
 
 var songs = [
+  'https://soundcloud.com/gud-2/hello',
   'https://soundcloud.com/gud-2/crushed',
-  'https://soundcloud.com/gud-2/u-want-me',
-  'https://soundcloud.com/gud-2/hello'
+  'https://soundcloud.com/gud-2/u-want-me'
 ];
 
 function lookupSong(url, cb) {
