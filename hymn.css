@@ -24,6 +24,29 @@
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-weight: 300;
 }
+.hymn-player .hymn-artwork-container {
+  *zoom: 1;
+  width: auto;
+  max-width: 1440px;
+  float: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+  position: relative;
+  height: 50%;
+  max-height: 500px;
+  background-color: #333;
+}
+.hymn-player .hymn-artwork-container:before,
+.hymn-player .hymn-artwork-container:after {
+  content: '';
+  display: table;
+}
+.hymn-player .hymn-artwork-container:after {
+  clear: both;
+}
 .hymn-player .hymn-artwork {
   *zoom: 1;
   width: auto;
@@ -34,10 +57,9 @@
   margin-left: auto;
   padding-left: 0;
   padding-right: 0;
-  height: 50%;
-  max-height: 500px;
-  background-color: #333;
-  background-size: cover;
+  height: 100%;
+  max-width: 500px;
+  background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
 }
