@@ -14,6 +14,8 @@
   border-radius: 3px;
   padding: 10px;
   font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 .disliked .hymn-player .hymn-artwork-container .hymn-artwork:before {
   content: 'Whack';
@@ -31,6 +33,8 @@
   border-radius: 3px;
   padding: 10px;
   font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 .hymn-player {
   -webkit-font-smoothing: antialiased;
