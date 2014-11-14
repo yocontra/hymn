@@ -24884,11 +24884,64 @@ module.exports = soundcloud;
 
 }).call(this);
 
-},{}],"/Users/contra/Projects/hymn/src/index.js":[function(require,module,exports){
+},{}],"/Users/contra/Projects/hymn/src/ProgressBar.js":[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var percent = require('./percent');
+
+var ProgressBar = React.createClass({
+  displayName: 'ProgressBar',
+  propTypes: {
+    total: React.PropTypes.number,
+    value: React.PropTypes.number,
+    accuracy: React.PropTypes.number
+  },
+
+  getDefaultProps: function(){
+    return {
+      total: null,
+      value: 0,
+      accuracy: 4
+    };
+  },
+
+  render: function(){
+    var perc = percent(
+      this.props.value,
+      this.props.total,
+      this.props.accuracy
+    );
+    var translate = 'translateX(' + perc + '%)';
+    var slider = React.DOM.div({
+      ref: 'slider',
+      className: 'progress-value',
+      style: {
+        position: 'relative',
+        left: '-100%',
+        height: '100%',
+        width: '100%',
+        transform: translate,
+        webkitTransform: translate,
+        msTransform: translate,
+        mozTransform: translate
+      }
+    });
+
+    var container = React.DOM.div({
+      className: this.props.className
+    }, slider);
+    return container;
+  }
+});
+
+module.exports = ProgressBar;
+},{"./percent":"/Users/contra/Projects/hymn/src/percent.js","react":"/Users/contra/Projects/hymn/node_modules/react/react.js"}],"/Users/contra/Projects/hymn/src/index.js":[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Swipeable = React.createFactory(require('react-swipeable'));
+var ProgressBar = React.createFactory(require('./ProgressBar'));
 
 var Player = React.createClass({
   displayName: 'Player',
@@ -25078,12 +25131,12 @@ var Player = React.createClass({
       onClick: this.props.onSkip
     });
 
-    var progressBar = React.DOM.progress({
+    var progressBar = ProgressBar({
       ref: 'progressBar',
       key: 'progressBar',
       className: 'hymn-progress',
       value: this.state.position,
-      max: this.state.duration,
+      total: this.state.duration,
       onClick: this.setPosition
     });
 
@@ -25106,8 +25159,24 @@ var Player = React.createClass({
   }
 });
 
-module.exports = React.createFactory(Player);
-},{"react":"/Users/contra/Projects/hymn/node_modules/react/react.js","react-swipeable":"/Users/contra/Projects/hymn/node_modules/react-swipeable/src/index.js"}]},{},["./samples/soundcloud/src/index.js"])("./samples/soundcloud/src/index.js")
+module.exports = Player;
+},{"./ProgressBar":"/Users/contra/Projects/hymn/src/ProgressBar.js","react":"/Users/contra/Projects/hymn/node_modules/react/react.js","react-swipeable":"/Users/contra/Projects/hymn/node_modules/react-swipeable/src/index.js"}],"/Users/contra/Projects/hymn/src/percent.js":[function(require,module,exports){
+'use strict';
+
+module.exports = function (elapsed, max, digits) {
+  if (typeof digits === 'undefined') {
+    digits = 4;
+  }
+
+  var p = (elapsed / max) * 100;
+  if (!isNaN(p)) {
+    return p.toFixed(digits);
+  }
+
+  // NaN
+  return 0;
+};
+},{}]},{},["./samples/soundcloud/src/index.js"])("./samples/soundcloud/src/index.js")
 });
 
 
