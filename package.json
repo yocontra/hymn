@@ -22,7 +22,9 @@
     "component"
   ],
   "dependencies": {
+    "lodash.clone": "^2.4.1",
     "react": "^0.12.0",
+    "react-raf-batching": "https://github.com/contra/react-raf-batching/archive/master.tar.gz",
     "react-swipeable": "https://github.com/wearefractal/react-swipeable/archive/master.tar.gz"
   },
   "devDependencies": {

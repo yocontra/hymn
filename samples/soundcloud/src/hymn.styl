@@ -1,9 +1,12 @@
 @import 'nib'
 @import 'jeet'
 
-progressColor = #039be5
-progressBackground = rgba(0, 0, 0, 0.1)
+progressColor = #ffac4f
+progressBackground = #efefef
 playerBackground = #fff
+likeColor = #2ecc71
+dislikeColor = #e74c3c
+fontColor = #222
 
 betterfont()
   -webkit-font-smoothing: antialiased
@@ -20,12 +23,6 @@ iconfont()
   text-transform: none
   line-height: 1
 
-reset-progress()
-  cursor: pointer
-  appearance: none
-  vertical-align: middle
-  border: none
-
 reset-button()
   vertical-align: middle
   outline: none
@@ -33,6 +30,38 @@ reset-button()
   font-size: 1rem
   background-color: inherit
   color: inherit
+
+stamp(color)
+  color: color
+  border: 5px solid color
+  font-size: 25px
+  box-shadow: 0 0 2px #333
+  text-shadow: 0 0 3px #333
+  border-radius: 3px
+  padding: 10px
+  font-weight: bold
+  letter-spacing: 2px
+  text-transform: uppercase
+
+.liked
+  .hymn-player
+    .hymn-artwork-container
+      .hymn-artwork
+        &:before
+          stamp(likeColor)
+          content: 'Dope'
+          transform: translateY(-50%) rotate(-20deg)
+          absolute: top 30px left
+
+.disliked
+  .hymn-player
+    .hymn-artwork-container
+      .hymn-artwork
+        &:before
+          stamp(dislikeColor)
+          content: 'Whack'
+          transform: translateY(-50%) rotate(20deg)
+          absolute: top 30px right
 
 .hymn-player
   betterfont()
@@ -46,20 +75,26 @@ reset-button()
   height: 100%
   width: 100%
 
-  color: darkColor
+  color: fontColor
   background-color: playerBackground
 
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif
+  font-size: 1em
   font-weight: 300
 
-  .hymn-artwork
-    center()
+  .hymn-artwork-container
+    position: relative
     height: 50%
     max-height: 500px
-    background-color: #333
-    background-size: cover
-    background-position: center center
-    background-repeat: no-repeat
+    background: linear-gradient(to right top, #f82769 0%, #d8aa6d 100%)
+
+    .hymn-artwork
+      z-index: 1000
+      height: 100%
+      width: 100%
+      background-size: cover
+      background-position: center center
+      background-repeat: no-repeat
 
   .hymn-info
     padding: 30px
@@ -78,41 +113,37 @@ reset-button()
 
   .hymn-controls
     .hymn-progress
-      reset-progress()
-      col(1/1)
-
+      width: 100%
+      transition: height 0.2s ease-in-out
       absolute: bottom left
       height: 20px
       background-color: progressBackground
 
-      &::-webkit-progress-bar
-        background-color: progressBackground
-
-      &::-webkit-progress-value
+      .progress-value
         background-color: progressColor
 
-      &::-moz-progress-bar
-        background-color: progressColor
+      &:focus, &:hover
+        height: 30px
 
     .hymn-control
       iconfont()
       reset-button()
-
-    .hymn-play, .hymn-pause
-      center()
       font-size: 40px
 
     .hymn-play
+      center()
       &:before
         content: '\e600'
 
     .hymn-pause
+      center()
       &:before
         content: '\e601'
 
     .hymn-skip
-      display: none
-
+      absolute: bottom 20px right
+      &:before
+        content: '\e604'
 
 /* icon font lol */
 @font-face

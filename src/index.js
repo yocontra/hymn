@@ -2,6 +2,7 @@
 
 var React = require('react');
 var Swipeable = React.createFactory(require('react-swipeable'));
+var ProgressBar = React.createFactory(require('./ProgressBar'));
 
 var Player = React.createClass({
   displayName: 'Player',
@@ -56,11 +57,8 @@ var Player = React.createClass({
     this.setState({playing: false}, this.sync);
   },
 
-  setPosition: function(e) {
+  seek: function(time) {
     var audioTag = this.refs.audioTag.getDOMNode();
-    var x = e.pageX - e.target.getBoundingClientRect().left;
-    var scale = e.target.offsetWidth;
-    var time = this.state.duration*(x/scale);
     audioTag.currentTime = time;
   },
 
@@ -138,11 +136,14 @@ var Player = React.createClass({
 
     // swipe right and left as skip if fns specified
     if (this.props.onLike || this.props.onDislike) {
-      artwork = Swipeable({
+      artwork = React.DOM.div({
         key: 'artwork-container',
-        onSwipeRight: this.props.onLike,
-        onSwipeLeft: this.props.onDislike
-      }, artwork);
+        className: 'hymn-artwork-container'
+      }, Swipeable({
+          onSwipeRight: this.props.onLike,
+          onSwipeLeft: this.props.onDislike
+        }, artwork)
+      );
     }
 
     var title = React.DOM.p({
@@ -188,13 +189,13 @@ var Player = React.createClass({
       onClick: this.props.onSkip
     });
 
-    var progressBar = React.DOM.progress({
+    var progressBar = ProgressBar({
       ref: 'progressBar',
       key: 'progressBar',
       className: 'hymn-progress',
       value: this.state.position,
-      max: this.state.duration,
-      onClick: this.setPosition
+      total: this.state.duration,
+      onSeek: this.seek
     });
 
     var controlChildren = [playPause, progressBar];
@@ -216,4 +217,4 @@ var Player = React.createClass({
   }
 });
 
-module.exports = React.createFactory(Player);
+module.exports = Player;

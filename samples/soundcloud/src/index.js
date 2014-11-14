@@ -11,9 +11,11 @@ attachFastClick(document.body);
 window.React = React; // for dev
 
 var songs = [
+  'https://soundcloud.com/d4nny-music/d4nny-goodbye',
+  'https://soundcloud.com/yung-lean-doer/kyoto-prod-yung-gud',
+  'https://soundcloud.com/gud-2/hello',
   'https://soundcloud.com/gud-2/crushed',
-  'https://soundcloud.com/gud-2/u-want-me',
-  'https://soundcloud.com/gud-2/hello'
+  'https://soundcloud.com/gud-2/u-want-me'
 ];
 
 function lookupSong(url, cb) {
@@ -28,6 +30,7 @@ var App = React.createClass({
   },
   getInitialState: function(){
     return {
+      liked: null,
       songs: null,
       idx: 0
     };
@@ -42,14 +45,22 @@ var App = React.createClass({
   lastSong: function(){
     var atStart = (this.state.idx === 0);
     this.setState({
+      liked: null,
       idx: (atStart ? this.state.songs.length-1 : --this.state.idx)
     });
   },
   nextSong: function(){
     var atEnd = (this.state.idx === this.state.songs.length-1);
     this.setState({
+      liked: null,
       idx: (atEnd ? 0 : ++this.state.idx)
     });
+  },
+  likeSong: function(){
+    this.setState({liked: true});
+  },
+  dislikeSong: function(){
+    this.setState({liked: false});
   },
   currentSong: function(){
     return this.state.songs[this.state.idx];
@@ -73,10 +84,20 @@ var App = React.createClass({
       title: song.title,
       onEnd: this.nextSong,
       onSkip: this.nextSong,
-      onLike: this.nextSong,
-      onDislike: this.lastSong
+      onLike: this.likeSong,
+      onDislike: this.dislikeSong
     }, mp3);
-    return player;
+
+    var appClass;
+    if (this.state.liked === true) {
+      appClass = 'liked';
+    } else if (this.state.liked === false) {
+      appClass = 'disliked';
+    }
+
+    return React.DOM.div({
+      className: appClass
+    }, player);
   }
 });
 App = React.createFactory(App);
