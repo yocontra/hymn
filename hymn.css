@@ -1,7 +1,28 @@
-.liked .hymn-player .hymn-artwork-container {
-  -webkit-transition: background-color 1s ease-in-out;
-  transition: background-color 1s ease-in-out;
-  background-color: #008000;
+.liked .hymn-player .hymn-artwork-container .hymn-artwork:before {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  color: #ecf0f1;
+  font-size: 30px;
+  line-height: 125%;
+  background-color: #27ae60;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 400;
+  content: 'Dope.';
+}
+.disliked .hymn-player .hymn-artwork-container .hymn-artwork:before {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  color: #ecf0f1;
+  font-size: 30px;
+  line-height: 125%;
+  background-color: #c0392b;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 400;
+  content: 'Whack.';
 }
 .hymn-player {
   -webkit-font-smoothing: antialiased;
@@ -24,8 +45,8 @@
   position: relative;
   height: 100%;
   width: 100%;
-  color: darkColor;
-  background-color: #fff;
+  color: #333;
+  background-color: #ecf0f1;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-weight: 300;
 }
@@ -35,7 +56,7 @@
   max-height: 500px;
   background-color: #333;
 }
-.hymn-player .hymn-artwork {
+.hymn-player .hymn-artwork-container .hymn-artwork {
   *zoom: 1;
   width: auto;
   max-width: 1440px;
@@ -52,12 +73,12 @@
   background-position: center center;
   background-repeat: no-repeat;
 }
-.hymn-player .hymn-artwork:before,
-.hymn-player .hymn-artwork:after {
+.hymn-player .hymn-artwork-container .hymn-artwork:before,
+.hymn-player .hymn-artwork-container .hymn-artwork:after {
   content: '';
   display: table;
 }
-.hymn-player .hymn-artwork:after {
+.hymn-player .hymn-artwork-container .hymn-artwork:after {
   clear: both;
 }
 .hymn-player .hymn-info {
@@ -93,7 +114,7 @@
   bottom: 0;
   left: 0;
   height: 20px;
-  background-color: rgba(0,0,0,0.1);
+  background-color: #bdc3c7;
 }
 .hymn-player .hymn-controls .hymn-progress:before,
 .hymn-player .hymn-controls .hymn-progress:after {
@@ -107,7 +128,7 @@
   margin-right: 0%;
 }
 .hymn-player .hymn-controls .hymn-progress .progress-value {
-  background-color: #039be5;
+  background-color: #2980b9;
 }
 .hymn-player .hymn-controls .hymn-control {
   -webkit-font-smoothing: antialiased;

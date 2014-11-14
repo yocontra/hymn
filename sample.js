@@ -31,7 +31,7 @@ var App = React.createClass({
   },
   getInitialState: function(){
     return {
-      liked: false,
+      liked: null,
       songs: null,
       idx: 0
     };
@@ -46,19 +46,22 @@ var App = React.createClass({
   lastSong: function(){
     var atStart = (this.state.idx === 0);
     this.setState({
-      liked: false,
+      liked: null,
       idx: (atStart ? this.state.songs.length-1 : --this.state.idx)
     });
   },
   nextSong: function(){
     var atEnd = (this.state.idx === this.state.songs.length-1);
     this.setState({
-      liked: false,
+      liked: null,
       idx: (atEnd ? 0 : ++this.state.idx)
     });
   },
   likeSong: function(){
     this.setState({liked: true});
+  },
+  dislikeSong: function(){
+    this.setState({liked: false});
   },
   currentSong: function(){
     return this.state.songs[this.state.idx];
@@ -83,10 +86,16 @@ var App = React.createClass({
       onEnd: this.nextSong,
       onSkip: this.nextSong,
       onLike: this.likeSong,
-      onDislike: this.nextSong
+      onDislike: this.dislikeSong
     }, mp3);
 
-    var appClass = (this.state.liked ? 'liked' : null);
+    var appClass;
+    if (this.state.liked === true) {
+      appClass = 'liked';
+    } else if (this.state.liked === false) {
+      appClass = 'disliked';
+    }
+
     return React.DOM.div({
       className: appClass
     }, player);
