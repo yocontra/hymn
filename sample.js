@@ -12,6 +12,8 @@ attachFastClick(document.body);
 window.React = React; // for dev
 
 var songs = [
+  'https://soundcloud.com/d4nny-music/d4nny-goodbye',
+  'https://soundcloud.com/yung-lean-doer/kyoto-prod-yung-gud',
   'https://soundcloud.com/gud-2/hello',
   'https://soundcloud.com/gud-2/crushed',
   'https://soundcloud.com/gud-2/u-want-me'
@@ -24894,7 +24896,8 @@ var ProgressBar = React.createClass({
   displayName: 'ProgressBar',
   propTypes: {
     total: React.PropTypes.number,
-    value: React.PropTypes.number
+    value: React.PropTypes.number,
+    onSeek: React.PropTypes.func
   },
 
   getDefaultProps: function(){
@@ -24908,6 +24911,17 @@ var ProgressBar = React.createClass({
     return {
       percent: 0
     };
+  },
+
+  seek: function(e){
+    if (!this.props.onSeek) {
+      return;
+    }
+    var target = this.refs.container.getDOMNode();
+    var x = e.pageX - target.getBoundingClientRect().left;
+    var scale = target.offsetWidth;
+    var time = this.props.total*(x/scale);
+    this.props.onSeek(time);
   },
 
   componentWillReceiveProps: function(props) {
@@ -24934,7 +24948,10 @@ var ProgressBar = React.createClass({
     });
 
     var container = React.DOM.div({
-      className: this.props.className
+      ref: 'container',
+      className: this.props.className,
+      style: this.props.style,
+      onClick: this.seek
     }, slider);
     return container;
   }
@@ -25001,12 +25018,8 @@ var Player = React.createClass({
     this.setState({playing: false}, this.sync);
   },
 
-  setPosition: function(e) {
-    console.log(e);
+  seek: function(time) {
     var audioTag = this.refs.audioTag.getDOMNode();
-    var x = e.pageX - e.target.getBoundingClientRect().left;
-    var scale = e.target.offsetWidth;
-    var time = this.state.duration*(x/scale);
     audioTag.currentTime = time;
   },
 
@@ -25143,7 +25156,7 @@ var Player = React.createClass({
       className: 'hymn-progress',
       value: this.state.position,
       total: this.state.duration,
-      onClick: this.setPosition
+      onSeek: this.seek
     });
 
     var controlChildren = [playPause, progressBar];
