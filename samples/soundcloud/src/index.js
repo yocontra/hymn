@@ -11,7 +11,6 @@ attachFastClick(document.body);
 window.React = React; // for dev
 
 var songs = [
-  'https://soundcloud.com/d4nny-music/d4nny-goodbye',
   'https://soundcloud.com/yung-lean-doer/kyoto-prod-yung-gud',
   'https://soundcloud.com/gud-2/hello',
   'https://soundcloud.com/gud-2/crushed',
