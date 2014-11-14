@@ -1,9 +1,6 @@
 @import 'nib'
 @import 'jeet'
 
-darkColor = rgba(0, 0, 0, 0.8)
-lightColor = rgba(0, 0, 0, 0.7)
-lighterColor = rgba(0, 0, 0, 0.6)
 progressColor = #039be5
 progressBackground = rgba(0, 0, 0, 0.1)
 playerBackground = #fff
@@ -23,10 +20,6 @@ iconfont()
   text-transform: none
   line-height: 1
 
-transitionit()
-  transition: all 0.4s ease-in-out 0.4s
-  transform: translate3d(0, 0, 0)
-
 reset-progress()
   cursor: pointer
   appearance: none
@@ -43,8 +36,10 @@ reset-button()
 
 .hymn-player
   betterfont()
-  stack()
-  center()
+  transform: translate3d(0, 0, 0)
+  backface-visibility: hidden
+  perspective: 1000
+
   user-select: none
   overflow: hidden
   position: relative
@@ -58,19 +53,16 @@ reset-button()
   font-weight: 300
 
   .hymn-artwork
-    col(1/1)
     center()
     height: 50%
     max-height: 500px
-    background-color: lighterColor
+    background-color: #333
     background-size: cover
     background-position: center center
     background-repeat: no-repeat
 
   .hymn-info
-    col(1/1)
-    center()
-    padding: 40px
+    padding: 30px
     text-align: center
 
     .hymn-title
@@ -88,6 +80,7 @@ reset-button()
     .hymn-progress
       reset-progress()
       col(1/1)
+
       absolute: bottom left
       height: 20px
       background-color: progressBackground
@@ -106,7 +99,6 @@ reset-button()
       reset-button()
 
     .hymn-play, .hymn-pause
-      col(1/1)
       center()
       font-size: 40px
 

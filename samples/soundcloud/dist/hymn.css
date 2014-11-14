@@ -2,21 +2,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  display: block;
-  clear: both;
-  float: none;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  *zoom: 1;
-  width: auto;
-  max-width: 1440px;
-  float: none;
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 0;
-  padding-right: 0;
+  -webkit-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -ms-perspective: 1000;
+  perspective: 1000;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -25,33 +19,12 @@
   position: relative;
   height: 100%;
   width: 100%;
-  color: rgba(0,0,0,0.8);
+  color: darkColor;
   background-color: #fff;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-weight: 300;
 }
-.hymn-player:first-child {
-  margin-left: auto;
-}
-.hymn-player:last-child {
-  margin-right: auto;
-}
-.hymn-player:before,
-.hymn-player:after {
-  content: '';
-  display: table;
-}
-.hymn-player:after {
-  clear: both;
-}
 .hymn-player .hymn-artwork {
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 100%;
-  margin-left: 0%;
-  margin-right: 3%;
   *zoom: 1;
   width: auto;
   max-width: 1440px;
@@ -63,7 +36,7 @@
   padding-right: 0;
   height: 50%;
   max-height: 500px;
-  background-color: rgba(0,0,0,0.6);
+  background-color: #333;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -76,55 +49,9 @@
 .hymn-player .hymn-artwork:after {
   clear: both;
 }
-.hymn-player .hymn-artwork:last-child {
-  margin-right: 0%;
-}
-.hymn-player .hymn-artwork:before,
-.hymn-player .hymn-artwork:after {
-  content: '';
-  display: table;
-}
-.hymn-player .hymn-artwork:after {
-  clear: both;
-}
 .hymn-player .hymn-info {
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 100%;
-  margin-left: 0%;
-  margin-right: 3%;
-  *zoom: 1;
-  width: auto;
-  max-width: 1440px;
-  float: none;
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 0;
-  padding-right: 0;
-  padding: 40px;
+  padding: 30px;
   text-align: center;
-}
-.hymn-player .hymn-info:before,
-.hymn-player .hymn-info:after {
-  content: '';
-  display: table;
-}
-.hymn-player .hymn-info:after {
-  clear: both;
-}
-.hymn-player .hymn-info:last-child {
-  margin-right: 0%;
-}
-.hymn-player .hymn-info:before,
-.hymn-player .hymn-info:after {
-  content: '';
-  display: table;
-}
-.hymn-player .hymn-info:after {
-  clear: both;
 }
 .hymn-player .hymn-info .hymn-title {
   white-space: nowrap;
@@ -204,13 +131,6 @@
 .hymn-player .hymn-controls .hymn-play,
 .hymn-player .hymn-controls .hymn-pause {
   *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 100%;
-  margin-left: 0%;
-  margin-right: 3%;
-  *zoom: 1;
   width: auto;
   max-width: 1440px;
   float: none;
@@ -220,21 +140,6 @@
   padding-left: 0;
   padding-right: 0;
   font-size: 40px;
-}
-.hymn-player .hymn-controls .hymn-play:before,
-.hymn-player .hymn-controls .hymn-pause:before,
-.hymn-player .hymn-controls .hymn-play:after,
-.hymn-player .hymn-controls .hymn-pause:after {
-  content: '';
-  display: table;
-}
-.hymn-player .hymn-controls .hymn-play:after,
-.hymn-player .hymn-controls .hymn-pause:after {
-  clear: both;
-}
-.hymn-player .hymn-controls .hymn-play:last-child,
-.hymn-player .hymn-controls .hymn-pause:last-child {
-  margin-right: 0%;
 }
 .hymn-player .hymn-controls .hymn-play:before,
 .hymn-player .hymn-controls .hymn-pause:before,

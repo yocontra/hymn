@@ -39,6 +39,12 @@ var App = React.createClass({
       });
     }.bind(this));
   },
+  lastSong: function(){
+    var atStart = (this.state.idx === 0);
+    this.setState({
+      idx: (atStart ? this.state.songs.length-1 : --this.state.idx)
+    });
+  },
   nextSong: function(){
     var atEnd = (this.state.idx === this.state.songs.length-1);
     this.setState({
@@ -68,7 +74,7 @@ var App = React.createClass({
       onEnd: this.nextSong,
       onSkip: this.nextSong,
       onLike: this.nextSong,
-      onDislike: this.nextSong
+      onDislike: this.lastSong
     }, mp3);
     return player;
   }
