@@ -10,11 +10,11 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   content: 'Dope';
-  -webkit-transform: rotate(-20deg);
-  -ms-transform: rotate(-20deg);
-  transform: rotate(-20deg);
+  -webkit-transform: translateY(-50%) rotate(-20deg);
+  -ms-transform: translateY(-50%) rotate(-20deg);
+  transform: translateY(-50%) rotate(-20deg);
   position: absolute;
-  top: 20px;
+  top: 30px;
   left: 0;
 }
 .disliked .hymn-player .hymn-artwork-container .hymn-artwork:before {
@@ -29,11 +29,11 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   content: 'Whack';
-  -webkit-transform: rotate(20deg);
-  -ms-transform: rotate(20deg);
-  transform: rotate(20deg);
+  -webkit-transform: translateY(-50%) rotate(20deg);
+  -ms-transform: translateY(-50%) rotate(20deg);
+  transform: translateY(-50%) rotate(20deg);
   position: absolute;
-  top: 20px;
+  top: 30px;
   right: 0;
 }
 .hymn-player {
