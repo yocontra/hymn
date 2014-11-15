@@ -1518,8 +1518,8 @@ module.exports = support;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1770,8 +1770,8 @@ var isPlainObject = !getPrototypeOf ? shimIsPlainObject : function(value) {
 module.exports = isPlainObject;
 
 },{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._isnative/index.js","lodash._shimisplainobject":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -2533,6 +2533,17 @@ var DEFAULT_EASING = easingTypes.easeInOutQuad;
 var DEFAULT_DURATION = 300;
 var DEFAULT_DELAY = 0;
 
+function shallowClone(obj) {
+  var ret = {};
+  for (var key in obj) {
+    if (!obj.hasOwnProperty(key)) {
+      continue;
+    }
+    ret[key] = obj[key];
+  }
+  return ret;
+}
+
 // see usage below
 function returnState(state) {
   return state;
@@ -2571,6 +2582,8 @@ tweenState.Mixin = {
   },
 
   _tweenState: function(stateRefFunc, stateName, config) {
+    config = shallowClone(config);
+
     var state = this._pendingState || this.state;
     var stateRef = stateRefFunc(state);
 
@@ -2694,7 +2707,7 @@ var clone = require('lodash.clone');
 var Draggable = React.createFactory(require('react-draggable'));
 
 function getRotationAngle(v, max, angle) {
-  return angle * (v / max);
+  return Math.max(-angle, Math.min(angle, angle * (v / max)));
 }
 
 function rotate(deg) {
@@ -2738,7 +2751,8 @@ var Swipeable = React.createClass({
   getInitialState: function(){
     return {
       rotation: 0,
-      swiped: null
+      swiped: null,
+      leaning: null
     };
   },
 
@@ -2753,7 +2767,7 @@ var Swipeable = React.createClass({
 
   setBreakPoint: function(){
     var el = this.getDOMNode();
-    var breakpoint = el.offsetWidth / 2;
+    var breakpoint = el.offsetWidth / 4;
     if (this.state.breakpoint !== breakpoint) {
       this.setState({breakpoint: breakpoint});
     }
@@ -2769,8 +2783,21 @@ var Swipeable = React.createClass({
     }
 
     var pos = ui.position.left;
+
+    // determine which way its leaning
+    var leaning = null;
+    if (pos >= this.state.breakpoint) {
+      leaning = 'right';
+    } else if (pos <= -this.state.breakpoint) {
+      leaning = 'left';
+    }
+    ui.leaning = leaning;
+    
     var rotateAngle = getRotationAngle(pos, this.state.breakpoint, this.props.rotationAngle);
-    this.setState({rotation: rotateAngle});
+    this.setState({
+      rotation: rotateAngle,
+      leaning: leaning
+    });
 
     if (this.props.onDrag) {
       this.props.onDrag(event, ui);
@@ -2784,17 +2811,17 @@ var Swipeable = React.createClass({
 
     var pos = ui.position.left;
 
-    if (pos >= this.state.breakpoint) {
+    if (this.state.leaning === 'right') {
       this.reset();
       this.setState({swiped: 'right'}, this.props.onSwipeRight);
-    } else if (pos <= -this.state.breakpoint) {
+    } else if (this.state.leaning === 'left') {
       this.reset();
       this.setState({swiped: 'left'}, this.props.onSwipeLeft);
     }
 
     if (!this.state.swiped &&
-      ui.position.left !== this.state.breakpoint &&
-      ui.position.left !== -this.state.breakpoint) {
+      pos !== this.state.breakpoint &&
+      pos !== -this.state.breakpoint) {
       this.reset();
     }
 
@@ -2831,9 +2858,11 @@ var Swipeable = React.createClass({
       onStop: this.handleDragStop,
       onDrag: this.handleDrag,
       zIndex: this.props.zIndex,
+      /*
       ranges: {
         x: [-this.state.breakpoint, this.state.breakpoint]
       },
+      */
       style: style,
       className: this.props.className
     }, this.props.children);
@@ -22862,6 +22891,7 @@ var Player = React.createClass({
     muted: React.PropTypes.bool,
     preload: React.PropTypes.bool,
 
+    onDrag: React.PropTypes.func,
     onSkip: React.PropTypes.func,
     onEnd: React.PropTypes.func,
     onLike: React.PropTypes.func,
@@ -22984,6 +23014,7 @@ var Player = React.createClass({
         key: 'artwork-container',
         className: 'hymn-artwork-container'
       }, Swipeable({
+          onDrag: this.props.onDrag,
           onSwipeRight: this.props.onLike,
           onSwipeLeft: this.props.onDislike
         }, artwork)

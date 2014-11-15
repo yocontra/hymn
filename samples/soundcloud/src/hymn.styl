@@ -42,6 +42,19 @@ stamp(color)
   font-weight: bold
   letter-spacing: 2px
   text-transform: uppercase
+  z-index: 1001
+  animation: fadein 0.5s
+  
+  @media (max-height: 500px)
+    font-size: 15px
+    border: 3px solid color
+    padding: 5px
+
+@keyframes fadein
+  from
+    opacity: 0
+  to
+    opacity: 1
 
 .liked
   .hymn-player
@@ -96,20 +109,48 @@ stamp(color)
       background-position: center center
       background-repeat: no-repeat
 
+      @media (min-width: 768px)
+        center()
+        background-size: contain
+        max-width: 500px
+
+      @media (max-height: 500px)
+        center()
+        max-width: 250px
+        background-size: contain
+
+      @media (max-height: 300px)
+        max-width: 200px
+
+      @media (max-height: 200px)
+        max-width: 150px
+
   .hymn-info
     padding: 30px
     text-align: center
+
+    @media (max-height: 500px)
+      padding: 20px
+
+    @media (max-height: 500px)
+      padding: 10px
 
     .hymn-title
       overflow: ellipsis
       font-size: 40px
       line-height: 150%
 
+      @media (max-height: 500px)
+        font-size: 30px
+
     .hymn-artist
       overflow: ellipsis
       font-style: italic
       font-size: 20px
       line-height: 150%
+
+      @media (max-height: 500px)
+        font-size: 15px
 
   .hymn-controls
     .hymn-progress
@@ -119,16 +160,25 @@ stamp(color)
       height: 20px
       background-color: progressBackground
 
+      @media (max-height: 500px)
+        height: 10px
+
       .progress-value
         background-color: progressColor
 
       &:hover
         height: 30px
 
+        @media (max-height: 500px)
+          height: 20px
+
     .hymn-control
       iconfont()
       reset-button()
       font-size: 40px
+
+      @media (max-height: 500px)
+        font-size: 30px
 
     .hymn-play
       center()
@@ -141,9 +191,7 @@ stamp(color)
         content: '\e601'
 
     .hymn-skip
-      absolute: bottom 20px right
-      &:before
-        content: '\e604'
+      display: none
 
 /* icon font lol */
 @font-face

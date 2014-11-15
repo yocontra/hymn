@@ -18,6 +18,7 @@ var Player = React.createClass({
     muted: React.PropTypes.bool,
     preload: React.PropTypes.bool,
 
+    onDrag: React.PropTypes.func,
     onSkip: React.PropTypes.func,
     onEnd: React.PropTypes.func,
     onLike: React.PropTypes.func,
@@ -140,6 +141,7 @@ var Player = React.createClass({
         key: 'artwork-container',
         className: 'hymn-artwork-container'
       }, Swipeable({
+          onDrag: this.props.onDrag,
           onSwipeRight: this.props.onLike,
           onSwipeLeft: this.props.onDislike
         }, artwork)

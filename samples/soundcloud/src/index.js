@@ -33,6 +33,7 @@ var App = React.createClass({
     return {
       liked: null,
       songs: null,
+      leaning: null,
       idx: 0
     };
   },
@@ -47,6 +48,7 @@ var App = React.createClass({
     var atStart = (this.state.idx === 0);
     this.setState({
       liked: null,
+      leaning: null,
       idx: (atStart ? this.state.songs.length-1 : --this.state.idx)
     });
   },
@@ -54,6 +56,7 @@ var App = React.createClass({
     var atEnd = (this.state.idx === this.state.songs.length-1);
     this.setState({
       liked: null,
+      leaning: null,
       idx: (atEnd ? 0 : ++this.state.idx)
     });
   },
@@ -61,7 +64,10 @@ var App = React.createClass({
     this.setState({liked: true});
   },
   dislikeSong: function(){
-    this.setState({liked: false});
+    this.setState({liked: false}, this.nextSong);
+  },
+  setLean: function(e, ui){
+    this.setState({leaning: ui.leaning});
   },
   currentSong: function(){
     return this.state.songs[this.state.idx];
@@ -85,14 +91,15 @@ var App = React.createClass({
       title: song.title,
       onEnd: this.nextSong,
       onSkip: this.nextSong,
+      onDrag: this.setLean,
       onLike: this.likeSong,
       onDislike: this.dislikeSong
     }, mp3);
 
     var appClass;
-    if (this.state.liked === true) {
+    if (this.state.leaning === 'right') {
       appClass = 'liked';
-    } else if (this.state.liked === false) {
+    } else if (this.state.leaning === 'left') {
       appClass = 'disliked';
     }
 

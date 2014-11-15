@@ -9,6 +9,10 @@
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: uppercase;
+  z-index: 1001;
+  -webkit-animation: fadein 0.5s;
+  -ms-animation: fadein 0.5s;
+  animation: fadein 0.5s;
   content: 'Dope';
   -webkit-transform: translateY(-50%) rotate(-20deg);
   -ms-transform: translateY(-50%) rotate(-20deg);
@@ -16,6 +20,13 @@
   position: absolute;
   top: 30px;
   left: 0;
+}
+@media (max-height: 500px) {
+  .liked .hymn-player .hymn-artwork-container .hymn-artwork:before {
+    font-size: 15px;
+    border: 3px solid #2ecc71;
+    padding: 5px;
+  }
 }
 .disliked .hymn-player .hymn-artwork-container .hymn-artwork:before {
   color: #e74c3c;
@@ -28,6 +39,10 @@
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: uppercase;
+  z-index: 1001;
+  -webkit-animation: fadein 0.5s;
+  -ms-animation: fadein 0.5s;
+  animation: fadein 0.5s;
   content: 'Whack';
   -webkit-transform: translateY(-50%) rotate(20deg);
   -ms-transform: translateY(-50%) rotate(20deg);
@@ -35,6 +50,13 @@
   position: absolute;
   top: 30px;
   right: 0;
+}
+@media (max-height: 500px) {
+  .disliked .hymn-player .hymn-artwork-container .hymn-artwork:before {
+    font-size: 15px;
+    border: 3px solid #e74c3c;
+    padding: 5px;
+  }
 }
 .hymn-player {
   -webkit-font-smoothing: antialiased;
@@ -78,9 +100,75 @@
   background-position: center center;
   background-repeat: no-repeat;
 }
+@media (min-width: 768px) {
+  .hymn-player .hymn-artwork-container .hymn-artwork {
+    *zoom: 1;
+    width: auto;
+    max-width: 1440px;
+    float: none;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0;
+    padding-right: 0;
+    background-size: contain;
+    max-width: 500px;
+  }
+  .hymn-player .hymn-artwork-container .hymn-artwork:before,
+  .hymn-player .hymn-artwork-container .hymn-artwork:after {
+    content: '';
+    display: table;
+  }
+  .hymn-player .hymn-artwork-container .hymn-artwork:after {
+    clear: both;
+  }
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-artwork-container .hymn-artwork {
+    *zoom: 1;
+    width: auto;
+    max-width: 1440px;
+    float: none;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 250px;
+    background-size: contain;
+  }
+  .hymn-player .hymn-artwork-container .hymn-artwork:before,
+  .hymn-player .hymn-artwork-container .hymn-artwork:after {
+    content: '';
+    display: table;
+  }
+  .hymn-player .hymn-artwork-container .hymn-artwork:after {
+    clear: both;
+  }
+}
+@media (max-height: 300px) {
+  .hymn-player .hymn-artwork-container .hymn-artwork {
+    max-width: 200px;
+  }
+}
+@media (max-height: 200px) {
+  .hymn-player .hymn-artwork-container .hymn-artwork {
+    max-width: 150px;
+  }
+}
 .hymn-player .hymn-info {
   padding: 30px;
   text-align: center;
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-info {
+    padding: 20px;
+  }
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-info {
+    padding: 10px;
+  }
 }
 .hymn-player .hymn-info .hymn-title {
   white-space: nowrap;
@@ -90,6 +178,11 @@
   font-size: 40px;
   line-height: 150%;
 }
+@media (max-height: 500px) {
+  .hymn-player .hymn-info .hymn-title {
+    font-size: 30px;
+  }
+}
 .hymn-player .hymn-info .hymn-artist {
   white-space: nowrap;
   overflow: hidden;
@@ -98,6 +191,11 @@
   font-style: italic;
   font-size: 20px;
   line-height: 150%;
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-info .hymn-artist {
+    font-size: 15px;
+  }
 }
 .hymn-player .hymn-controls .hymn-progress {
   width: 100%;
@@ -109,11 +207,21 @@
   height: 20px;
   background-color: #efefef;
 }
+@media (max-height: 500px) {
+  .hymn-player .hymn-controls .hymn-progress {
+    height: 10px;
+  }
+}
 .hymn-player .hymn-controls .hymn-progress .progress-value {
   background-color: #ffac4f;
 }
 .hymn-player .hymn-controls .hymn-progress:hover {
   height: 30px;
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-controls .hymn-progress:hover {
+    height: 20px;
+  }
 }
 .hymn-player .hymn-controls .hymn-control {
   -webkit-font-smoothing: antialiased;
@@ -133,6 +241,11 @@
   background-color: inherit;
   color: inherit;
   font-size: 40px;
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-controls .hymn-control {
+    font-size: 30px;
+  }
 }
 .hymn-player .hymn-controls .hymn-play {
   *zoom: 1;
@@ -179,12 +292,7 @@
   content: '\e601';
 }
 .hymn-player .hymn-controls .hymn-skip {
-  position: absolute;
-  bottom: 20px;
-  right: 0;
-}
-.hymn-player .hymn-controls .hymn-skip:before {
-  content: '\e604';
+  display: none;
 }
 /* icon font lol */
 @font-face {
@@ -193,4 +301,30 @@
   src: url("fonts/icomoon.eot?#iefix8sfyn6") format('embedded-opentype'), url("fonts/icomoon.woff?8sfyn6") format('woff'), url("fonts/icomoon.ttf?8sfyn6") format('truetype'), url("fonts/icomoon.svg?8sfyn6#icomoon") format('svg');
   font-weight: normal;
   font-style: normal;
+}
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+  }
+  to {
+    opacity: 1;
+    -ms-filter: none;
+    -webkit-filter: none;
+            filter: none;
+  }
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+  }
+  to {
+    opacity: 1;
+    -ms-filter: none;
+    -webkit-filter: none;
+            filter: none;
+  }
 }
