@@ -112,7 +112,6 @@
 .hymn-player .hymn-controls .hymn-progress .progress-value {
   background-color: #ffac4f;
 }
-.hymn-player .hymn-controls .hymn-progress:focus,
 .hymn-player .hymn-controls .hymn-progress:hover {
   height: 30px;
 }

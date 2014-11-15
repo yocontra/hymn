@@ -8,6 +8,8 @@ var lookup = require('soundcloud-lookup');
 var async = require('async');
 var attachFastClick = require('fastclick');
 attachFastClick(document.body);
+React.initializeTouchEvents(true);
+
 window.React = React; // for dev
 
 var songs = [

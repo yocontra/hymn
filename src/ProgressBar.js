@@ -28,8 +28,9 @@ var ProgressBar = React.createClass({
     if (!this.props.onSeek) {
       return;
     }
+    var origX = e.pageX || e.touches[0].pageX;
     var target = this.refs.container.getDOMNode();
-    var x = e.pageX - target.getBoundingClientRect().left;
+    var x = origX - target.getBoundingClientRect().left;
     var scale = target.offsetWidth;
     var time = this.props.total*(x/scale);
     this.props.onSeek(time);
@@ -62,7 +63,8 @@ var ProgressBar = React.createClass({
       ref: 'container',
       className: this.props.className,
       style: this.props.style,
-      onClick: this.seek
+      onClick: this.seek,
+      onTouchMove: this.seek
     }, slider);
     return container;
   }
