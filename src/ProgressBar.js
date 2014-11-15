@@ -38,12 +38,12 @@ var ProgressBar = React.createClass({
 
   componentWillReceiveProps: function(props) {
     this.setState({
-      percent: ((props.value / props.total) * 100).toFixed(2)
+      percent: (props.value / props.total) * 100
     });
   },
 
   render: function(){
-    var translate = 'translateX(' + this.state.percent + '%)';
+    var translate = 'translateX(' + this.state.percent.toFixed(4) + '%)';
     var slider = React.DOM.div({
       ref: 'slider',
       className: 'progress-value',
@@ -64,6 +64,8 @@ var ProgressBar = React.createClass({
       className: this.props.className,
       style: this.props.style,
       onClick: this.seek,
+      onTouchEnd: this.seek,
+      onTouchStart: this.seek,
       onTouchMove: this.seek
     }, slider);
     return container;
