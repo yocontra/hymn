@@ -34,6 +34,7 @@ var App = React.createClass({
     return {
       liked: null,
       songs: null,
+      leaning: null,
       idx: 0
     };
   },
@@ -64,6 +65,9 @@ var App = React.createClass({
   dislikeSong: function(){
     this.setState({liked: false});
   },
+  setLean: function(e, ui){
+    this.setState({leaning: ui.leaning});
+  },
   currentSong: function(){
     return this.state.songs[this.state.idx];
   },
@@ -86,14 +90,15 @@ var App = React.createClass({
       title: song.title,
       onEnd: this.nextSong,
       onSkip: this.nextSong,
+      onDrag: this.setLean,
       onLike: this.likeSong,
       onDislike: this.dislikeSong
     }, mp3);
 
     var appClass;
-    if (this.state.liked === true) {
+    if (this.state.leaning === 'right') {
       appClass = 'liked';
-    } else if (this.state.liked === false) {
+    } else if (this.state.leaning === 'left') {
       appClass = 'disliked';
     }
 
@@ -4730,7 +4735,8 @@ var Swipeable = React.createClass({
   getInitialState: function(){
     return {
       rotation: 0,
-      swiped: null
+      swiped: null,
+      leaning: null
     };
   },
 
@@ -4745,7 +4751,7 @@ var Swipeable = React.createClass({
 
   setBreakPoint: function(){
     var el = this.getDOMNode();
-    var breakpoint = el.offsetWidth / 2;
+    var breakpoint = el.offsetWidth / 4;
     if (this.state.breakpoint !== breakpoint) {
       this.setState({breakpoint: breakpoint});
     }
@@ -4761,8 +4767,21 @@ var Swipeable = React.createClass({
     }
 
     var pos = ui.position.left;
+
+    // determine which way its leaning
+    var leaning = null;
+    if (pos >= this.state.breakpoint) {
+      leaning = 'right';
+    } else if (pos <= -this.state.breakpoint) {
+      leaning = 'left';
+    }
+    ui.leaning = leaning;
+    
     var rotateAngle = getRotationAngle(pos, this.state.breakpoint, this.props.rotationAngle);
-    this.setState({rotation: rotateAngle});
+    this.setState({
+      rotation: rotateAngle,
+      leaning: leaning
+    });
 
     if (this.props.onDrag) {
       this.props.onDrag(event, ui);
@@ -4776,17 +4795,17 @@ var Swipeable = React.createClass({
 
     var pos = ui.position.left;
 
-    if (pos >= this.state.breakpoint) {
+    if (this.state.leaning === 'right') {
       this.reset();
       this.setState({swiped: 'right'}, this.props.onSwipeRight);
-    } else if (pos <= -this.state.breakpoint) {
+    } else if (this.state.leaning === 'left') {
       this.reset();
       this.setState({swiped: 'left'}, this.props.onSwipeLeft);
     }
 
     if (!this.state.swiped &&
-      ui.position.left !== this.state.breakpoint &&
-      ui.position.left !== -this.state.breakpoint) {
+      pos !== this.state.breakpoint &&
+      pos !== -this.state.breakpoint) {
       this.reset();
     }
 
@@ -4823,9 +4842,11 @@ var Swipeable = React.createClass({
       onStop: this.handleDragStop,
       onDrag: this.handleDrag,
       zIndex: this.props.zIndex,
+      /*
       ranges: {
         x: [-this.state.breakpoint, this.state.breakpoint]
       },
+      */
       style: style,
       className: this.props.className
     }, this.props.children);
@@ -24991,6 +25012,7 @@ var Player = React.createClass({
     muted: React.PropTypes.bool,
     preload: React.PropTypes.bool,
 
+    onDrag: React.PropTypes.func,
     onSkip: React.PropTypes.func,
     onEnd: React.PropTypes.func,
     onLike: React.PropTypes.func,
@@ -25113,6 +25135,7 @@ var Player = React.createClass({
         key: 'artwork-container',
         className: 'hymn-artwork-container'
       }, Swipeable({
+          onDrag: this.props.onDrag,
           onSwipeRight: this.props.onLike,
           onSwipeLeft: this.props.onDislike
         }, artwork)

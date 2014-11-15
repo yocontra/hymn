@@ -16,6 +16,9 @@
   position: absolute;
   top: 30px;
   left: 0;
+  -webkit-animation: fadein 0.5s;
+  -ms-animation: fadein 0.5s;
+  animation: fadein 0.5s;
 }
 .disliked .hymn-player .hymn-artwork-container .hymn-artwork:before {
   color: #e74c3c;
@@ -35,6 +38,9 @@
   position: absolute;
   top: 30px;
   right: 0;
+  -webkit-animation: fadein 0.5s;
+  -ms-animation: fadein 0.5s;
+  animation: fadein 0.5s;
 }
 .hymn-player {
   -webkit-font-smoothing: antialiased;
@@ -193,4 +199,30 @@
   src: url("fonts/icomoon.eot?#iefix8sfyn6") format('embedded-opentype'), url("fonts/icomoon.woff?8sfyn6") format('woff'), url("fonts/icomoon.ttf?8sfyn6") format('truetype'), url("fonts/icomoon.svg?8sfyn6#icomoon") format('svg');
   font-weight: normal;
   font-style: normal;
+}
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+  }
+  to {
+    opacity: 1;
+    -ms-filter: none;
+    -webkit-filter: none;
+            filter: none;
+  }
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+  }
+  to {
+    opacity: 1;
+    -ms-filter: none;
+    -webkit-filter: none;
+            filter: none;
+  }
 }
