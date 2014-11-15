@@ -14,9 +14,9 @@
   -ms-animation: fadein 0.5s;
   animation: fadein 0.5s;
   content: 'Dope';
-  -webkit-transform: translateY(-50%) rotate(-20deg);
-  -ms-transform: translateY(-50%) rotate(-20deg);
-  transform: translateY(-50%) rotate(-20deg);
+  -webkit-transform: translateY(-25%) rotate(-30deg);
+  -ms-transform: translateY(-25%) rotate(-30deg);
+  transform: translateY(-25%) rotate(-30deg);
   position: absolute;
   top: 30px;
   left: 0;
@@ -44,9 +44,9 @@
   -ms-animation: fadein 0.5s;
   animation: fadein 0.5s;
   content: 'Whack';
-  -webkit-transform: translateY(-50%) rotate(20deg);
-  -ms-transform: translateY(-50%) rotate(20deg);
-  transform: translateY(-50%) rotate(20deg);
+  -webkit-transform: translateY(-25%) rotate(30deg);
+  -ms-transform: translateY(-25%) rotate(30deg);
+  transform: translateY(-25%) rotate(30deg);
   position: absolute;
   top: 30px;
   right: 0;
