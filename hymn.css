@@ -84,9 +84,52 @@
   background-position: center center;
   background-repeat: no-repeat;
 }
+@media (max-height: 500px) {
+  .hymn-player .hymn-artwork-container .hymn-artwork {
+    *zoom: 1;
+    width: auto;
+    max-width: 1440px;
+    float: none;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 300px;
+    background-size: contain;
+  }
+  .hymn-player .hymn-artwork-container .hymn-artwork:before,
+  .hymn-player .hymn-artwork-container .hymn-artwork:after {
+    content: '';
+    display: table;
+  }
+  .hymn-player .hymn-artwork-container .hymn-artwork:after {
+    clear: both;
+  }
+}
+@media (max-height: 300px) {
+  .hymn-player .hymn-artwork-container .hymn-artwork {
+    max-width: 200px;
+  }
+}
+@media (max-height: 200px) {
+  .hymn-player .hymn-artwork-container .hymn-artwork {
+    max-width: 100px;
+  }
+}
 .hymn-player .hymn-info {
   padding: 30px;
   text-align: center;
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-info {
+    padding: 20px;
+  }
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-info {
+    padding: 10px;
+  }
 }
 .hymn-player .hymn-info .hymn-title {
   white-space: nowrap;
@@ -96,6 +139,11 @@
   font-size: 40px;
   line-height: 150%;
 }
+@media (max-height: 500px) {
+  .hymn-player .hymn-info .hymn-title {
+    font-size: 30px;
+  }
+}
 .hymn-player .hymn-info .hymn-artist {
   white-space: nowrap;
   overflow: hidden;
@@ -104,6 +152,11 @@
   font-style: italic;
   font-size: 20px;
   line-height: 150%;
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-info .hymn-artist {
+    font-size: 15px;
+  }
 }
 .hymn-player .hymn-controls .hymn-progress {
   width: 100%;
@@ -115,11 +168,21 @@
   height: 20px;
   background-color: #efefef;
 }
+@media (max-height: 500px) {
+  .hymn-player .hymn-controls .hymn-progress {
+    height: 10px;
+  }
+}
 .hymn-player .hymn-controls .hymn-progress .progress-value {
   background-color: #ffac4f;
 }
 .hymn-player .hymn-controls .hymn-progress:hover {
   height: 30px;
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-controls .hymn-progress:hover {
+    height: 20px;
+  }
 }
 .hymn-player .hymn-controls .hymn-control {
   -webkit-font-smoothing: antialiased;
@@ -139,6 +202,11 @@
   background-color: inherit;
   color: inherit;
   font-size: 40px;
+}
+@media (max-height: 500px) {
+  .hymn-player .hymn-controls .hymn-control {
+    font-size: 30px;
+  }
 }
 .hymn-player .hymn-controls .hymn-play {
   *zoom: 1;
