@@ -185,12 +185,7 @@
   content: '\e601';
 }
 .hymn-player .hymn-controls .hymn-skip {
-  position: absolute;
-  bottom: 20px;
-  right: 0;
-}
-.hymn-player .hymn-controls .hymn-skip:before {
-  content: '\e604';
+  display: none;
 }
 /* icon font lol */
 @font-face {
