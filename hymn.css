@@ -9,6 +9,10 @@
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: uppercase;
+  z-index: 1001;
+  -webkit-animation: fadein 0.5s;
+  -ms-animation: fadein 0.5s;
+  animation: fadein 0.5s;
   content: 'Dope';
   -webkit-transform: translateY(-50%) rotate(-20deg);
   -ms-transform: translateY(-50%) rotate(-20deg);
@@ -16,9 +20,13 @@
   position: absolute;
   top: 30px;
   left: 0;
-  -webkit-animation: fadein 0.5s;
-  -ms-animation: fadein 0.5s;
-  animation: fadein 0.5s;
+}
+@media (max-height: 500px) {
+  .liked .hymn-player .hymn-artwork-container .hymn-artwork:before {
+    font-size: 15px;
+    border: 3px solid #2ecc71;
+    padding: 5px;
+  }
 }
 .disliked .hymn-player .hymn-artwork-container .hymn-artwork:before {
   color: #e74c3c;
@@ -31,6 +39,10 @@
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: uppercase;
+  z-index: 1001;
+  -webkit-animation: fadein 0.5s;
+  -ms-animation: fadein 0.5s;
+  animation: fadein 0.5s;
   content: 'Whack';
   -webkit-transform: translateY(-50%) rotate(20deg);
   -ms-transform: translateY(-50%) rotate(20deg);
@@ -38,9 +50,13 @@
   position: absolute;
   top: 30px;
   right: 0;
-  -webkit-animation: fadein 0.5s;
-  -ms-animation: fadein 0.5s;
-  animation: fadein 0.5s;
+}
+@media (max-height: 500px) {
+  .disliked .hymn-player .hymn-artwork-container .hymn-artwork:before {
+    font-size: 15px;
+    border: 3px solid #e74c3c;
+    padding: 5px;
+  }
 }
 .hymn-player {
   -webkit-font-smoothing: antialiased;
@@ -84,6 +100,29 @@
   background-position: center center;
   background-repeat: no-repeat;
 }
+@media (min-width: 768px) {
+  .hymn-player .hymn-artwork-container .hymn-artwork {
+    *zoom: 1;
+    width: auto;
+    max-width: 1440px;
+    float: none;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0;
+    padding-right: 0;
+    background-size: contain;
+    max-width: 500px;
+  }
+  .hymn-player .hymn-artwork-container .hymn-artwork:before,
+  .hymn-player .hymn-artwork-container .hymn-artwork:after {
+    content: '';
+    display: table;
+  }
+  .hymn-player .hymn-artwork-container .hymn-artwork:after {
+    clear: both;
+  }
+}
 @media (max-height: 500px) {
   .hymn-player .hymn-artwork-container .hymn-artwork {
     *zoom: 1;
@@ -95,7 +134,7 @@
     margin-left: auto;
     padding-left: 0;
     padding-right: 0;
-    max-width: 300px;
+    max-width: 250px;
     background-size: contain;
   }
   .hymn-player .hymn-artwork-container .hymn-artwork:before,
@@ -114,7 +153,7 @@
 }
 @media (max-height: 200px) {
   .hymn-player .hymn-artwork-container .hymn-artwork {
-    max-width: 100px;
+    max-width: 150px;
   }
 }
 .hymn-player .hymn-info {
