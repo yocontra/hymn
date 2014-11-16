@@ -211,9 +211,11 @@ var Player = React.createClass({
     }, controlChildren);
 
     // bring it all in
+    var className = this.props.className || 'hymn-player';
     var container = React.DOM.div({
       ref: 'container',
-      className: 'hymn-player'
+      className: className,
+      style: this.props.style
     }, [artwork, info, controls, audioTag]);
     return container;
   }
