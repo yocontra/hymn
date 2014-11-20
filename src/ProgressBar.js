@@ -66,7 +66,10 @@ var ProgressBar = React.createClass({
       onClick: this.seek,
       onTouchEnd: this.seek,
       onTouchStart: this.seek,
-      onTouchMove: this.seek
+      onTouchMove: this.seek,
+      style: {
+        overflow: 'hidden'
+      }
     }, slider);
     return container;
   }
