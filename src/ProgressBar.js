@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var merge = require('lodash.merge');
 //require('react-raf-batching').inject();
 
 var ProgressBar = React.createClass({
@@ -8,13 +9,15 @@ var ProgressBar = React.createClass({
   propTypes: {
     total: React.PropTypes.number,
     value: React.PropTypes.number,
-    onSeek: React.PropTypes.func
+    onSeek: React.PropTypes.func,
+    style: React.PropTypes.object
   },
 
   getDefaultProps: function(){
     return {
       total: 0,
-      value: 0
+      value: 0,
+      style: {}
     };
   },
 
@@ -43,6 +46,9 @@ var ProgressBar = React.createClass({
   },
 
   render: function(){
+    var style = merge(this.props.style, {
+      overflow: 'hidden'
+    });
     var translate = 'translateX(' + this.state.percent.toFixed(4) + '%)';
     var slider = React.DOM.div({
       ref: 'slider',
@@ -62,14 +68,11 @@ var ProgressBar = React.createClass({
     var container = React.DOM.div({
       ref: 'container',
       className: this.props.className,
-      style: this.props.style,
+      style: style,
       onClick: this.seek,
       onTouchEnd: this.seek,
       onTouchStart: this.seek,
-      onTouchMove: this.seek,
-      style: {
-        overflow: 'hidden'
-      }
+      onTouchMove: this.seek
     }, slider);
     return container;
   }
