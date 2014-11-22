@@ -4,6 +4,7 @@
 
 var React = require('react');
 var Player = React.createFactory(require('../../../src'));
+var Swipeable = React.createFactory(require('react-swipeable'));
 var lookup = require('soundcloud-lookup');
 var async = require('async');
 var attachFastClick = require('fastclick');
@@ -82,11 +83,31 @@ var App = React.createClass({
       src: song.stream_url
     });
 
+    var imageUrl = song.artwork_url.replace('-large', '-t500x500');
+    var artwork = React.DOM.div({
+      key: 'artwork',
+      className: 'hymn-artwork',
+      style: {
+        backgroundImage: 'url('+imageUrl+')'
+      }
+    });
+
+    var swipeable = Swipeable({
+      onDrag: this.setLean,
+      onSwipeRight: this.likeSong,
+      onSwipeLeft: this.dislikeSong
+    }, artwork);
+
+    var artworkContainer = React.DOM.div({
+      key: 'artwork-container',
+      className: 'hymn-artwork-container'
+    }, swipeable);
+
     var player = Player({
       ref: 'songPlayer',
       key: this.state.idx,
       autoPlay: true,
-      artwork: song.artwork_url.replace('-large', '-t500x500'),
+      Artwork: artworkContainer,
       artist: song.user.username,
       title: song.title,
       onEnd: this.nextSong,

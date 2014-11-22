@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react');
-var Swipeable = React.createFactory(require('react-swipeable'));
 var ProgressBar = React.createFactory(require('./ProgressBar'));
 
 var Player = React.createClass({
@@ -11,6 +10,7 @@ var Player = React.createClass({
     title: React.PropTypes.string.isRequired,
     artist: React.PropTypes.string,
     album: React.PropTypes.string,
+    artwork: React.PropTypes.string,
     
     // stuff for the audio tag
     autoPlay: React.PropTypes.bool,
@@ -18,11 +18,8 @@ var Player = React.createClass({
     muted: React.PropTypes.bool,
     preload: React.PropTypes.bool,
 
-    onDrag: React.PropTypes.func,
     onSkip: React.PropTypes.func,
-    onEnd: React.PropTypes.func,
-    onLike: React.PropTypes.func,
-    onDislike: React.PropTypes.func
+    onEnd: React.PropTypes.func
   },
 
   getDefaultProps: function() {
@@ -127,26 +124,13 @@ var Player = React.createClass({
     }, this.props.children);
 
     // information
-    var artwork = React.DOM.div({
+    var artwork = this.props.Artwork || React.DOM.div({
       key: 'artwork',
       className: 'hymn-artwork',
       style: {
         backgroundImage: 'url('+this.props.artwork+')'
       }
     });
-
-    // swipe right and left as skip if fns specified
-    if (this.props.onLike || this.props.onDislike) {
-      artwork = React.DOM.div({
-        key: 'artwork-container',
-        className: 'hymn-artwork-container'
-      }, Swipeable({
-          onDrag: this.props.onDrag,
-          onSwipeRight: this.props.onLike,
-          onSwipeLeft: this.props.onDislike
-        }, artwork)
-      );
-    }
 
     var title = React.DOM.p({
       ref: 'title',
