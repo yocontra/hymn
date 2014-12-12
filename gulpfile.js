@@ -26,6 +26,7 @@ var ecstatic = require('ecstatic');
 var paths = {
   js: 'src/**/*.js',
   static: ['samples/sandbox/src/**/*', '!samples/sandbox/**/*.js'],
+  minimal: ['samples/minimal/src/**/*', '!samples/minimal/**/*.js'],
   soundcloud: ['samples/soundcloud/src/**/*', '!samples/soundcloud/**/*.js']
 };
 
@@ -48,6 +49,14 @@ var sampleBundler = watchify(browserify('./samples/sandbox/src/index.js', {
   debug: true
 }));
 
+var minimalBundler = watchify(browserify('./samples/minimal/src/index.js', {
+  cache: bundleCache,
+  packageCache: pkgCache,
+  fullPaths: true,
+  standalone: 'minimal',
+  debug: true
+}));
+
 var soundcloudBundler = watchify(browserify('./samples/soundcloud/src/index.js', {
   cache: bundleCache,
   packageCache: pkgCache,
@@ -63,11 +72,15 @@ gulp.task('watch', function(){
   sampleBundler.on('update', function(){
     gulp.start('samples');
   });
+  minimalBundler.on('update', function(){
+    gulp.start('minimal');
+  });
   soundcloudBundler.on('update', function(){
     gulp.start('soundcloud');
   });
   gulp.watch(paths.static, ['static']);
   gulp.watch(paths.soundcloud, ['soundcloud-static']);
+  gulp.watch(paths.minimal, ['minimal-static']);
 });
 
 gulp.task('js', function(){
@@ -99,6 +112,18 @@ gulp.task('samples', function(){
     .pipe(lr());
 });
 
+gulp.task('minimal', function(){
+  return minimalBundler.bundle()
+    // browserify -> gulp transfer
+    .pipe(source('sample.js'))
+    .pipe(buffer())
+    .pipe(cached('samples'))
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('samples/minimal/dist'))
+    .pipe(lr());
+});
+
 gulp.task('soundcloud', function(){
   return soundcloudBundler.bundle()
     // browserify -> gulp transfer
@@ -124,6 +149,20 @@ gulp.task('static', function(){
     .pipe(lr());
 });
 
+gulp.task('minimal-static', function(){
+  return gulp.src(paths.minimal)
+    .pipe(cached('static-minimal'))
+    .pipe(gif('*.styl', stylus({
+      use: [
+        nib(),
+        jeet(),
+        autoprefix()
+      ]
+    })))
+    .pipe(gulp.dest('samples/minimal/dist'))
+    .pipe(lr());
+});
+
 gulp.task('soundcloud-static', function(){
   return gulp.src(paths.soundcloud)
     .pipe(cached('static-soundcloud'))
@@ -140,14 +179,19 @@ gulp.task('soundcloud-static', function(){
 
 gulp.task('sample-server', function(cb){
   var port = parseInt(process.env.PORT) || 9090;
-  var rootFolder = path.join(__dirname, './samples/sandbox/dist');
+  var rootFolder = path.join(__dirname, './samples/minimal/dist');
   var server = http.createServer(ecstatic({root: rootFolder}));
   server.listen(port, cb);
 });
 
 gulp.task('deploy', function(){
-  return gulp.src('./samples/soundcloud/dist/**/*')
+  return gulp.src('./samples/sandbox/dist/**/*')
     .pipe(deploy());
 });
 
-gulp.task('default', ['js', 'samples', 'static', 'soundcloud', 'soundcloud-static', 'sample-server', 'watch']);
+gulp.task('default', [
+  'js', 'samples', 'static',
+  'soundcloud', 'soundcloud-static',
+  'minimal', 'minimal-static',
+  'sample-server', 'watch'
+]);

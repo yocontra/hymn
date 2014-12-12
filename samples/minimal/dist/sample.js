@@ -1,1266 +1,73 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var o;"undefined"!=typeof window?o=window:"undefined"!=typeof global?o=global:"undefined"!=typeof self&&(o=self),o.soundcloud=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./samples/soundcloud/src/index.js":[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.minimal=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./samples/minimal/src/index.js":[function(require,module,exports){
 /* global document, window */
 
 'use strict';
 
 var React = require('react');
 var Player = React.createFactory(require('../../../src'));
-var Swipeable = React.createFactory(require('react-swipeable'));
-var lookup = require('soundcloud-lookup');
-var async = require('async');
-var attachFastClick = require('fastclick');
-attachFastClick(document.body);
-React.initializeTouchEvents(true);
 
 window.React = React; // for dev
 
 var songs = [
-  'https://soundcloud.com/yung-lean-doer/kyoto-prod-yung-gud',
-  'https://soundcloud.com/gud-2/hello',
-  'https://soundcloud.com/gud-2/crushed',
-  'https://soundcloud.com/gud-2/u-want-me'
+  {
+    src: 'res/chopin-c.mp3',
+    artwork: 'res/chopin-c.jpg',
+    artist: 'Frédéric Chopin',
+    album: 'Life and Works',
+    title: 'Nocturne in C Sharp Minor'
+  },
+  {
+    src: 'res/chopin.mp3',
+    artwork: 'res/chopin.jpg',
+    artist: 'Frédéric Chopin',
+    album: 'The Very Best Of Chopin',
+    title: 'Nocturne in E Flat Major'
+  }
 ];
-
-function lookupSong(url, cb) {
-  var key = 'a3e059563d7fd3372b49b37f00a00bcf';
-  lookup(url, key, cb);
-}
 
 var App = React.createClass({
   displayName: 'demo',
-  propTypes: {
-    songs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
-  },
   getInitialState: function(){
     return {
-      liked: null,
-      songs: null,
-      leaning: null,
+      songs: songs,
       idx: 0
     };
   },
-  componentWillMount: function(){
-    async.map(this.props.songs, lookupSong, function(err, songs){
-      this.setState({
-        songs: songs
-      });
-    }.bind(this));
-  },
-  lastSong: function(){
+  prevSong: function(){
     var atStart = (this.state.idx === 0);
     this.setState({
-      liked: null,
-      leaning: null,
       idx: (atStart ? this.state.songs.length-1 : --this.state.idx)
     });
   },
   nextSong: function(){
     var atEnd = (this.state.idx === this.state.songs.length-1);
     this.setState({
-      liked: null,
-      leaning: null,
       idx: (atEnd ? 0 : ++this.state.idx)
     });
   },
-  likeSong: function(){
-    this.setState({liked: true});
-  },
-  dislikeSong: function(){
-    this.setState({liked: false}, this.nextSong);
-  },
-  setLean: function(e, ui){
-    this.setState({leaning: ui.leaning});
-  },
-  currentSong: function(){
-    return this.state.songs[this.state.idx];
-  },
   render: function(){
-    if (!this.state.songs) {
-      return null;
-    }
-    var song = this.currentSong();
+    var song = this.state.songs[this.state.idx];
     var mp3 = React.DOM.source({
       type: 'audio/mp3',
-      src: song.stream_url
+      src: song.src
     });
-
-    var imageUrl = song.artwork_url.replace('-large', '-t500x500');
-    var artwork = React.DOM.div({
-      key: 'artwork',
-      className: 'hymn-artwork',
-      style: {
-        backgroundImage: 'url('+imageUrl+')'
-      }
-    });
-
-    var swipeable = Swipeable({
-      onDrag: this.setLean,
-      onSwipeRight: this.likeSong,
-      onSwipeLeft: this.dislikeSong
-    }, artwork);
-
-    var artworkContainer = React.DOM.div({
-      key: 'artwork-container',
-      className: 'hymn-artwork-container'
-    }, swipeable);
 
     var player = Player({
       ref: 'songPlayer',
       key: this.state.idx,
       autoPlay: true,
-      Artwork: artworkContainer,
-      artist: song.user.username,
-      title: song.title,
+      showProgress: false,
       onEnd: this.nextSong,
-      onSkip: this.nextSong,
-      onDrag: this.setLean,
-      onLike: this.likeSong,
-      onDislike: this.dislikeSong
+      onPrev: this.prevSong,
+      onSkip: this.nextSong
     }, mp3);
-
-    var appClass;
-    if (this.state.leaning === 'right') {
-      appClass = 'liked';
-    } else if (this.state.leaning === 'left') {
-      appClass = 'disliked';
-    }
-
-    return React.DOM.div({
-      className: appClass
-    }, player);
+    return player;
   }
 });
 App = React.createFactory(App);
 
-React.render(App({songs: songs}), document.body);
-},{"../../../src":"/Users/contra/Projects/hymn/src/index.js","async":"/Users/contra/Projects/hymn/node_modules/async/lib/async.js","fastclick":"/Users/contra/Projects/hymn/node_modules/fastclick/lib/fastclick.js","react":"/Users/contra/Projects/hymn/node_modules/react/react.js","react-swipeable":"/Users/contra/Projects/hymn/node_modules/react-swipeable/src/index.js","soundcloud-lookup":"/Users/contra/Projects/hymn/node_modules/soundcloud-lookup/browser.js"}],"/Users/contra/Projects/hymn/node_modules/async/lib/async.js":[function(require,module,exports){
-(function (process){
-/*!
- * async
- * https://github.com/caolan/async
- *
- * Copyright 2010-2014 Caolan McMahon
- * Released under the MIT license
- */
-/*jshint onevar: false, indent:4 */
-/*global setImmediate: false, setTimeout: false, console: false */
-(function () {
-
-    var async = {};
-
-    // global on the server, window in the browser
-    var root, previous_async;
-
-    root = this;
-    if (root != null) {
-      previous_async = root.async;
-    }
-
-    async.noConflict = function () {
-        root.async = previous_async;
-        return async;
-    };
-
-    function only_once(fn) {
-        var called = false;
-        return function() {
-            if (called) throw new Error("Callback was already called.");
-            called = true;
-            fn.apply(root, arguments);
-        }
-    }
-
-    //// cross-browser compatiblity functions ////
-
-    var _toString = Object.prototype.toString;
-
-    var _isArray = Array.isArray || function (obj) {
-        return _toString.call(obj) === '[object Array]';
-    };
-
-    var _each = function (arr, iterator) {
-        if (arr.forEach) {
-            return arr.forEach(iterator);
-        }
-        for (var i = 0; i < arr.length; i += 1) {
-            iterator(arr[i], i, arr);
-        }
-    };
-
-    var _map = function (arr, iterator) {
-        if (arr.map) {
-            return arr.map(iterator);
-        }
-        var results = [];
-        _each(arr, function (x, i, a) {
-            results.push(iterator(x, i, a));
-        });
-        return results;
-    };
-
-    var _reduce = function (arr, iterator, memo) {
-        if (arr.reduce) {
-            return arr.reduce(iterator, memo);
-        }
-        _each(arr, function (x, i, a) {
-            memo = iterator(memo, x, i, a);
-        });
-        return memo;
-    };
-
-    var _keys = function (obj) {
-        if (Object.keys) {
-            return Object.keys(obj);
-        }
-        var keys = [];
-        for (var k in obj) {
-            if (obj.hasOwnProperty(k)) {
-                keys.push(k);
-            }
-        }
-        return keys;
-    };
-
-    //// exported async module functions ////
-
-    //// nextTick implementation with browser-compatible fallback ////
-    if (typeof process === 'undefined' || !(process.nextTick)) {
-        if (typeof setImmediate === 'function') {
-            async.nextTick = function (fn) {
-                // not a direct alias for IE10 compatibility
-                setImmediate(fn);
-            };
-            async.setImmediate = async.nextTick;
-        }
-        else {
-            async.nextTick = function (fn) {
-                setTimeout(fn, 0);
-            };
-            async.setImmediate = async.nextTick;
-        }
-    }
-    else {
-        async.nextTick = process.nextTick;
-        if (typeof setImmediate !== 'undefined') {
-            async.setImmediate = function (fn) {
-              // not a direct alias for IE10 compatibility
-              setImmediate(fn);
-            };
-        }
-        else {
-            async.setImmediate = async.nextTick;
-        }
-    }
-
-    async.each = function (arr, iterator, callback) {
-        callback = callback || function () {};
-        if (!arr.length) {
-            return callback();
-        }
-        var completed = 0;
-        _each(arr, function (x) {
-            iterator(x, only_once(done) );
-        });
-        function done(err) {
-          if (err) {
-              callback(err);
-              callback = function () {};
-          }
-          else {
-              completed += 1;
-              if (completed >= arr.length) {
-                  callback();
-              }
-          }
-        }
-    };
-    async.forEach = async.each;
-
-    async.eachSeries = function (arr, iterator, callback) {
-        callback = callback || function () {};
-        if (!arr.length) {
-            return callback();
-        }
-        var completed = 0;
-        var iterate = function () {
-            iterator(arr[completed], function (err) {
-                if (err) {
-                    callback(err);
-                    callback = function () {};
-                }
-                else {
-                    completed += 1;
-                    if (completed >= arr.length) {
-                        callback();
-                    }
-                    else {
-                        iterate();
-                    }
-                }
-            });
-        };
-        iterate();
-    };
-    async.forEachSeries = async.eachSeries;
-
-    async.eachLimit = function (arr, limit, iterator, callback) {
-        var fn = _eachLimit(limit);
-        fn.apply(null, [arr, iterator, callback]);
-    };
-    async.forEachLimit = async.eachLimit;
-
-    var _eachLimit = function (limit) {
-
-        return function (arr, iterator, callback) {
-            callback = callback || function () {};
-            if (!arr.length || limit <= 0) {
-                return callback();
-            }
-            var completed = 0;
-            var started = 0;
-            var running = 0;
-
-            (function replenish () {
-                if (completed >= arr.length) {
-                    return callback();
-                }
-
-                while (running < limit && started < arr.length) {
-                    started += 1;
-                    running += 1;
-                    iterator(arr[started - 1], function (err) {
-                        if (err) {
-                            callback(err);
-                            callback = function () {};
-                        }
-                        else {
-                            completed += 1;
-                            running -= 1;
-                            if (completed >= arr.length) {
-                                callback();
-                            }
-                            else {
-                                replenish();
-                            }
-                        }
-                    });
-                }
-            })();
-        };
-    };
-
-
-    var doParallel = function (fn) {
-        return function () {
-            var args = Array.prototype.slice.call(arguments);
-            return fn.apply(null, [async.each].concat(args));
-        };
-    };
-    var doParallelLimit = function(limit, fn) {
-        return function () {
-            var args = Array.prototype.slice.call(arguments);
-            return fn.apply(null, [_eachLimit(limit)].concat(args));
-        };
-    };
-    var doSeries = function (fn) {
-        return function () {
-            var args = Array.prototype.slice.call(arguments);
-            return fn.apply(null, [async.eachSeries].concat(args));
-        };
-    };
-
-
-    var _asyncMap = function (eachfn, arr, iterator, callback) {
-        arr = _map(arr, function (x, i) {
-            return {index: i, value: x};
-        });
-        if (!callback) {
-            eachfn(arr, function (x, callback) {
-                iterator(x.value, function (err) {
-                    callback(err);
-                });
-            });
-        } else {
-            var results = [];
-            eachfn(arr, function (x, callback) {
-                iterator(x.value, function (err, v) {
-                    results[x.index] = v;
-                    callback(err);
-                });
-            }, function (err) {
-                callback(err, results);
-            });
-        }
-    };
-    async.map = doParallel(_asyncMap);
-    async.mapSeries = doSeries(_asyncMap);
-    async.mapLimit = function (arr, limit, iterator, callback) {
-        return _mapLimit(limit)(arr, iterator, callback);
-    };
-
-    var _mapLimit = function(limit) {
-        return doParallelLimit(limit, _asyncMap);
-    };
-
-    // reduce only has a series version, as doing reduce in parallel won't
-    // work in many situations.
-    async.reduce = function (arr, memo, iterator, callback) {
-        async.eachSeries(arr, function (x, callback) {
-            iterator(memo, x, function (err, v) {
-                memo = v;
-                callback(err);
-            });
-        }, function (err) {
-            callback(err, memo);
-        });
-    };
-    // inject alias
-    async.inject = async.reduce;
-    // foldl alias
-    async.foldl = async.reduce;
-
-    async.reduceRight = function (arr, memo, iterator, callback) {
-        var reversed = _map(arr, function (x) {
-            return x;
-        }).reverse();
-        async.reduce(reversed, memo, iterator, callback);
-    };
-    // foldr alias
-    async.foldr = async.reduceRight;
-
-    var _filter = function (eachfn, arr, iterator, callback) {
-        var results = [];
-        arr = _map(arr, function (x, i) {
-            return {index: i, value: x};
-        });
-        eachfn(arr, function (x, callback) {
-            iterator(x.value, function (v) {
-                if (v) {
-                    results.push(x);
-                }
-                callback();
-            });
-        }, function (err) {
-            callback(_map(results.sort(function (a, b) {
-                return a.index - b.index;
-            }), function (x) {
-                return x.value;
-            }));
-        });
-    };
-    async.filter = doParallel(_filter);
-    async.filterSeries = doSeries(_filter);
-    // select alias
-    async.select = async.filter;
-    async.selectSeries = async.filterSeries;
-
-    var _reject = function (eachfn, arr, iterator, callback) {
-        var results = [];
-        arr = _map(arr, function (x, i) {
-            return {index: i, value: x};
-        });
-        eachfn(arr, function (x, callback) {
-            iterator(x.value, function (v) {
-                if (!v) {
-                    results.push(x);
-                }
-                callback();
-            });
-        }, function (err) {
-            callback(_map(results.sort(function (a, b) {
-                return a.index - b.index;
-            }), function (x) {
-                return x.value;
-            }));
-        });
-    };
-    async.reject = doParallel(_reject);
-    async.rejectSeries = doSeries(_reject);
-
-    var _detect = function (eachfn, arr, iterator, main_callback) {
-        eachfn(arr, function (x, callback) {
-            iterator(x, function (result) {
-                if (result) {
-                    main_callback(x);
-                    main_callback = function () {};
-                }
-                else {
-                    callback();
-                }
-            });
-        }, function (err) {
-            main_callback();
-        });
-    };
-    async.detect = doParallel(_detect);
-    async.detectSeries = doSeries(_detect);
-
-    async.some = function (arr, iterator, main_callback) {
-        async.each(arr, function (x, callback) {
-            iterator(x, function (v) {
-                if (v) {
-                    main_callback(true);
-                    main_callback = function () {};
-                }
-                callback();
-            });
-        }, function (err) {
-            main_callback(false);
-        });
-    };
-    // any alias
-    async.any = async.some;
-
-    async.every = function (arr, iterator, main_callback) {
-        async.each(arr, function (x, callback) {
-            iterator(x, function (v) {
-                if (!v) {
-                    main_callback(false);
-                    main_callback = function () {};
-                }
-                callback();
-            });
-        }, function (err) {
-            main_callback(true);
-        });
-    };
-    // all alias
-    async.all = async.every;
-
-    async.sortBy = function (arr, iterator, callback) {
-        async.map(arr, function (x, callback) {
-            iterator(x, function (err, criteria) {
-                if (err) {
-                    callback(err);
-                }
-                else {
-                    callback(null, {value: x, criteria: criteria});
-                }
-            });
-        }, function (err, results) {
-            if (err) {
-                return callback(err);
-            }
-            else {
-                var fn = function (left, right) {
-                    var a = left.criteria, b = right.criteria;
-                    return a < b ? -1 : a > b ? 1 : 0;
-                };
-                callback(null, _map(results.sort(fn), function (x) {
-                    return x.value;
-                }));
-            }
-        });
-    };
-
-    async.auto = function (tasks, callback) {
-        callback = callback || function () {};
-        var keys = _keys(tasks);
-        var remainingTasks = keys.length
-        if (!remainingTasks) {
-            return callback();
-        }
-
-        var results = {};
-
-        var listeners = [];
-        var addListener = function (fn) {
-            listeners.unshift(fn);
-        };
-        var removeListener = function (fn) {
-            for (var i = 0; i < listeners.length; i += 1) {
-                if (listeners[i] === fn) {
-                    listeners.splice(i, 1);
-                    return;
-                }
-            }
-        };
-        var taskComplete = function () {
-            remainingTasks--
-            _each(listeners.slice(0), function (fn) {
-                fn();
-            });
-        };
-
-        addListener(function () {
-            if (!remainingTasks) {
-                var theCallback = callback;
-                // prevent final callback from calling itself if it errors
-                callback = function () {};
-
-                theCallback(null, results);
-            }
-        });
-
-        _each(keys, function (k) {
-            var task = _isArray(tasks[k]) ? tasks[k]: [tasks[k]];
-            var taskCallback = function (err) {
-                var args = Array.prototype.slice.call(arguments, 1);
-                if (args.length <= 1) {
-                    args = args[0];
-                }
-                if (err) {
-                    var safeResults = {};
-                    _each(_keys(results), function(rkey) {
-                        safeResults[rkey] = results[rkey];
-                    });
-                    safeResults[k] = args;
-                    callback(err, safeResults);
-                    // stop subsequent errors hitting callback multiple times
-                    callback = function () {};
-                }
-                else {
-                    results[k] = args;
-                    async.setImmediate(taskComplete);
-                }
-            };
-            var requires = task.slice(0, Math.abs(task.length - 1)) || [];
-            var ready = function () {
-                return _reduce(requires, function (a, x) {
-                    return (a && results.hasOwnProperty(x));
-                }, true) && !results.hasOwnProperty(k);
-            };
-            if (ready()) {
-                task[task.length - 1](taskCallback, results);
-            }
-            else {
-                var listener = function () {
-                    if (ready()) {
-                        removeListener(listener);
-                        task[task.length - 1](taskCallback, results);
-                    }
-                };
-                addListener(listener);
-            }
-        });
-    };
-
-    async.retry = function(times, task, callback) {
-        var DEFAULT_TIMES = 5;
-        var attempts = [];
-        // Use defaults if times not passed
-        if (typeof times === 'function') {
-            callback = task;
-            task = times;
-            times = DEFAULT_TIMES;
-        }
-        // Make sure times is a number
-        times = parseInt(times, 10) || DEFAULT_TIMES;
-        var wrappedTask = function(wrappedCallback, wrappedResults) {
-            var retryAttempt = function(task, finalAttempt) {
-                return function(seriesCallback) {
-                    task(function(err, result){
-                        seriesCallback(!err || finalAttempt, {err: err, result: result});
-                    }, wrappedResults);
-                };
-            };
-            while (times) {
-                attempts.push(retryAttempt(task, !(times-=1)));
-            }
-            async.series(attempts, function(done, data){
-                data = data[data.length - 1];
-                (wrappedCallback || callback)(data.err, data.result);
-            });
-        }
-        // If a callback is passed, run this as a controll flow
-        return callback ? wrappedTask() : wrappedTask
-    };
-
-    async.waterfall = function (tasks, callback) {
-        callback = callback || function () {};
-        if (!_isArray(tasks)) {
-          var err = new Error('First argument to waterfall must be an array of functions');
-          return callback(err);
-        }
-        if (!tasks.length) {
-            return callback();
-        }
-        var wrapIterator = function (iterator) {
-            return function (err) {
-                if (err) {
-                    callback.apply(null, arguments);
-                    callback = function () {};
-                }
-                else {
-                    var args = Array.prototype.slice.call(arguments, 1);
-                    var next = iterator.next();
-                    if (next) {
-                        args.push(wrapIterator(next));
-                    }
-                    else {
-                        args.push(callback);
-                    }
-                    async.setImmediate(function () {
-                        iterator.apply(null, args);
-                    });
-                }
-            };
-        };
-        wrapIterator(async.iterator(tasks))();
-    };
-
-    var _parallel = function(eachfn, tasks, callback) {
-        callback = callback || function () {};
-        if (_isArray(tasks)) {
-            eachfn.map(tasks, function (fn, callback) {
-                if (fn) {
-                    fn(function (err) {
-                        var args = Array.prototype.slice.call(arguments, 1);
-                        if (args.length <= 1) {
-                            args = args[0];
-                        }
-                        callback.call(null, err, args);
-                    });
-                }
-            }, callback);
-        }
-        else {
-            var results = {};
-            eachfn.each(_keys(tasks), function (k, callback) {
-                tasks[k](function (err) {
-                    var args = Array.prototype.slice.call(arguments, 1);
-                    if (args.length <= 1) {
-                        args = args[0];
-                    }
-                    results[k] = args;
-                    callback(err);
-                });
-            }, function (err) {
-                callback(err, results);
-            });
-        }
-    };
-
-    async.parallel = function (tasks, callback) {
-        _parallel({ map: async.map, each: async.each }, tasks, callback);
-    };
-
-    async.parallelLimit = function(tasks, limit, callback) {
-        _parallel({ map: _mapLimit(limit), each: _eachLimit(limit) }, tasks, callback);
-    };
-
-    async.series = function (tasks, callback) {
-        callback = callback || function () {};
-        if (_isArray(tasks)) {
-            async.mapSeries(tasks, function (fn, callback) {
-                if (fn) {
-                    fn(function (err) {
-                        var args = Array.prototype.slice.call(arguments, 1);
-                        if (args.length <= 1) {
-                            args = args[0];
-                        }
-                        callback.call(null, err, args);
-                    });
-                }
-            }, callback);
-        }
-        else {
-            var results = {};
-            async.eachSeries(_keys(tasks), function (k, callback) {
-                tasks[k](function (err) {
-                    var args = Array.prototype.slice.call(arguments, 1);
-                    if (args.length <= 1) {
-                        args = args[0];
-                    }
-                    results[k] = args;
-                    callback(err);
-                });
-            }, function (err) {
-                callback(err, results);
-            });
-        }
-    };
-
-    async.iterator = function (tasks) {
-        var makeCallback = function (index) {
-            var fn = function () {
-                if (tasks.length) {
-                    tasks[index].apply(null, arguments);
-                }
-                return fn.next();
-            };
-            fn.next = function () {
-                return (index < tasks.length - 1) ? makeCallback(index + 1): null;
-            };
-            return fn;
-        };
-        return makeCallback(0);
-    };
-
-    async.apply = function (fn) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        return function () {
-            return fn.apply(
-                null, args.concat(Array.prototype.slice.call(arguments))
-            );
-        };
-    };
-
-    var _concat = function (eachfn, arr, fn, callback) {
-        var r = [];
-        eachfn(arr, function (x, cb) {
-            fn(x, function (err, y) {
-                r = r.concat(y || []);
-                cb(err);
-            });
-        }, function (err) {
-            callback(err, r);
-        });
-    };
-    async.concat = doParallel(_concat);
-    async.concatSeries = doSeries(_concat);
-
-    async.whilst = function (test, iterator, callback) {
-        if (test()) {
-            iterator(function (err) {
-                if (err) {
-                    return callback(err);
-                }
-                async.whilst(test, iterator, callback);
-            });
-        }
-        else {
-            callback();
-        }
-    };
-
-    async.doWhilst = function (iterator, test, callback) {
-        iterator(function (err) {
-            if (err) {
-                return callback(err);
-            }
-            var args = Array.prototype.slice.call(arguments, 1);
-            if (test.apply(null, args)) {
-                async.doWhilst(iterator, test, callback);
-            }
-            else {
-                callback();
-            }
-        });
-    };
-
-    async.until = function (test, iterator, callback) {
-        if (!test()) {
-            iterator(function (err) {
-                if (err) {
-                    return callback(err);
-                }
-                async.until(test, iterator, callback);
-            });
-        }
-        else {
-            callback();
-        }
-    };
-
-    async.doUntil = function (iterator, test, callback) {
-        iterator(function (err) {
-            if (err) {
-                return callback(err);
-            }
-            var args = Array.prototype.slice.call(arguments, 1);
-            if (!test.apply(null, args)) {
-                async.doUntil(iterator, test, callback);
-            }
-            else {
-                callback();
-            }
-        });
-    };
-
-    async.queue = function (worker, concurrency) {
-        if (concurrency === undefined) {
-            concurrency = 1;
-        }
-        function _insert(q, data, pos, callback) {
-          if (!q.started){
-            q.started = true;
-          }
-          if (!_isArray(data)) {
-              data = [data];
-          }
-          if(data.length == 0) {
-             // call drain immediately if there are no tasks
-             return async.setImmediate(function() {
-                 if (q.drain) {
-                     q.drain();
-                 }
-             });
-          }
-          _each(data, function(task) {
-              var item = {
-                  data: task,
-                  callback: typeof callback === 'function' ? callback : null
-              };
-
-              if (pos) {
-                q.tasks.unshift(item);
-              } else {
-                q.tasks.push(item);
-              }
-
-              if (q.saturated && q.tasks.length === q.concurrency) {
-                  q.saturated();
-              }
-              async.setImmediate(q.process);
-          });
-        }
-
-        var workers = 0;
-        var q = {
-            tasks: [],
-            concurrency: concurrency,
-            saturated: null,
-            empty: null,
-            drain: null,
-            started: false,
-            paused: false,
-            push: function (data, callback) {
-              _insert(q, data, false, callback);
-            },
-            kill: function () {
-              q.drain = null;
-              q.tasks = [];
-            },
-            unshift: function (data, callback) {
-              _insert(q, data, true, callback);
-            },
-            process: function () {
-                if (!q.paused && workers < q.concurrency && q.tasks.length) {
-                    var task = q.tasks.shift();
-                    if (q.empty && q.tasks.length === 0) {
-                        q.empty();
-                    }
-                    workers += 1;
-                    var next = function () {
-                        workers -= 1;
-                        if (task.callback) {
-                            task.callback.apply(task, arguments);
-                        }
-                        if (q.drain && q.tasks.length + workers === 0) {
-                            q.drain();
-                        }
-                        q.process();
-                    };
-                    var cb = only_once(next);
-                    worker(task.data, cb);
-                }
-            },
-            length: function () {
-                return q.tasks.length;
-            },
-            running: function () {
-                return workers;
-            },
-            idle: function() {
-                return q.tasks.length + workers === 0;
-            },
-            pause: function () {
-                if (q.paused === true) { return; }
-                q.paused = true;
-                q.process();
-            },
-            resume: function () {
-                if (q.paused === false) { return; }
-                q.paused = false;
-                q.process();
-            }
-        };
-        return q;
-    };
-    
-    async.priorityQueue = function (worker, concurrency) {
-        
-        function _compareTasks(a, b){
-          return a.priority - b.priority;
-        };
-        
-        function _binarySearch(sequence, item, compare) {
-          var beg = -1,
-              end = sequence.length - 1;
-          while (beg < end) {
-            var mid = beg + ((end - beg + 1) >>> 1);
-            if (compare(item, sequence[mid]) >= 0) {
-              beg = mid;
-            } else {
-              end = mid - 1;
-            }
-          }
-          return beg;
-        }
-        
-        function _insert(q, data, priority, callback) {
-          if (!q.started){
-            q.started = true;
-          }
-          if (!_isArray(data)) {
-              data = [data];
-          }
-          if(data.length == 0) {
-             // call drain immediately if there are no tasks
-             return async.setImmediate(function() {
-                 if (q.drain) {
-                     q.drain();
-                 }
-             });
-          }
-          _each(data, function(task) {
-              var item = {
-                  data: task,
-                  priority: priority,
-                  callback: typeof callback === 'function' ? callback : null
-              };
-              
-              q.tasks.splice(_binarySearch(q.tasks, item, _compareTasks) + 1, 0, item);
-
-              if (q.saturated && q.tasks.length === q.concurrency) {
-                  q.saturated();
-              }
-              async.setImmediate(q.process);
-          });
-        }
-        
-        // Start with a normal queue
-        var q = async.queue(worker, concurrency);
-        
-        // Override push to accept second parameter representing priority
-        q.push = function (data, priority, callback) {
-          _insert(q, data, priority, callback);
-        };
-        
-        // Remove unshift function
-        delete q.unshift;
-
-        return q;
-    };
-
-    async.cargo = function (worker, payload) {
-        var working     = false,
-            tasks       = [];
-
-        var cargo = {
-            tasks: tasks,
-            payload: payload,
-            saturated: null,
-            empty: null,
-            drain: null,
-            drained: true,
-            push: function (data, callback) {
-                if (!_isArray(data)) {
-                    data = [data];
-                }
-                _each(data, function(task) {
-                    tasks.push({
-                        data: task,
-                        callback: typeof callback === 'function' ? callback : null
-                    });
-                    cargo.drained = false;
-                    if (cargo.saturated && tasks.length === payload) {
-                        cargo.saturated();
-                    }
-                });
-                async.setImmediate(cargo.process);
-            },
-            process: function process() {
-                if (working) return;
-                if (tasks.length === 0) {
-                    if(cargo.drain && !cargo.drained) cargo.drain();
-                    cargo.drained = true;
-                    return;
-                }
-
-                var ts = typeof payload === 'number'
-                            ? tasks.splice(0, payload)
-                            : tasks.splice(0, tasks.length);
-
-                var ds = _map(ts, function (task) {
-                    return task.data;
-                });
-
-                if(cargo.empty) cargo.empty();
-                working = true;
-                worker(ds, function () {
-                    working = false;
-
-                    var args = arguments;
-                    _each(ts, function (data) {
-                        if (data.callback) {
-                            data.callback.apply(null, args);
-                        }
-                    });
-
-                    process();
-                });
-            },
-            length: function () {
-                return tasks.length;
-            },
-            running: function () {
-                return working;
-            }
-        };
-        return cargo;
-    };
-
-    var _console_fn = function (name) {
-        return function (fn) {
-            var args = Array.prototype.slice.call(arguments, 1);
-            fn.apply(null, args.concat([function (err) {
-                var args = Array.prototype.slice.call(arguments, 1);
-                if (typeof console !== 'undefined') {
-                    if (err) {
-                        if (console.error) {
-                            console.error(err);
-                        }
-                    }
-                    else if (console[name]) {
-                        _each(args, function (x) {
-                            console[name](x);
-                        });
-                    }
-                }
-            }]));
-        };
-    };
-    async.log = _console_fn('log');
-    async.dir = _console_fn('dir');
-    /*async.info = _console_fn('info');
-    async.warn = _console_fn('warn');
-    async.error = _console_fn('error');*/
-
-    async.memoize = function (fn, hasher) {
-        var memo = {};
-        var queues = {};
-        hasher = hasher || function (x) {
-            return x;
-        };
-        var memoized = function () {
-            var args = Array.prototype.slice.call(arguments);
-            var callback = args.pop();
-            var key = hasher.apply(null, args);
-            if (key in memo) {
-                async.nextTick(function () {
-                    callback.apply(null, memo[key]);
-                });
-            }
-            else if (key in queues) {
-                queues[key].push(callback);
-            }
-            else {
-                queues[key] = [callback];
-                fn.apply(null, args.concat([function () {
-                    memo[key] = arguments;
-                    var q = queues[key];
-                    delete queues[key];
-                    for (var i = 0, l = q.length; i < l; i++) {
-                      q[i].apply(null, arguments);
-                    }
-                }]));
-            }
-        };
-        memoized.memo = memo;
-        memoized.unmemoized = fn;
-        return memoized;
-    };
-
-    async.unmemoize = function (fn) {
-      return function () {
-        return (fn.unmemoized || fn).apply(null, arguments);
-      };
-    };
-
-    async.times = function (count, iterator, callback) {
-        var counter = [];
-        for (var i = 0; i < count; i++) {
-            counter.push(i);
-        }
-        return async.map(counter, iterator, callback);
-    };
-
-    async.timesSeries = function (count, iterator, callback) {
-        var counter = [];
-        for (var i = 0; i < count; i++) {
-            counter.push(i);
-        }
-        return async.mapSeries(counter, iterator, callback);
-    };
-
-    async.seq = function (/* functions... */) {
-        var fns = arguments;
-        return function () {
-            var that = this;
-            var args = Array.prototype.slice.call(arguments);
-            var callback = args.pop();
-            async.reduce(fns, args, function (newargs, fn, cb) {
-                fn.apply(that, newargs.concat([function () {
-                    var err = arguments[0];
-                    var nextargs = Array.prototype.slice.call(arguments, 1);
-                    cb(err, nextargs);
-                }]))
-            },
-            function (err, results) {
-                callback.apply(that, [err].concat(results));
-            });
-        };
-    };
-
-    async.compose = function (/* functions... */) {
-      return async.seq.apply(null, Array.prototype.reverse.call(arguments));
-    };
-
-    var _applyEach = function (eachfn, fns /*args...*/) {
-        var go = function () {
-            var that = this;
-            var args = Array.prototype.slice.call(arguments);
-            var callback = args.pop();
-            return eachfn(fns, function (fn, cb) {
-                fn.apply(that, args.concat([cb]));
-            },
-            callback);
-        };
-        if (arguments.length > 2) {
-            var args = Array.prototype.slice.call(arguments, 2);
-            return go.apply(this, args);
-        }
-        else {
-            return go;
-        }
-    };
-    async.applyEach = doParallel(_applyEach);
-    async.applyEachSeries = doSeries(_applyEach);
-
-    async.forever = function (fn, callback) {
-        function next(err) {
-            if (err) {
-                if (callback) {
-                    return callback(err);
-                }
-                throw err;
-            }
-            fn(next);
-        }
-        next();
-    };
-
-    // Node.js
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = async;
-    }
-    // AMD / RequireJS
-    else if (typeof define !== 'undefined' && define.amd) {
-        define([], function () {
-            return async;
-        });
-    }
-    // included directly via <script> tag
-    else {
-        root.async = async;
-    }
-
-}());
-
-}).call(this,require('_process'))
-},{"_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
+React.render(App(), document.body);
+},{"../../../src":"/Users/contra/Projects/hymn/src/index.js","react":"/Users/contra/Projects/hymn/node_modules/react/react.js"}],"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1348,830 +155,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],"/Users/contra/Projects/hymn/node_modules/fastclick/lib/fastclick.js":[function(require,module,exports){
-/**
- * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
- *
- * @version 1.0.3
- * @codingstandard ftlabs-jsv2
- * @copyright The Financial Times Limited [All Rights Reserved]
- * @license MIT License (see LICENSE.txt)
- */
-
-/*jslint browser:true, node:true*/
-/*global define, Event, Node*/
-
-
-/**
- * Instantiate fast-clicking listeners on the specified layer.
- *
- * @constructor
- * @param {Element} layer The layer to listen on
- * @param {Object} options The options to override the defaults
- */
-function FastClick(layer, options) {
-	'use strict';
-	var oldOnClick;
-
-	options = options || {};
-
-	/**
-	 * Whether a click is currently being tracked.
-	 *
-	 * @type boolean
-	 */
-	this.trackingClick = false;
-
-
-	/**
-	 * Timestamp for when click tracking started.
-	 *
-	 * @type number
-	 */
-	this.trackingClickStart = 0;
-
-
-	/**
-	 * The element being tracked for a click.
-	 *
-	 * @type EventTarget
-	 */
-	this.targetElement = null;
-
-
-	/**
-	 * X-coordinate of touch start event.
-	 *
-	 * @type number
-	 */
-	this.touchStartX = 0;
-
-
-	/**
-	 * Y-coordinate of touch start event.
-	 *
-	 * @type number
-	 */
-	this.touchStartY = 0;
-
-
-	/**
-	 * ID of the last touch, retrieved from Touch.identifier.
-	 *
-	 * @type number
-	 */
-	this.lastTouchIdentifier = 0;
-
-
-	/**
-	 * Touchmove boundary, beyond which a click will be cancelled.
-	 *
-	 * @type number
-	 */
-	this.touchBoundary = options.touchBoundary || 10;
-
-
-	/**
-	 * The FastClick layer.
-	 *
-	 * @type Element
-	 */
-	this.layer = layer;
-
-	/**
-	 * The minimum time between tap(touchstart and touchend) events
-	 *
-	 * @type number
-	 */
-	this.tapDelay = options.tapDelay || 200;
-
-	if (FastClick.notNeeded(layer)) {
-		return;
-	}
-
-	// Some old versions of Android don't have Function.prototype.bind
-	function bind(method, context) {
-		return function() { return method.apply(context, arguments); };
-	}
-
-
-	var methods = ['onMouse', 'onClick', 'onTouchStart', 'onTouchMove', 'onTouchEnd', 'onTouchCancel'];
-	var context = this;
-	for (var i = 0, l = methods.length; i < l; i++) {
-		context[methods[i]] = bind(context[methods[i]], context);
-	}
-
-	// Set up event handlers as required
-	if (deviceIsAndroid) {
-		layer.addEventListener('mouseover', this.onMouse, true);
-		layer.addEventListener('mousedown', this.onMouse, true);
-		layer.addEventListener('mouseup', this.onMouse, true);
-	}
-
-	layer.addEventListener('click', this.onClick, true);
-	layer.addEventListener('touchstart', this.onTouchStart, false);
-	layer.addEventListener('touchmove', this.onTouchMove, false);
-	layer.addEventListener('touchend', this.onTouchEnd, false);
-	layer.addEventListener('touchcancel', this.onTouchCancel, false);
-
-	// Hack is required for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
-	// which is how FastClick normally stops click events bubbling to callbacks registered on the FastClick
-	// layer when they are cancelled.
-	if (!Event.prototype.stopImmediatePropagation) {
-		layer.removeEventListener = function(type, callback, capture) {
-			var rmv = Node.prototype.removeEventListener;
-			if (type === 'click') {
-				rmv.call(layer, type, callback.hijacked || callback, capture);
-			} else {
-				rmv.call(layer, type, callback, capture);
-			}
-		};
-
-		layer.addEventListener = function(type, callback, capture) {
-			var adv = Node.prototype.addEventListener;
-			if (type === 'click') {
-				adv.call(layer, type, callback.hijacked || (callback.hijacked = function(event) {
-					if (!event.propagationStopped) {
-						callback(event);
-					}
-				}), capture);
-			} else {
-				adv.call(layer, type, callback, capture);
-			}
-		};
-	}
-
-	// If a handler is already declared in the element's onclick attribute, it will be fired before
-	// FastClick's onClick handler. Fix this by pulling out the user-defined handler function and
-	// adding it as listener.
-	if (typeof layer.onclick === 'function') {
-
-		// Android browser on at least 3.2 requires a new reference to the function in layer.onclick
-		// - the old one won't work if passed to addEventListener directly.
-		oldOnClick = layer.onclick;
-		layer.addEventListener('click', function(event) {
-			oldOnClick(event);
-		}, false);
-		layer.onclick = null;
-	}
-}
-
-
-/**
- * Android requires exceptions.
- *
- * @type boolean
- */
-var deviceIsAndroid = navigator.userAgent.indexOf('Android') > 0;
-
-
-/**
- * iOS requires exceptions.
- *
- * @type boolean
- */
-var deviceIsIOS = /iP(ad|hone|od)/.test(navigator.userAgent);
-
-
-/**
- * iOS 4 requires an exception for select elements.
- *
- * @type boolean
- */
-var deviceIsIOS4 = deviceIsIOS && (/OS 4_\d(_\d)?/).test(navigator.userAgent);
-
-
-/**
- * iOS 6.0(+?) requires the target element to be manually derived
- *
- * @type boolean
- */
-var deviceIsIOSWithBadTarget = deviceIsIOS && (/OS ([6-9]|\d{2})_\d/).test(navigator.userAgent);
-
-/**
- * BlackBerry requires exceptions.
- *
- * @type boolean
- */
-var deviceIsBlackBerry10 = navigator.userAgent.indexOf('BB10') > 0;
-
-/**
- * Determine whether a given element requires a native click.
- *
- * @param {EventTarget|Element} target Target DOM element
- * @returns {boolean} Returns true if the element needs a native click
- */
-FastClick.prototype.needsClick = function(target) {
-	'use strict';
-	switch (target.nodeName.toLowerCase()) {
-
-	// Don't send a synthetic click to disabled inputs (issue #62)
-	case 'button':
-	case 'select':
-	case 'textarea':
-		if (target.disabled) {
-			return true;
-		}
-
-		break;
-	case 'input':
-
-		// File inputs need real clicks on iOS 6 due to a browser bug (issue #68)
-		if ((deviceIsIOS && target.type === 'file') || target.disabled) {
-			return true;
-		}
-
-		break;
-	case 'label':
-	case 'video':
-		return true;
-	}
-
-	return (/\bneedsclick\b/).test(target.className);
-};
-
-
-/**
- * Determine whether a given element requires a call to focus to simulate click into element.
- *
- * @param {EventTarget|Element} target Target DOM element
- * @returns {boolean} Returns true if the element requires a call to focus to simulate native click.
- */
-FastClick.prototype.needsFocus = function(target) {
-	'use strict';
-	switch (target.nodeName.toLowerCase()) {
-	case 'textarea':
-		return true;
-	case 'select':
-		return !deviceIsAndroid;
-	case 'input':
-		switch (target.type) {
-		case 'button':
-		case 'checkbox':
-		case 'file':
-		case 'image':
-		case 'radio':
-		case 'submit':
-			return false;
-		}
-
-		// No point in attempting to focus disabled inputs
-		return !target.disabled && !target.readOnly;
-	default:
-		return (/\bneedsfocus\b/).test(target.className);
-	}
-};
-
-
-/**
- * Send a click event to the specified element.
- *
- * @param {EventTarget|Element} targetElement
- * @param {Event} event
- */
-FastClick.prototype.sendClick = function(targetElement, event) {
-	'use strict';
-	var clickEvent, touch;
-
-	// On some Android devices activeElement needs to be blurred otherwise the synthetic click will have no effect (#24)
-	if (document.activeElement && document.activeElement !== targetElement) {
-		document.activeElement.blur();
-	}
-
-	touch = event.changedTouches[0];
-
-	// Synthesise a click event, with an extra attribute so it can be tracked
-	clickEvent = document.createEvent('MouseEvents');
-	clickEvent.initMouseEvent(this.determineEventType(targetElement), true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
-	clickEvent.forwardedTouchEvent = true;
-	targetElement.dispatchEvent(clickEvent);
-};
-
-FastClick.prototype.determineEventType = function(targetElement) {
-	'use strict';
-
-	//Issue #159: Android Chrome Select Box does not open with a synthetic click event
-	if (deviceIsAndroid && targetElement.tagName.toLowerCase() === 'select') {
-		return 'mousedown';
-	}
-
-	return 'click';
-};
-
-
-/**
- * @param {EventTarget|Element} targetElement
- */
-FastClick.prototype.focus = function(targetElement) {
-	'use strict';
-	var length;
-
-	// Issue #160: on iOS 7, some input elements (e.g. date datetime) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
-	if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time') {
-		length = targetElement.value.length;
-		targetElement.setSelectionRange(length, length);
-	} else {
-		targetElement.focus();
-	}
-};
-
-
-/**
- * Check whether the given target element is a child of a scrollable layer and if so, set a flag on it.
- *
- * @param {EventTarget|Element} targetElement
- */
-FastClick.prototype.updateScrollParent = function(targetElement) {
-	'use strict';
-	var scrollParent, parentElement;
-
-	scrollParent = targetElement.fastClickScrollParent;
-
-	// Attempt to discover whether the target element is contained within a scrollable layer. Re-check if the
-	// target element was moved to another parent.
-	if (!scrollParent || !scrollParent.contains(targetElement)) {
-		parentElement = targetElement;
-		do {
-			if (parentElement.scrollHeight > parentElement.offsetHeight) {
-				scrollParent = parentElement;
-				targetElement.fastClickScrollParent = parentElement;
-				break;
-			}
-
-			parentElement = parentElement.parentElement;
-		} while (parentElement);
-	}
-
-	// Always update the scroll top tracker if possible.
-	if (scrollParent) {
-		scrollParent.fastClickLastScrollTop = scrollParent.scrollTop;
-	}
-};
-
-
-/**
- * @param {EventTarget} targetElement
- * @returns {Element|EventTarget}
- */
-FastClick.prototype.getTargetElementFromEventTarget = function(eventTarget) {
-	'use strict';
-
-	// On some older browsers (notably Safari on iOS 4.1 - see issue #56) the event target may be a text node.
-	if (eventTarget.nodeType === Node.TEXT_NODE) {
-		return eventTarget.parentNode;
-	}
-
-	return eventTarget;
-};
-
-
-/**
- * On touch start, record the position and scroll offset.
- *
- * @param {Event} event
- * @returns {boolean}
- */
-FastClick.prototype.onTouchStart = function(event) {
-	'use strict';
-	var targetElement, touch, selection;
-
-	// Ignore multiple touches, otherwise pinch-to-zoom is prevented if both fingers are on the FastClick element (issue #111).
-	if (event.targetTouches.length > 1) {
-		return true;
-	}
-
-	targetElement = this.getTargetElementFromEventTarget(event.target);
-	touch = event.targetTouches[0];
-
-	if (deviceIsIOS) {
-
-		// Only trusted events will deselect text on iOS (issue #49)
-		selection = window.getSelection();
-		if (selection.rangeCount && !selection.isCollapsed) {
-			return true;
-		}
-
-		if (!deviceIsIOS4) {
-
-			// Weird things happen on iOS when an alert or confirm dialog is opened from a click event callback (issue #23):
-			// when the user next taps anywhere else on the page, new touchstart and touchend events are dispatched
-			// with the same identifier as the touch event that previously triggered the click that triggered the alert.
-			// Sadly, there is an issue on iOS 4 that causes some normal touch events to have the same identifier as an
-			// immediately preceeding touch event (issue #52), so this fix is unavailable on that platform.
-			// Issue 120: touch.identifier is 0 when Chrome dev tools 'Emulate touch events' is set with an iOS device UA string,
-			// which causes all touch events to be ignored. As this block only applies to iOS, and iOS identifiers are always long,
-			// random integers, it's safe to to continue if the identifier is 0 here.
-			if (touch.identifier && touch.identifier === this.lastTouchIdentifier) {
-				event.preventDefault();
-				return false;
-			}
-
-			this.lastTouchIdentifier = touch.identifier;
-
-			// If the target element is a child of a scrollable layer (using -webkit-overflow-scrolling: touch) and:
-			// 1) the user does a fling scroll on the scrollable layer
-			// 2) the user stops the fling scroll with another tap
-			// then the event.target of the last 'touchend' event will be the element that was under the user's finger
-			// when the fling scroll was started, causing FastClick to send a click event to that layer - unless a check
-			// is made to ensure that a parent layer was not scrolled before sending a synthetic click (issue #42).
-			this.updateScrollParent(targetElement);
-		}
-	}
-
-	this.trackingClick = true;
-	this.trackingClickStart = event.timeStamp;
-	this.targetElement = targetElement;
-
-	this.touchStartX = touch.pageX;
-	this.touchStartY = touch.pageY;
-
-	// Prevent phantom clicks on fast double-tap (issue #36)
-	if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
-		event.preventDefault();
-	}
-
-	return true;
-};
-
-
-/**
- * Based on a touchmove event object, check whether the touch has moved past a boundary since it started.
- *
- * @param {Event} event
- * @returns {boolean}
- */
-FastClick.prototype.touchHasMoved = function(event) {
-	'use strict';
-	var touch = event.changedTouches[0], boundary = this.touchBoundary;
-
-	if (Math.abs(touch.pageX - this.touchStartX) > boundary || Math.abs(touch.pageY - this.touchStartY) > boundary) {
-		return true;
-	}
-
-	return false;
-};
-
-
-/**
- * Update the last position.
- *
- * @param {Event} event
- * @returns {boolean}
- */
-FastClick.prototype.onTouchMove = function(event) {
-	'use strict';
-	if (!this.trackingClick) {
-		return true;
-	}
-
-	// If the touch has moved, cancel the click tracking
-	if (this.targetElement !== this.getTargetElementFromEventTarget(event.target) || this.touchHasMoved(event)) {
-		this.trackingClick = false;
-		this.targetElement = null;
-	}
-
-	return true;
-};
-
-
-/**
- * Attempt to find the labelled control for the given label element.
- *
- * @param {EventTarget|HTMLLabelElement} labelElement
- * @returns {Element|null}
- */
-FastClick.prototype.findControl = function(labelElement) {
-	'use strict';
-
-	// Fast path for newer browsers supporting the HTML5 control attribute
-	if (labelElement.control !== undefined) {
-		return labelElement.control;
-	}
-
-	// All browsers under test that support touch events also support the HTML5 htmlFor attribute
-	if (labelElement.htmlFor) {
-		return document.getElementById(labelElement.htmlFor);
-	}
-
-	// If no for attribute exists, attempt to retrieve the first labellable descendant element
-	// the list of which is defined here: http://www.w3.org/TR/html5/forms.html#category-label
-	return labelElement.querySelector('button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea');
-};
-
-
-/**
- * On touch end, determine whether to send a click event at once.
- *
- * @param {Event} event
- * @returns {boolean}
- */
-FastClick.prototype.onTouchEnd = function(event) {
-	'use strict';
-	var forElement, trackingClickStart, targetTagName, scrollParent, touch, targetElement = this.targetElement;
-
-	if (!this.trackingClick) {
-		return true;
-	}
-
-	// Prevent phantom clicks on fast double-tap (issue #36)
-	if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
-		this.cancelNextClick = true;
-		return true;
-	}
-
-	// Reset to prevent wrong click cancel on input (issue #156).
-	this.cancelNextClick = false;
-
-	this.lastClickTime = event.timeStamp;
-
-	trackingClickStart = this.trackingClickStart;
-	this.trackingClick = false;
-	this.trackingClickStart = 0;
-
-	// On some iOS devices, the targetElement supplied with the event is invalid if the layer
-	// is performing a transition or scroll, and has to be re-detected manually. Note that
-	// for this to function correctly, it must be called *after* the event target is checked!
-	// See issue #57; also filed as rdar://13048589 .
-	if (deviceIsIOSWithBadTarget) {
-		touch = event.changedTouches[0];
-
-		// In certain cases arguments of elementFromPoint can be negative, so prevent setting targetElement to null
-		targetElement = document.elementFromPoint(touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset) || targetElement;
-		targetElement.fastClickScrollParent = this.targetElement.fastClickScrollParent;
-	}
-
-	targetTagName = targetElement.tagName.toLowerCase();
-	if (targetTagName === 'label') {
-		forElement = this.findControl(targetElement);
-		if (forElement) {
-			this.focus(targetElement);
-			if (deviceIsAndroid) {
-				return false;
-			}
-
-			targetElement = forElement;
-		}
-	} else if (this.needsFocus(targetElement)) {
-
-		// Case 1: If the touch started a while ago (best guess is 100ms based on tests for issue #36) then focus will be triggered anyway. Return early and unset the target element reference so that the subsequent click will be allowed through.
-		// Case 2: Without this exception for input elements tapped when the document is contained in an iframe, then any inputted text won't be visible even though the value attribute is updated as the user types (issue #37).
-		if ((event.timeStamp - trackingClickStart) > 100 || (deviceIsIOS && window.top !== window && targetTagName === 'input')) {
-			this.targetElement = null;
-			return false;
-		}
-
-		this.focus(targetElement);
-		this.sendClick(targetElement, event);
-
-		// Select elements need the event to go through on iOS 4, otherwise the selector menu won't open.
-		// Also this breaks opening selects when VoiceOver is active on iOS6, iOS7 (and possibly others)
-		if (!deviceIsIOS || targetTagName !== 'select') {
-			this.targetElement = null;
-			event.preventDefault();
-		}
-
-		return false;
-	}
-
-	if (deviceIsIOS && !deviceIsIOS4) {
-
-		// Don't send a synthetic click event if the target element is contained within a parent layer that was scrolled
-		// and this tap is being used to stop the scrolling (usually initiated by a fling - issue #42).
-		scrollParent = targetElement.fastClickScrollParent;
-		if (scrollParent && scrollParent.fastClickLastScrollTop !== scrollParent.scrollTop) {
-			return true;
-		}
-	}
-
-	// Prevent the actual click from going though - unless the target node is marked as requiring
-	// real clicks or if it is in the whitelist in which case only non-programmatic clicks are permitted.
-	if (!this.needsClick(targetElement)) {
-		event.preventDefault();
-		this.sendClick(targetElement, event);
-	}
-
-	return false;
-};
-
-
-/**
- * On touch cancel, stop tracking the click.
- *
- * @returns {void}
- */
-FastClick.prototype.onTouchCancel = function() {
-	'use strict';
-	this.trackingClick = false;
-	this.targetElement = null;
-};
-
-
-/**
- * Determine mouse events which should be permitted.
- *
- * @param {Event} event
- * @returns {boolean}
- */
-FastClick.prototype.onMouse = function(event) {
-	'use strict';
-
-	// If a target element was never set (because a touch event was never fired) allow the event
-	if (!this.targetElement) {
-		return true;
-	}
-
-	if (event.forwardedTouchEvent) {
-		return true;
-	}
-
-	// Programmatically generated events targeting a specific element should be permitted
-	if (!event.cancelable) {
-		return true;
-	}
-
-	// Derive and check the target element to see whether the mouse event needs to be permitted;
-	// unless explicitly enabled, prevent non-touch click events from triggering actions,
-	// to prevent ghost/doubleclicks.
-	if (!this.needsClick(this.targetElement) || this.cancelNextClick) {
-
-		// Prevent any user-added listeners declared on FastClick element from being fired.
-		if (event.stopImmediatePropagation) {
-			event.stopImmediatePropagation();
-		} else {
-
-			// Part of the hack for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
-			event.propagationStopped = true;
-		}
-
-		// Cancel the event
-		event.stopPropagation();
-		event.preventDefault();
-
-		return false;
-	}
-
-	// If the mouse event is permitted, return true for the action to go through.
-	return true;
-};
-
-
-/**
- * On actual clicks, determine whether this is a touch-generated click, a click action occurring
- * naturally after a delay after a touch (which needs to be cancelled to avoid duplication), or
- * an actual click which should be permitted.
- *
- * @param {Event} event
- * @returns {boolean}
- */
-FastClick.prototype.onClick = function(event) {
-	'use strict';
-	var permitted;
-
-	// It's possible for another FastClick-like library delivered with third-party code to fire a click event before FastClick does (issue #44). In that case, set the click-tracking flag back to false and return early. This will cause onTouchEnd to return early.
-	if (this.trackingClick) {
-		this.targetElement = null;
-		this.trackingClick = false;
-		return true;
-	}
-
-	// Very odd behaviour on iOS (issue #18): if a submit element is present inside a form and the user hits enter in the iOS simulator or clicks the Go button on the pop-up OS keyboard the a kind of 'fake' click event will be triggered with the submit-type input element as the target.
-	if (event.target.type === 'submit' && event.detail === 0) {
-		return true;
-	}
-
-	permitted = this.onMouse(event);
-
-	// Only unset targetElement if the click is not permitted. This will ensure that the check for !targetElement in onMouse fails and the browser's click doesn't go through.
-	if (!permitted) {
-		this.targetElement = null;
-	}
-
-	// If clicks are permitted, return true for the action to go through.
-	return permitted;
-};
-
-
-/**
- * Remove all FastClick's event listeners.
- *
- * @returns {void}
- */
-FastClick.prototype.destroy = function() {
-	'use strict';
-	var layer = this.layer;
-
-	if (deviceIsAndroid) {
-		layer.removeEventListener('mouseover', this.onMouse, true);
-		layer.removeEventListener('mousedown', this.onMouse, true);
-		layer.removeEventListener('mouseup', this.onMouse, true);
-	}
-
-	layer.removeEventListener('click', this.onClick, true);
-	layer.removeEventListener('touchstart', this.onTouchStart, false);
-	layer.removeEventListener('touchmove', this.onTouchMove, false);
-	layer.removeEventListener('touchend', this.onTouchEnd, false);
-	layer.removeEventListener('touchcancel', this.onTouchCancel, false);
-};
-
-
-/**
- * Check whether FastClick is needed.
- *
- * @param {Element} layer The layer to listen on
- */
-FastClick.notNeeded = function(layer) {
-	'use strict';
-	var metaViewport;
-	var chromeVersion;
-	var blackberryVersion;
-
-	// Devices that don't support touch don't need FastClick
-	if (typeof window.ontouchstart === 'undefined') {
-		return true;
-	}
-
-	// Chrome version - zero for other browsers
-	chromeVersion = +(/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [,0])[1];
-
-	if (chromeVersion) {
-
-		if (deviceIsAndroid) {
-			metaViewport = document.querySelector('meta[name=viewport]');
-
-			if (metaViewport) {
-				// Chrome on Android with user-scalable="no" doesn't need FastClick (issue #89)
-				if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
-					return true;
-				}
-				// Chrome 32 and above with width=device-width or less don't need FastClick
-				if (chromeVersion > 31 && document.documentElement.scrollWidth <= window.outerWidth) {
-					return true;
-				}
-			}
-
-		// Chrome desktop doesn't need FastClick (issue #15)
-		} else {
-			return true;
-		}
-	}
-
-	if (deviceIsBlackBerry10) {
-		blackberryVersion = navigator.userAgent.match(/Version\/([0-9]*)\.([0-9]*)/);
-
-		// BlackBerry 10.3+ does not require Fastclick library.
-		// https://github.com/ftlabs/fastclick/issues/251
-		if (blackberryVersion[1] >= 10 && blackberryVersion[2] >= 3) {
-			metaViewport = document.querySelector('meta[name=viewport]');
-
-			if (metaViewport) {
-				// user-scalable=no eliminates click delay.
-				if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
-					return true;
-				}
-				// width=device-width (or less than device-width) eliminates click delay.
-				if (document.documentElement.scrollWidth <= window.outerWidth) {
-					return true;
-				}
-			}
-		}
-	}
-
-	// IE10 with -ms-touch-action: none, which disables double-tap-to-zoom (issue #97)
-	if (layer.style.msTouchAction === 'none') {
-		return true;
-	}
-
-	return false;
-};
-
-
-/**
- * Factory method for creating a FastClick object
- *
- * @param {Element} layer The layer to listen on
- * @param {Object} options The options to override the defaults
- */
-FastClick.attach = function(layer, options) {
-	'use strict';
-	return new FastClick(layer, options);
-};
-
-
-if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-
-	// AMD. Register as an anonymous module.
-	define(function() {
-		'use strict';
-		return FastClick;
-	});
-} else if (typeof module !== 'undefined' && module.exports) {
-	module.exports = FastClick.attach;
-	module.exports.FastClick = FastClick;
-} else {
-	window.FastClick = FastClick;
-}
-
-},{}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/index.js":[function(require,module,exports){
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -2180,756 +164,97 @@ if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) 
  * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <http://lodash.com/license>
  */
-var baseClone = require('lodash._baseclone'),
-    baseCreateCallback = require('lodash._basecreatecallback');
-
-/**
- * Creates a clone of `value`. If `isDeep` is `true` nested objects will also
- * be cloned, otherwise they will be assigned by reference. If a callback
- * is provided it will be executed to produce the cloned values. If the
- * callback returns `undefined` cloning will be handled by the method instead.
- * The callback is bound to `thisArg` and invoked with one argument; (value).
- *
- * @static
- * @memberOf _
- * @category Objects
- * @param {*} value The value to clone.
- * @param {boolean} [isDeep=false] Specify a deep clone.
- * @param {Function} [callback] The function to customize cloning values.
- * @param {*} [thisArg] The `this` binding of `callback`.
- * @returns {*} Returns the cloned value.
- * @example
- *
- * var characters = [
- *   { 'name': 'barney', 'age': 36 },
- *   { 'name': 'fred',   'age': 40 }
- * ];
- *
- * var shallow = _.clone(characters);
- * shallow[0] === characters[0];
- * // => true
- *
- * var deep = _.clone(characters, true);
- * deep[0] === characters[0];
- * // => false
- *
- * _.mixin({
- *   'clone': _.partialRight(_.clone, function(value) {
- *     return _.isElement(value) ? value.cloneNode(false) : undefined;
- *   })
- * });
- *
- * var clone = _.clone(document.body);
- * clone.childNodes.length;
- * // => 0
- */
-function clone(value, isDeep, callback, thisArg) {
-  // allows working with "Collections" methods without using their `index`
-  // and `collection` arguments for `isDeep` and `callback`
-  if (typeof isDeep != 'boolean' && isDeep != null) {
-    thisArg = callback;
-    callback = isDeep;
-    isDeep = false;
-  }
-  return baseClone(value, isDeep, typeof callback == 'function' && baseCreateCallback(callback, thisArg, 1));
-}
-
-module.exports = clone;
-
-},{"lodash._baseclone":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/index.js","lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var assign = require('lodash.assign'),
-    forEach = require('lodash.foreach'),
-    forOwn = require('lodash.forown'),
+var baseCreateCallback = require('lodash._basecreatecallback'),
+    baseMerge = require('lodash._basemerge'),
     getArray = require('lodash._getarray'),
-    isArray = require('lodash.isarray'),
     isObject = require('lodash.isobject'),
     releaseArray = require('lodash._releasearray'),
     slice = require('lodash._slice');
 
-/** Used to match regexp flags from their coerced string values */
-var reFlags = /\w*$/;
-
-/** `Object#toString` result shortcuts */
-var argsClass = '[object Arguments]',
-    arrayClass = '[object Array]',
-    boolClass = '[object Boolean]',
-    dateClass = '[object Date]',
-    funcClass = '[object Function]',
-    numberClass = '[object Number]',
-    objectClass = '[object Object]',
-    regexpClass = '[object RegExp]',
-    stringClass = '[object String]';
-
-/** Used to identify object classifications that `_.clone` supports */
-var cloneableClasses = {};
-cloneableClasses[funcClass] = false;
-cloneableClasses[argsClass] = cloneableClasses[arrayClass] =
-cloneableClasses[boolClass] = cloneableClasses[dateClass] =
-cloneableClasses[numberClass] = cloneableClasses[objectClass] =
-cloneableClasses[regexpClass] = cloneableClasses[stringClass] = true;
-
-/** Used for native method references */
-var objectProto = Object.prototype;
-
-/** Used to resolve the internal [[Class]] of values */
-var toString = objectProto.toString;
-
-/** Native method shortcuts */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to lookup a built-in constructor by [[Class]] */
-var ctorByClass = {};
-ctorByClass[arrayClass] = Array;
-ctorByClass[boolClass] = Boolean;
-ctorByClass[dateClass] = Date;
-ctorByClass[funcClass] = Function;
-ctorByClass[objectClass] = Object;
-ctorByClass[numberClass] = Number;
-ctorByClass[regexpClass] = RegExp;
-ctorByClass[stringClass] = String;
-
 /**
- * The base implementation of `_.clone` without argument juggling or support
- * for `thisArg` binding.
- *
- * @private
- * @param {*} value The value to clone.
- * @param {boolean} [isDeep=false] Specify a deep clone.
- * @param {Function} [callback] The function to customize cloning values.
- * @param {Array} [stackA=[]] Tracks traversed source objects.
- * @param {Array} [stackB=[]] Associates clones with source counterparts.
- * @returns {*} Returns the cloned value.
- */
-function baseClone(value, isDeep, callback, stackA, stackB) {
-  if (callback) {
-    var result = callback(value);
-    if (typeof result != 'undefined') {
-      return result;
-    }
-  }
-  // inspect [[Class]]
-  var isObj = isObject(value);
-  if (isObj) {
-    var className = toString.call(value);
-    if (!cloneableClasses[className]) {
-      return value;
-    }
-    var ctor = ctorByClass[className];
-    switch (className) {
-      case boolClass:
-      case dateClass:
-        return new ctor(+value);
-
-      case numberClass:
-      case stringClass:
-        return new ctor(value);
-
-      case regexpClass:
-        result = ctor(value.source, reFlags.exec(value));
-        result.lastIndex = value.lastIndex;
-        return result;
-    }
-  } else {
-    return value;
-  }
-  var isArr = isArray(value);
-  if (isDeep) {
-    // check for circular references and return corresponding clone
-    var initedStack = !stackA;
-    stackA || (stackA = getArray());
-    stackB || (stackB = getArray());
-
-    var length = stackA.length;
-    while (length--) {
-      if (stackA[length] == value) {
-        return stackB[length];
-      }
-    }
-    result = isArr ? ctor(value.length) : {};
-  }
-  else {
-    result = isArr ? slice(value) : assign({}, value);
-  }
-  // add array properties assigned by `RegExp#exec`
-  if (isArr) {
-    if (hasOwnProperty.call(value, 'index')) {
-      result.index = value.index;
-    }
-    if (hasOwnProperty.call(value, 'input')) {
-      result.input = value.input;
-    }
-  }
-  // exit for shallow clone
-  if (!isDeep) {
-    return result;
-  }
-  // add the source value to the stack of traversed objects
-  // and associate it with its clone
-  stackA.push(value);
-  stackB.push(result);
-
-  // recursively populate clone (susceptible to call stack limits)
-  (isArr ? forEach : forOwn)(value, function(objValue, key) {
-    result[key] = baseClone(objValue, isDeep, callback, stackA, stackB);
-  });
-
-  if (initedStack) {
-    releaseArray(stackA);
-    releaseArray(stackB);
-  }
-  return result;
-}
-
-module.exports = baseClone;
-
-},{"lodash._getarray":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/index.js","lodash._releasearray":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._slice/index.js","lodash.assign":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/index.js","lodash.foreach":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.foreach/index.js","lodash.forown":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/index.js","lodash.isarray":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isarray/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var arrayPool = require('lodash._arraypool');
-
-/**
- * Gets an array from the array pool or creates a new one if the pool is empty.
- *
- * @private
- * @returns {Array} The array from the pool.
- */
-function getArray() {
-  return arrayPool.pop() || [];
-}
-
-module.exports = getArray;
-
-},{"lodash._arraypool":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-
-/** Used to pool arrays and objects used internally */
-var arrayPool = [];
-
-module.exports = arrayPool;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var arrayPool = require('lodash._arraypool'),
-    maxPoolSize = require('lodash._maxpoolsize');
-
-/**
- * Releases the given array back to the array pool.
- *
- * @private
- * @param {Array} [array] The array to release.
- */
-function releaseArray(array) {
-  array.length = 0;
-  if (arrayPool.length < maxPoolSize) {
-    arrayPool.push(array);
-  }
-}
-
-module.exports = releaseArray;
-
-},{"lodash._arraypool":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/node_modules/lodash._arraypool/index.js","lodash._maxpoolsize":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-
-/** Used as the max size of the `arrayPool` and `objectPool` */
-var maxPoolSize = 40;
-
-module.exports = maxPoolSize;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._slice/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-
-/**
- * Slices the `collection` from the `start` index up to, but not including,
- * the `end` index.
- *
- * Note: This function is used instead of `Array#slice` to support node lists
- * in IE < 9 and to ensure dense arrays are returned.
- *
- * @private
- * @param {Array|Object|string} collection The collection to slice.
- * @param {number} start The start index.
- * @param {number} end The end index.
- * @returns {Array} Returns the new array.
- */
-function slice(array, start, end) {
-  start || (start = 0);
-  if (typeof end == 'undefined') {
-    end = array ? array.length : 0;
-  }
-  var index = -1,
-      length = end - start || 0,
-      result = Array(length < 0 ? 0 : length);
-
-  while (++index < length) {
-    result[index] = array[start + index];
-  }
-  return result;
-}
-
-module.exports = slice;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var baseCreateCallback = require('lodash._basecreatecallback'),
-    keys = require('lodash.keys'),
-    objectTypes = require('lodash._objecttypes');
-
-/**
- * Assigns own enumerable properties of source object(s) to the destination
- * object. Subsequent sources will overwrite property assignments of previous
- * sources. If a callback is provided it will be executed to produce the
- * assigned values. The callback is bound to `thisArg` and invoked with two
- * arguments; (objectValue, sourceValue).
+ * Recursively merges own enumerable properties of the source object(s), that
+ * don't resolve to `undefined` into the destination object. Subsequent sources
+ * will overwrite property assignments of previous sources. If a callback is
+ * provided it will be executed to produce the merged values of the destination
+ * and source properties. If the callback returns `undefined` merging will
+ * be handled by the method instead. The callback is bound to `thisArg` and
+ * invoked with two arguments; (objectValue, sourceValue).
  *
  * @static
  * @memberOf _
- * @type Function
- * @alias extend
  * @category Objects
  * @param {Object} object The destination object.
  * @param {...Object} [source] The source objects.
- * @param {Function} [callback] The function to customize assigning values.
+ * @param {Function} [callback] The function to customize merging properties.
  * @param {*} [thisArg] The `this` binding of `callback`.
  * @returns {Object} Returns the destination object.
  * @example
  *
- * _.assign({ 'name': 'fred' }, { 'employer': 'slate' });
- * // => { 'name': 'fred', 'employer': 'slate' }
+ * var names = {
+ *   'characters': [
+ *     { 'name': 'barney' },
+ *     { 'name': 'fred' }
+ *   ]
+ * };
  *
- * var defaults = _.partialRight(_.assign, function(a, b) {
- *   return typeof a == 'undefined' ? b : a;
+ * var ages = {
+ *   'characters': [
+ *     { 'age': 36 },
+ *     { 'age': 40 }
+ *   ]
+ * };
+ *
+ * _.merge(names, ages);
+ * // => { 'characters': [{ 'name': 'barney', 'age': 36 }, { 'name': 'fred', 'age': 40 }] }
+ *
+ * var food = {
+ *   'fruits': ['apple'],
+ *   'vegetables': ['beet']
+ * };
+ *
+ * var otherFood = {
+ *   'fruits': ['banana'],
+ *   'vegetables': ['carrot']
+ * };
+ *
+ * _.merge(food, otherFood, function(a, b) {
+ *   return _.isArray(a) ? a.concat(b) : undefined;
  * });
- *
- * var object = { 'name': 'barney' };
- * defaults(object, { 'name': 'fred', 'employer': 'slate' });
- * // => { 'name': 'barney', 'employer': 'slate' }
+ * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot] }
  */
-var assign = function(object, source, guard) {
-  var index, iterable = object, result = iterable;
-  if (!iterable) return result;
+function merge(object) {
   var args = arguments,
-      argsIndex = 0,
-      argsLength = typeof guard == 'number' ? 2 : args.length;
-  if (argsLength > 3 && typeof args[argsLength - 2] == 'function') {
-    var callback = baseCreateCallback(args[--argsLength - 1], args[argsLength--], 2);
-  } else if (argsLength > 2 && typeof args[argsLength - 1] == 'function') {
-    callback = args[--argsLength];
-  }
-  while (++argsIndex < argsLength) {
-    iterable = args[argsIndex];
-    if (iterable && objectTypes[typeof iterable]) {
-    var ownIndex = -1,
-        ownProps = objectTypes[typeof iterable] && keys(iterable),
-        length = ownProps ? ownProps.length : 0;
+      length = 2;
 
-    while (++ownIndex < length) {
-      index = ownProps[ownIndex];
-      result[index] = callback ? callback(result[index], iterable[index]) : iterable[index];
-    }
-    }
-  }
-  return result
-};
-
-module.exports = assign;
-
-},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/index.js","lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js","lodash.keys":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-
-/** Used to determine if values are of the language type Object */
-var objectTypes = {
-  'boolean': false,
-  'function': true,
-  'object': true,
-  'number': false,
-  'string': false,
-  'undefined': false
-};
-
-module.exports = objectTypes;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var isNative = require('lodash._isnative'),
-    isObject = require('lodash.isobject'),
-    shimKeys = require('lodash._shimkeys');
-
-/* Native method shortcuts for methods with the same name as other `lodash` methods */
-var nativeKeys = isNative(nativeKeys = Object.keys) && nativeKeys;
-
-/**
- * Creates an array composed of the own enumerable property names of an object.
- *
- * @static
- * @memberOf _
- * @category Objects
- * @param {Object} object The object to inspect.
- * @returns {Array} Returns an array of property names.
- * @example
- *
- * _.keys({ 'one': 1, 'two': 2, 'three': 3 });
- * // => ['one', 'two', 'three'] (property order is not guaranteed across environments)
- */
-var keys = !nativeKeys ? shimKeys : function(object) {
   if (!isObject(object)) {
-    return [];
+    return object;
   }
-  return nativeKeys(object);
-};
-
-module.exports = keys;
-
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js","lodash._shimkeys":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-
-/** Used for native method references */
-var objectProto = Object.prototype;
-
-/** Used to resolve the internal [[Class]] of values */
-var toString = objectProto.toString;
-
-/** Used to detect if a method is native */
-var reNative = RegExp('^' +
-  String(toString)
-    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    .replace(/toString| for [^\]]+/g, '.*?') + '$'
-);
-
-/**
- * Checks if `value` is a native function.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if the `value` is a native function, else `false`.
- */
-function isNative(value) {
-  return typeof value == 'function' && reNative.test(value);
-}
-
-module.exports = isNative;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var objectTypes = require('lodash._objecttypes');
-
-/** Used for native method references */
-var objectProto = Object.prototype;
-
-/** Native method shortcuts */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A fallback implementation of `Object.keys` which produces an array of the
- * given object's own enumerable property names.
- *
- * @private
- * @type Function
- * @param {Object} object The object to inspect.
- * @returns {Array} Returns an array of property names.
- */
-var shimKeys = function(object) {
-  var index, iterable = object, result = [];
-  if (!iterable) return result;
-  if (!(objectTypes[typeof object])) return result;
-    for (index in iterable) {
-      if (hasOwnProperty.call(iterable, index)) {
-        result.push(index);
-      }
-    }
-  return result
-};
-
-module.exports = shimKeys;
-
-},{"lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.foreach/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var baseCreateCallback = require('lodash._basecreatecallback'),
-    forOwn = require('lodash.forown');
-
-/**
- * Iterates over elements of a collection, executing the callback for each
- * element. The callback is bound to `thisArg` and invoked with three arguments;
- * (value, index|key, collection). Callbacks may exit iteration early by
- * explicitly returning `false`.
- *
- * Note: As with other "Collections" methods, objects with a `length` property
- * are iterated like arrays. To avoid this behavior `_.forIn` or `_.forOwn`
- * may be used for object iteration.
- *
- * @static
- * @memberOf _
- * @alias each
- * @category Collections
- * @param {Array|Object|string} collection The collection to iterate over.
- * @param {Function} [callback=identity] The function called per iteration.
- * @param {*} [thisArg] The `this` binding of `callback`.
- * @returns {Array|Object|string} Returns `collection`.
- * @example
- *
- * _([1, 2, 3]).forEach(function(num) { console.log(num); }).join(',');
- * // => logs each number and returns '1,2,3'
- *
- * _.forEach({ 'one': 1, 'two': 2, 'three': 3 }, function(num) { console.log(num); });
- * // => logs each number and returns the object (property order is not guaranteed across environments)
- */
-function forEach(collection, callback, thisArg) {
-  var index = -1,
-      length = collection ? collection.length : 0;
-
-  callback = callback && typeof thisArg == 'undefined' ? callback : baseCreateCallback(callback, thisArg, 3);
-  if (typeof length == 'number') {
-    while (++index < length) {
-      if (callback(collection[index], index, collection) === false) {
-        break;
-      }
-    }
-  } else {
-    forOwn(collection, callback);
+  // allows working with `_.reduce` and `_.reduceRight` without using
+  // their `index` and `collection` arguments
+  if (typeof args[2] != 'number') {
+    length = args.length;
   }
-  return collection;
+  if (length > 3 && typeof args[length - 2] == 'function') {
+    var callback = baseCreateCallback(args[--length - 1], args[length--], 2);
+  } else if (length > 2 && typeof args[length - 1] == 'function') {
+    callback = args[--length];
+  }
+  var sources = slice(arguments, 1, length),
+      index = -1,
+      stackA = getArray(),
+      stackB = getArray();
+
+  while (++index < length) {
+    baseMerge(object, sources[index], callback, stackA, stackB);
+  }
+  releaseArray(stackA);
+  releaseArray(stackB);
+  return object;
 }
 
-module.exports = forEach;
+module.exports = merge;
 
-},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/index.js","lodash.forown":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var baseCreateCallback = require('lodash._basecreatecallback'),
-    keys = require('lodash.keys'),
-    objectTypes = require('lodash._objecttypes');
-
-/**
- * Iterates over own enumerable properties of an object, executing the callback
- * for each property. The callback is bound to `thisArg` and invoked with three
- * arguments; (value, key, object). Callbacks may exit iteration early by
- * explicitly returning `false`.
- *
- * @static
- * @memberOf _
- * @type Function
- * @category Objects
- * @param {Object} object The object to iterate over.
- * @param {Function} [callback=identity] The function called per iteration.
- * @param {*} [thisArg] The `this` binding of `callback`.
- * @returns {Object} Returns `object`.
- * @example
- *
- * _.forOwn({ '0': 'zero', '1': 'one', 'length': 2 }, function(num, key) {
- *   console.log(key);
- * });
- * // => logs '0', '1', and 'length' (property order is not guaranteed across environments)
- */
-var forOwn = function(collection, callback, thisArg) {
-  var index, iterable = collection, result = iterable;
-  if (!iterable) return result;
-  if (!objectTypes[typeof iterable]) return result;
-  callback = callback && typeof thisArg == 'undefined' ? callback : baseCreateCallback(callback, thisArg, 3);
-    var ownIndex = -1,
-        ownProps = objectTypes[typeof iterable] && keys(iterable),
-        length = ownProps ? ownProps.length : 0;
-
-    while (++ownIndex < length) {
-      index = ownProps[ownIndex];
-      if (callback(iterable[index], index, collection) === false) return result;
-    }
-  return result
-};
-
-module.exports = forOwn;
-
-},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/index.js","lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js","lodash.keys":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/node_modules/lodash.keys/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/node_modules/lodash.keys/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isarray/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var isNative = require('lodash._isnative');
-
-/** `Object#toString` result shortcuts */
-var arrayClass = '[object Array]';
-
-/** Used for native method references */
-var objectProto = Object.prototype;
-
-/** Used to resolve the internal [[Class]] of values */
-var toString = objectProto.toString;
-
-/* Native method shortcuts for methods with the same name as other `lodash` methods */
-var nativeIsArray = isNative(nativeIsArray = Array.isArray) && nativeIsArray;
-
-/**
- * Checks if `value` is an array.
- *
- * @static
- * @memberOf _
- * @type Function
- * @category Objects
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if the `value` is an array, else `false`.
- * @example
- *
- * (function() { return _.isArray(arguments); })();
- * // => false
- *
- * _.isArray([1, 2, 3]);
- * // => true
- */
-var isArray = nativeIsArray || function(value) {
-  return value && typeof value == 'object' && typeof value.length == 'number' &&
-    toString.call(value) == arrayClass || false;
-};
-
-module.exports = isArray;
-
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var objectTypes = require('lodash._objecttypes');
-
-/**
- * Checks if `value` is the language type of Object.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Objects
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if the `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // check if the value is the ECMAScript language type of Object
-  // http://es5.github.io/#x8
-  // and avoid a V8 bug
-  // http://code.google.com/p/v8/issues/detail?id=2291
-  return !!(value && objectTypes[typeof value]);
-}
-
-module.exports = isObject;
-
-},{"lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/index.js":[function(require,module,exports){
+},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._basemerge":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js","lodash._getarray":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/index.js","lodash._releasearray":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3011,7 +336,7 @@ function baseCreateCallback(func, thisArg, argCount) {
 
 module.exports = baseCreateCallback;
 
-},{"lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash.bind":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js","lodash.identity":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js","lodash.support":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js":[function(require,module,exports){
+},{"lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash.bind":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js","lodash.identity":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js","lodash.support":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3056,9 +381,43 @@ var setBindData = !defineProperty ? noop : function(func, value) {
 
 module.exports = setBindData;
 
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":[function(require,module,exports){
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/** Used for native method references */
+var objectProto = Object.prototype;
+
+/** Used to resolve the internal [[Class]] of values */
+var toString = objectProto.toString;
+
+/** Used to detect if a method is native */
+var reNative = RegExp('^' +
+  String(toString)
+    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    .replace(/toString| for [^\]]+/g, '.*?') + '$'
+);
+
+/**
+ * Checks if `value` is a native function.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if the `value` is a native function, else `false`.
+ */
+function isNative(value) {
+  return typeof value == 'function' && reNative.test(value);
+}
+
+module.exports = isNative;
+
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3086,7 +445,7 @@ function noop() {
 
 module.exports = noop;
 
-},{}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js":[function(require,module,exports){
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3128,7 +487,7 @@ function bind(func, thisArg) {
 
 module.exports = bind;
 
-},{"lodash._createwrapper":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._slice/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/index.js":[function(require,module,exports){
+},{"lodash._createwrapper":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._slice/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3236,7 +595,7 @@ function createWrapper(func, bitmask, partialArgs, partialRightArgs, thisArg, ar
 
 module.exports = createWrapper;
 
-},{"lodash._basebind":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js","lodash._basecreatewrapper":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._slice/index.js","lodash.isfunction":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js":[function(require,module,exports){
+},{"lodash._basebind":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js","lodash._basecreatewrapper":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isfunction":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3300,7 +659,7 @@ function baseBind(bindData) {
 
 module.exports = baseBind;
 
-},{"lodash._basecreate":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js","lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
+},{"lodash._basecreate":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js","lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
 (function (global){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
@@ -3346,15 +705,11 @@ if (!nativeCreate) {
 module.exports = baseCreate;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash.isobject/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash.isobject/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js":[function(require,module,exports){
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3434,17 +789,13 @@ function baseCreateWrapper(bindData) {
 
 module.exports = baseCreateWrapper;
 
-},{"lodash._basecreate":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/index.js","lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash.isobject/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
+},{"lodash._basecreate":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/index.js","lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3473,9 +824,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._slice/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._slice/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._slice/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._slice/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js":[function(require,module,exports){
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3505,7 +854,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/index.js":[function(require,module,exports){
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/index.js":[function(require,module,exports){
 (function (global){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
@@ -3549,144 +898,9 @@ support.funcNames = typeof Function.name == 'string';
 module.exports = support;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/index.js":[function(require,module,exports){
-/**
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
- * Build: `lodash modularize modern exports="npm" -o ./npm/`
- * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
- */
-var baseCreateCallback = require('lodash._basecreatecallback'),
-    baseMerge = require('lodash._basemerge'),
-    getArray = require('lodash._getarray'),
-    isObject = require('lodash.isobject'),
-    releaseArray = require('lodash._releasearray'),
-    slice = require('lodash._slice');
-
-/**
- * Recursively merges own enumerable properties of the source object(s), that
- * don't resolve to `undefined` into the destination object. Subsequent sources
- * will overwrite property assignments of previous sources. If a callback is
- * provided it will be executed to produce the merged values of the destination
- * and source properties. If the callback returns `undefined` merging will
- * be handled by the method instead. The callback is bound to `thisArg` and
- * invoked with two arguments; (objectValue, sourceValue).
- *
- * @static
- * @memberOf _
- * @category Objects
- * @param {Object} object The destination object.
- * @param {...Object} [source] The source objects.
- * @param {Function} [callback] The function to customize merging properties.
- * @param {*} [thisArg] The `this` binding of `callback`.
- * @returns {Object} Returns the destination object.
- * @example
- *
- * var names = {
- *   'characters': [
- *     { 'name': 'barney' },
- *     { 'name': 'fred' }
- *   ]
- * };
- *
- * var ages = {
- *   'characters': [
- *     { 'age': 36 },
- *     { 'age': 40 }
- *   ]
- * };
- *
- * _.merge(names, ages);
- * // => { 'characters': [{ 'name': 'barney', 'age': 36 }, { 'name': 'fred', 'age': 40 }] }
- *
- * var food = {
- *   'fruits': ['apple'],
- *   'vegetables': ['beet']
- * };
- *
- * var otherFood = {
- *   'fruits': ['banana'],
- *   'vegetables': ['carrot']
- * };
- *
- * _.merge(food, otherFood, function(a, b) {
- *   return _.isArray(a) ? a.concat(b) : undefined;
- * });
- * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot] }
- */
-function merge(object) {
-  var args = arguments,
-      length = 2;
-
-  if (!isObject(object)) {
-    return object;
-  }
-  // allows working with `_.reduce` and `_.reduceRight` without using
-  // their `index` and `collection` arguments
-  if (typeof args[2] != 'number') {
-    length = args.length;
-  }
-  if (length > 3 && typeof args[length - 2] == 'function') {
-    var callback = baseCreateCallback(args[--length - 1], args[length--], 2);
-  } else if (length > 2 && typeof args[length - 1] == 'function') {
-    callback = args[--length];
-  }
-  var sources = slice(arguments, 1, length),
-      index = -1,
-      stackA = getArray(),
-      stackB = getArray();
-
-  while (++index < length) {
-    baseMerge(object, sources[index], callback, stackA, stackB);
-  }
-  releaseArray(stackA);
-  releaseArray(stackB);
-  return object;
-}
-
-module.exports = merge;
-
-},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._basemerge":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js","lodash._getarray":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/index.js","lodash._releasearray":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.identity/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.support/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js":[function(require,module,exports){
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3768,22 +982,266 @@ function baseMerge(object, source, callback, stackA, stackB) {
 module.exports = baseMerge;
 
 },{"lodash.foreach":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.foreach/index.js","lodash.forown":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/index.js","lodash.isarray":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/index.js","lodash.isplainobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.foreach/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.foreach/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.foreach/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.foreach/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.forown/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isarray/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isarray/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isarray/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+var baseCreateCallback = require('lodash._basecreatecallback'),
+    forOwn = require('lodash.forown');
+
+/**
+ * Iterates over elements of a collection, executing the callback for each
+ * element. The callback is bound to `thisArg` and invoked with three arguments;
+ * (value, index|key, collection). Callbacks may exit iteration early by
+ * explicitly returning `false`.
+ *
+ * Note: As with other "Collections" methods, objects with a `length` property
+ * are iterated like arrays. To avoid this behavior `_.forIn` or `_.forOwn`
+ * may be used for object iteration.
+ *
+ * @static
+ * @memberOf _
+ * @alias each
+ * @category Collections
+ * @param {Array|Object|string} collection The collection to iterate over.
+ * @param {Function} [callback=identity] The function called per iteration.
+ * @param {*} [thisArg] The `this` binding of `callback`.
+ * @returns {Array|Object|string} Returns `collection`.
+ * @example
+ *
+ * _([1, 2, 3]).forEach(function(num) { console.log(num); }).join(',');
+ * // => logs each number and returns '1,2,3'
+ *
+ * _.forEach({ 'one': 1, 'two': 2, 'three': 3 }, function(num) { console.log(num); });
+ * // => logs each number and returns the object (property order is not guaranteed across environments)
+ */
+function forEach(collection, callback, thisArg) {
+  var index = -1,
+      length = collection ? collection.length : 0;
+
+  callback = callback && typeof thisArg == 'undefined' ? callback : baseCreateCallback(callback, thisArg, 3);
+  if (typeof length == 'number') {
+    while (++index < length) {
+      if (callback(collection[index], index, collection) === false) {
+        break;
+      }
+    }
+  } else {
+    forOwn(collection, callback);
+  }
+  return collection;
+}
+
+module.exports = forEach;
+
+},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash.forown":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+var baseCreateCallback = require('lodash._basecreatecallback'),
+    keys = require('lodash.keys'),
+    objectTypes = require('lodash._objecttypes');
+
+/**
+ * Iterates over own enumerable properties of an object, executing the callback
+ * for each property. The callback is bound to `thisArg` and invoked with three
+ * arguments; (value, key, object). Callbacks may exit iteration early by
+ * explicitly returning `false`.
+ *
+ * @static
+ * @memberOf _
+ * @type Function
+ * @category Objects
+ * @param {Object} object The object to iterate over.
+ * @param {Function} [callback=identity] The function called per iteration.
+ * @param {*} [thisArg] The `this` binding of `callback`.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * _.forOwn({ '0': 'zero', '1': 'one', 'length': 2 }, function(num, key) {
+ *   console.log(key);
+ * });
+ * // => logs '0', '1', and 'length' (property order is not guaranteed across environments)
+ */
+var forOwn = function(collection, callback, thisArg) {
+  var index, iterable = collection, result = iterable;
+  if (!iterable) return result;
+  if (!objectTypes[typeof iterable]) return result;
+  callback = callback && typeof thisArg == 'undefined' ? callback : baseCreateCallback(callback, thisArg, 3);
+    var ownIndex = -1,
+        ownProps = objectTypes[typeof iterable] && keys(iterable),
+        length = ownProps ? ownProps.length : 0;
+
+    while (++ownIndex < length) {
+      index = ownProps[ownIndex];
+      if (callback(iterable[index], index, collection) === false) return result;
+    }
+  return result
+};
+
+module.exports = forOwn;
+
+},{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js","lodash.keys":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/** Used to determine if values are of the language type Object */
+var objectTypes = {
+  'boolean': false,
+  'function': true,
+  'object': true,
+  'number': false,
+  'string': false,
+  'undefined': false
+};
+
+module.exports = objectTypes;
+
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+var isNative = require('lodash._isnative'),
+    isObject = require('lodash.isobject'),
+    shimKeys = require('lodash._shimkeys');
+
+/* Native method shortcuts for methods with the same name as other `lodash` methods */
+var nativeKeys = isNative(nativeKeys = Object.keys) && nativeKeys;
+
+/**
+ * Creates an array composed of the own enumerable property names of an object.
+ *
+ * @static
+ * @memberOf _
+ * @category Objects
+ * @param {Object} object The object to inspect.
+ * @returns {Array} Returns an array of property names.
+ * @example
+ *
+ * _.keys({ 'one': 1, 'two': 2, 'three': 3 });
+ * // => ['one', 'two', 'three'] (property order is not guaranteed across environments)
+ */
+var keys = !nativeKeys ? shimKeys : function(object) {
+  if (!isObject(object)) {
+    return [];
+  }
+  return nativeKeys(object);
+};
+
+module.exports = keys;
+
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js","lodash._shimkeys":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+var objectTypes = require('lodash._objecttypes');
+
+/** Used for native method references */
+var objectProto = Object.prototype;
+
+/** Native method shortcuts */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A fallback implementation of `Object.keys` which produces an array of the
+ * given object's own enumerable property names.
+ *
+ * @private
+ * @type Function
+ * @param {Object} object The object to inspect.
+ * @returns {Array} Returns an array of property names.
+ */
+var shimKeys = function(object) {
+  var index, iterable = object, result = [];
+  if (!iterable) return result;
+  if (!(objectTypes[typeof object])) return result;
+    for (index in iterable) {
+      if (hasOwnProperty.call(iterable, index)) {
+        result.push(index);
+      }
+    }
+  return result
+};
+
+module.exports = shimKeys;
+
+},{"lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+var isNative = require('lodash._isnative');
+
+/** `Object#toString` result shortcuts */
+var arrayClass = '[object Array]';
+
+/** Used for native method references */
+var objectProto = Object.prototype;
+
+/** Used to resolve the internal [[Class]] of values */
+var toString = objectProto.toString;
+
+/* Native method shortcuts for methods with the same name as other `lodash` methods */
+var nativeIsArray = isNative(nativeIsArray = Array.isArray) && nativeIsArray;
+
+/**
+ * Checks if `value` is an array.
+ *
+ * @static
+ * @memberOf _
+ * @type Function
+ * @category Objects
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if the `value` is an array, else `false`.
+ * @example
+ *
+ * (function() { return _.isArray(arguments); })();
+ * // => false
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ */
+var isArray = nativeIsArray || function(value) {
+  return value && typeof value == 'object' && typeof value.length == 'number' &&
+    toString.call(value) == arrayClass || false;
+};
+
+module.exports = isArray;
+
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3846,8 +1304,8 @@ var isPlainObject = !getPrototypeOf ? shimIsPlainObject : function(value) {
 module.exports = isPlainObject;
 
 },{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._isnative/index.js","lodash._shimisplainobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -3958,1069 +1416,175 @@ var forIn = function(collection, callback, thisArg) {
 module.exports = forIn;
 
 },{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._slice/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._slice/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._slice/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash._slice/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.clone/node_modules/lodash._baseclone/node_modules/lodash.assign/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/add-event-listener/index.js":[function(require,module,exports){
-addEventListener.removeEventListener = removeEventListener
-addEventListener.addEventListener = addEventListener
-
-module.exports = addEventListener
-
-var Events = null
-
-function addEventListener(el, eventName, listener, useCapture) {
-  Events = Events || (
-    document.addEventListener ?
-    {add: stdAttach, rm: stdDetach} :
-    {add: oldIEAttach, rm: oldIEDetach}
-  )
-  
-  return Events.add(el, eventName, listener, useCapture)
-}
-
-function removeEventListener(el, eventName, listener, useCapture) {
-  Events = Events || (
-    document.addEventListener ?
-    {add: stdAttach, rm: stdDetach} :
-    {add: oldIEAttach, rm: oldIEDetach}
-  )
-  
-  return Events.rm(el, eventName, listener, useCapture)
-}
-
-function stdAttach(el, eventName, listener, useCapture) {
-  el.addEventListener(eventName, listener, useCapture)
-}
-
-function stdDetach(el, eventName, listener, useCapture) {
-  el.removeEventListener(eventName, listener, useCapture)
-}
-
-function oldIEAttach(el, eventName, listener, useCapture) {
-  if(useCapture) {
-    throw new Error('cannot useCapture in oldIE')
-  }
-
-  el.attachEvent('on' + eventName, listener)
-}
-
-function oldIEDetach(el, eventName, listener, useCapture) {
-  el.detachEvent('on' + eventName, listener)
-}
-
-},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-draggable/index.js":[function(require,module,exports){
-module.exports = require('./lib/draggable');
-
-},{"./lib/draggable":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-draggable/lib/draggable.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-draggable/lib/draggable.js":[function(require,module,exports){
-'use strict';
-
-/** @jsx React.DOM */
-var React = require('react/addons');
-var tweenState = require('react-tween-state');
-var merge = require('lodash.merge');
-var emptyFunction = require('react/lib/emptyFunction');
-
-function createUIEvent(draggable) {
-	return {
-		position: {
-			top: draggable.getTweeningValue('clientY'),
-			left: draggable.getTweeningValue('clientX')
-		}
-	};
-}
-
-function canDragY(draggable) {
-	return draggable.props.axis === 'both' ||
-			draggable.props.axis === 'y';
-}
-
-function canDragX(draggable) {
-	return draggable.props.axis === 'both' ||
-			draggable.props.axis === 'x';
-}
-
-function isFunction(func) {
-  return typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]'
-}
-
-// @credits https://gist.github.com/rogozhnikoff/a43cfed27c41e4e68cdc
-function findInArray(array, callback) {
-  for (var i = 0, length = array.length, element = null; i < length, element = array[i]; i++) {
-    if (callback.apply(callback, [element, i, array])) return element;
-  }
-}
-
-function matchesSelector(el, selector) {
-  var method = findInArray([
-    'matches',
-    'webkitMatchesSelector',
-    'mozMatchesSelector',
-    'msMatchesSelector',
-    'oMatchesSelector'
-  ], function(method){
-    return isFunction(el[method]);
-  });
-
-  return el[method].call(el, selector);
-}
-
-// @credits: http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript/4819886#4819886
-var isTouchDevice = 'ontouchstart' in window // works on most browsers
-    || 'onmsgesturechange' in window; // works on ie10 on ms surface
-
-// look ::handleDragStart
-//function isMultiTouch(e) {
-//  return e.touches && Array.isArray(e.touches) && e.touches.length > 1
-//}
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+var arrayPool = require('lodash._arraypool');
 
 /**
- * simple abstraction for dragging events names
- * */
-var dragEventFor = (function () {
-  var eventsFor = {
-    touch: {
-      start: 'touchstart',
-      move: 'touchmove',
-      end: 'touchend'
-    },
-    mouse: {
-      start: 'mousedown',
-      move: 'mousemove',
-      end: 'mouseup'
-    }
-  };
-  return eventsFor[isTouchDevice ? 'touch' : 'mouse'];
-})();
+ * Gets an array from the array pool or creates a new one if the pool is empty.
+ *
+ * @private
+ * @returns {Array} The array from the pool.
+ */
+function getArray() {
+  return arrayPool.pop() || [];
+}
 
+module.exports = getArray;
+
+},{"lodash._arraypool":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
 /**
- * get {clientX, clientY} positions of control
- * */
-function getControlPosition(e) {
-  var position = !isTouchDevice ? e : e.touches[0];
-  return {
-    clientX: position.clientX,
-    clientY: position.clientY
-  }
-}
-
-function addEvent(el, event, handler) {
-	if (!el) { return; }
-	if (el.attachEvent) {
-		el.attachEvent('on' + event, handler);
-	} else if (el.addEventListener) {
-		el.addEventListener(event, handler, true);
-	} else {
-		el['on' + event] = handler;
-	}
-}
-
-function removeEvent(el, event, handler) {
-	if (!el) { return; }
-	if (el.detachEvent) {
-		el.detachEvent('on' + event, handler);
-	} else if (el.removeEventListener) {
-		el.removeEventListener(event, handler, true);
-	} else {
-		el['on' + event] = null;
-	}
-}
-
-function bound(num, lower, upper) {
-	return Math.max(Math.min(num, upper), lower);
-}
-
-module.exports = React.createClass({
-	displayName: 'Draggable',
-	mixins: [tweenState.Mixin],
-	propTypes: {
-		/**
-		 * `axis` determines which axis the draggable can move.
-		 *
-		 * 'both' allows movement horizontally and vertically.
-		 * 'x' limits movement to horizontal axis.
-		 * 'y' limits movement to vertical axis.
-		 *
-		 * Defaults to 'both'.
-		 */
-		axis: React.PropTypes.oneOf(['both', 'x', 'y']),
-
-		/**
-		 * `handle` specifies a selector to be used as the handle that initiates drag.
-		 *
-		 * Example:
-		 *
-		 * ```jsx
-		 * 	var App = React.createClass({
-		 * 	    render: function () {
-		 * 	    	return (
-		 * 	    	 	<Draggable handle=".handle">
-		 * 	    	 	  <div>
-		 * 	    	 	      <div className="handle">Click me to drag</div>
-		 * 	    	 	      <div>This is some other content</div>
-		 * 	    	 	  </div>
-		 * 	    		</Draggable>
-		 * 	    	);
-		 * 	    }
-		 * 	});
-		 * ```
-		 */
-		handle: React.PropTypes.string,
-
-		/**
-		 * `cancel` specifies a selector to be used to prevent drag initialization.
-		 *
-		 * Example:
-		 *
-		 * ```jsx
-		 * 	var App = React.createClass({
-		 * 	    render: function () {
-		 * 	        return(
-		 * 	            <Draggable cancel=".cancel">
-		 * 	                <div>
-		 * 	                	<div className="cancel">You can't drag from here</div>
-		 *						<div>Dragging here works fine</div>
-		 * 	                </div>
-		 * 	            </Draggable>
-		 * 	        );
-		 * 	    }
-		 * 	});
-		 * ```
-		 */
-		cancel: React.PropTypes.string,
-
-		/**
-		 * `grid` specifies the x and y that dragging should snap to.
-		 *
-		 * Example:
-		 *
-		 * ```jsx
-		 * 	var App = React.createClass({
-		 * 	    render: function () {
-		 * 	        return (
-		 * 	            <Draggable grid={[25, 25]}>
-		 * 	                <div>I snap to a 25 x 25 grid</div>
-		 * 	            </Draggable>
-		 * 	        );
-		 * 	    }
-		 * 	});
-		 * ```
-		 */
-		grid: React.PropTypes.arrayOf(React.PropTypes.number),
-
-		/**
-		 * `start` specifies the x and y that the dragged item should start at
-		 *
-		 * Example:
-		 *
-		 * ```jsx
-		 * 	var App = React.createClass({
-		 * 	    render: function () {
-		 * 	        return (
-		 * 	            <Draggable start={{x: 25, y: 25}}>
-		 * 	                <div>I start with left: 25px; top: 25px;</div>
-		 * 	            </Draggable>
-		 * 	        );
-		 * 	    }
-		 * 	});
-		 * ```
-		 */
-		start: React.PropTypes.object,
-
-		/**
-		 * `zIndex` specifies the zIndex to use while dragging.
-		 *
-		 * Example:
-		 *
-		 * ```jsx
-		 * 	var App = React.createClass({
-		 * 	    render: function () {
-		 * 	        return (
-		 * 	            <Draggable zIndex={100}>
-		 * 	                <div>I have a zIndex</div>
-		 * 	            </Draggable>
-		 * 	        );
-		 * 	    }
-		 * 	});
-		 * ```
-		 */
-		zIndex: React.PropTypes.number,
-
-		/**
-		 * Called when dragging starts.
-		 *
-		 * Example:
-		 *
-		 * ```js
-		 *	function (event, ui) {}
-		 * ```
-		 *
-		 * `event` is the Event that was triggered.
-		 * `ui` is an object:
-		 *
-		 * ```js
-		 *	{
-		 *		position: {top: 0, left: 0}
-		 *	}
-		 * ```
-		 */
-		onStart: React.PropTypes.func,
-
-		/**
-		 * Called while dragging.
-		 *
-		 * Example:
-		 *
-		 * ```js
-		 *	function (event, ui) {}
-		 * ```
-		 *
-		 * `event` is the Event that was triggered.
-		 * `ui` is an object:
-		 *
-		 * ```js
-		 *	{
-		 *		position: {top: 0, left: 0}
-		 *	}
-		 * ```
-		 */
-		onDrag: React.PropTypes.func,
-
-		/**
-		 * Called when dragging stops.
-		 *
-		 * Example:
-		 *
-		 * ```js
-		 *	function (event, ui) {}
-		 * ```
-		 *
-		 * `event` is the Event that was triggered.
-		 * `ui` is an object:
-		 *
-		 * ```js
-		 *	{
-		 *		position: {top: 0, left: 0}
-		 *	}
-		 * ```
-		 */
-		onStop: React.PropTypes.func,
-
-		/**
-		 * A workaround option which can be passed if onMouseDown needs to be accessed, since it'll always be blocked (due to that there's internal use of onMouseDown)
-		 *
-		 */
-		onMouseDown: React.PropTypes.func
-	},
-
-	componentWillUnmount: function() {
-		// Remove any leftover event handlers
-		removeEvent(window, dragEventFor['move'], this.handleDrag);
-		removeEvent(window, dragEventFor['end'], this.handleDragEnd);
-	},
-
-	getDefaultProps: function () {
-		return {
-			axis: 'both',
-			handle: null,
-			cancel: null,
-			grid: null,
-			start: {
-				x: 0,
-				y: 0
-			},
-			zIndex: NaN,
-			onStart: emptyFunction,
-			onDrag: emptyFunction,
-			onStop: emptyFunction,
-			onMouseDown: emptyFunction
-		};
-	},
-
-	getInitialState: function () {
-		return {
-			// Whether or not currently dragging
-			dragging: false,
-
-			// Start top/left of this.getDOMNode()
-			startX: 0, startY: 0,
-
-			// Offset between start top/left and mouse top/left
-			offsetX: 0, offsetY: 0,
-
-			// Current top/left of this.getDOMNode()
-			clientX: this.props.start.x, clientY: this.props.start.y
-		};
-	},
-
-	handleDragStart: function (e) {
-    // todo: write right implementation to prevent multitouch drag
-    // prevent multi-touch events
-    // if (isMultiTouch(e)) {
-    //     this.handleDragEnd.apply(e, arguments);
-    //     return
-    // }
-
-		// Make it possible to attach event handlers on top of this one
-		this.props.onMouseDown(e);
-
-		var node = this.getDOMNode();
-
-		// Short circuit if handle or cancel prop was provided and selector doesn't match
-		if ((this.props.handle && !matchesSelector(e.target, this.props.handle)) ||
-			(this.props.cancel && matchesSelector(e.target, this.props.cancel))) {
-			return;
-		}
-
-    var dragPoint = getControlPosition(e);
-
-		// Initiate dragging
-		this.setState({
-			dragging: true,
-			offsetX: dragPoint.clientX,
-			offsetY: dragPoint.clientY,
-			startX: parseInt(node.style.left, 10) || 0,
-			startY: parseInt(node.style.top, 10) || 0
-		});
-
-		// Call event handler
-		this.props.onStart(e, createUIEvent(this));
-
-		// Add event handlers
-		addEvent(window, dragEventFor['move'], this.handleDrag);
-		addEvent(window, dragEventFor['end'], this.handleDragEnd);
-	},
-
-	handleDragEnd: function (e) {
-		// Short circuit if not currently dragging
-		if (!this.state.dragging) {
-			return;
-		}
-
-		// Turn off dragging
-		this.setState({
-			dragging: false
-		});
-
-		// Call event handler
-		this.props.onStop(e, createUIEvent(this));
-
-		// Remove event handlers
-    removeEvent(window, dragEventFor['move'], this.handleDrag);
-    removeEvent(window, dragEventFor['end'], this.handleDragEnd);
-	},
-
-	handleDrag: function (e) {
-    var dragPoint = getControlPosition(e);
-
-		// Calculate top and left
-    var clientX = (this.state.startX + (dragPoint.clientX - this.state.offsetX));
-    var clientY = (this.state.startY + (dragPoint.clientY - this.state.offsetY));
-
-		// Snap to grid if prop has been provided
-		if (this.props.grid && Array.isArray(this.props.grid)) {
-			clientX = Math.abs(clientX - this.state.clientX) >= this.props.grid[0]
-					? clientX
-					: this.state.clientX;
-
-			clientY = Math.abs(clientY - this.state.clientY) >= this.props.grid[1]
-					? clientY
-					: this.state.clientY;
-		}
-
-		// keep within ranges
-		if (this.props.ranges) {
-			if (this.props.ranges.x) {
-				clientX = bound(clientX, this.props.ranges.x[0], this.props.ranges.x[1]);
-			}
-			if (this.props.ranges.y) {
-				clientY = bound(clientY, this.props.ranges.y[0], this.props.ranges.y[1]);
-			}
-		}
-
-		if (!canDragX(this)) {
-			clientX = this.state.startX;
-		}
-		if (!canDragY(this)) {
-			clientY = this.state.startY;
-		}
-
-		// dont call event handler or diff if nothing changed
-		if (this.state.clientX === clientX && this.state.clientY === clientY) {
-			return;
-		}
-
-		// Update top and left
-		this.setState({
-			clientX: clientX,
-			clientY: clientY
-		});
-
-		// call event handler
-		this.props.onDrag(e, createUIEvent(this));
-	},
-
-	reset: function(tweenX, tweenY) {
-		if (tweenX) {
-			this.tweenState('clientX', tweenX);
-	  } else {
-	  	this.setState({clientX: 0});
-	  }
-
-		if (tweenY) {
-			this.tweenState('clientY', tweenY);
-	  } else {
-	  	this.setState({clientY: 0});
-	  }
-	},
-
-	render: function () {
-		//console.log(this.getTweeningValue('clientX'));
-		var style = {
-			// Set top if vertical drag is enabled
-			top: this.getTweeningValue('clientY'),
-			// Set left if horizontal drag is enabled
-			left: this.getTweeningValue('clientX')
-		};
-
-		// Set zIndex if currently dragging and prop has been provided
-		if (!isNaN(this.props.zIndex)) {
-			style.zIndex = this.props.zIndex;
-		}
-
-		if (this.props.style) {
-			style = merge(style, this.props.style);
-		}
-
-		// Reuse the child provided
-		// This makes it flexible to use whatever element is wanted (div, ul, etc)
-		return React.addons.cloneWithProps(React.Children.only(this.props.children), {
-			style: style,
-			className: this.props.className,
-
-			onMouseDown: this.handleDragStart,
-			onTouchStart: function(ev){
-        ev.preventDefault(); // prevent for scroll
-        return this.handleDragStart.apply(this, arguments);
-      }.bind(this),
-
-			onMouseUp: this.handleDragEnd,
-			onTouchEnd: this.handleDragEnd
-		});
-	}
-});
-
-},{"lodash.merge":"/Users/contra/Projects/hymn/node_modules/lodash.merge/index.js","react-tween-state":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-tween-state/index.js","react/addons":"/Users/contra/Projects/hymn/node_modules/react/addons.js","react/lib/emptyFunction":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-tween-state/easingTypes.js":[function(require,module,exports){
-'use strict';
-
-var easingTypes = {
-  // t: current time, b: beginning value, c: change in value, d: duration
-
-  // new note: I much prefer specifying the final value rather than the change
-  // in value this is what the repo's interpolation plugin api will use. Here,
-  // c will stand for final value
-
-  linear: function(t, b, _c, d) {
-    var c = _c - b;
-    return t*c/d + b;
-  },
-  easeInQuad: function (t, b, _c, d) {
-    var c = _c - b;
-    return c*(t/=d)*t + b;
-  },
-  easeOutQuad: function (t, b, _c, d) {
-    var c = _c - b;
-    return -c *(t/=d)*(t-2) + b;
-  },
-  easeInOutQuad: function (t, b, _c, d) {
-    var c = _c - b;
-    if ((t/=d/2) < 1) return c/2*t*t + b;
-    return -c/2 * ((--t)*(t-2) - 1) + b;
-  },
-  easeInElastic: function (t, b, _c, d) {
-    var c = _c - b;
-    var s=1.70158;var p=0;var a=c;
-    if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-    if (a < Math.abs(c)) { a=c; var s=p/4; }
-    else var s = p/(2*Math.PI) * Math.asin (c/a);
-    return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
-  },
-  easeOutElastic: function (t, b, _c, d) {
-    var c = _c - b;
-    var s=1.70158;var p=0;var a=c;
-    if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-    if (a < Math.abs(c)) { a=c; var s=p/4; }
-    else var s = p/(2*Math.PI) * Math.asin (c/a);
-    return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
-  },
-  easeInOutElastic: function (t, b, _c, d) {
-    var c = _c - b;
-    var s=1.70158;var p=0;var a=c;
-    if (t==0) return b;  if ((t/=d/2)==2) return b+c;  if (!p) p=d*(.3*1.5);
-    if (a < Math.abs(c)) { a=c; var s=p/4; }
-    else var s = p/(2*Math.PI) * Math.asin (c/a);
-    if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
-    return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
-  },
-  easeInBack: function (t, b, _c, d, s) {
-    var c = _c - b;
-    if (s == undefined) s = 1.70158;
-    return c*(t/=d)*t*((s+1)*t - s) + b;
-  },
-  easeOutBack: function (t, b, _c, d, s) {
-    var c = _c - b;
-    if (s == undefined) s = 1.70158;
-    return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
-  },
-  easeInOutBack: function (t, b, _c, d, s) {
-    var c = _c - b;
-    if (s == undefined) s = 1.70158;
-    if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
-    return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
-  },
-  easeInBounce: function (t, b, _c, d) {
-    var c = _c - b;
-    return c - easingTypes.easeOutBounce (d-t, 0, c, d) + b;
-  },
-  easeOutBounce: function (t, b, _c, d) {
-    var c = _c - b;
-    if ((t/=d) < (1/2.75)) {
-      return c*(7.5625*t*t) + b;
-    } else if (t < (2/2.75)) {
-      return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
-    } else if (t < (2.5/2.75)) {
-      return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
-    } else {
-      return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
-    }
-  },
-  easeInOutBounce: function (t, b, _c, d) {
-    var c = _c - b;
-    if (t < d/2) return easingTypes.easeInBounce (t*2, 0, c, d) * .5 + b;
-    return easingTypes.easeOutBounce (t*2-d, 0, c, d) * .5 + c*.5 + b;
-  }
-};
-
-module.exports = easingTypes;
-
-/*
- *
- * TERMS OF USE - EASING EQUATIONS
- *
- * Open source under the BSD License.
- *
- * Copyright © 2001 Robert Penner
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list of
- * conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list
- * of conditions and the following disclaimer in the documentation and/or other materials
- * provided with the distribution.
- *
- * Neither the name of the author nor the names of contributors may be used to endorse
- * or promote products derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
- * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
  */
 
-},{}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-tween-state/index.js":[function(require,module,exports){
-'use strict';
+/** Used to pool arrays and objects used internally */
+var arrayPool = [];
 
-var easingTypes = require('./easingTypes');
+module.exports = arrayPool;
 
-// additive is the new iOS 8 default. In most cases it simulates a physics-
-// looking overshoot behavior (especially with easeInOut. You can test that in
-// the example
-var DEFAULT_STACK_BEHAVIOR = 'ADDITIVE';
-var DEFAULT_EASING = easingTypes.easeInOutQuad;
-var DEFAULT_DURATION = 300;
-var DEFAULT_DELAY = 0;
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+var arrayPool = require('lodash._arraypool'),
+    maxPoolSize = require('lodash._maxpoolsize');
 
-function shallowClone(obj) {
-  var ret = {};
-  for (var key in obj) {
-    if (!obj.hasOwnProperty(key)) {
-      continue;
-    }
-    ret[key] = obj[key];
+/**
+ * Releases the given array back to the array pool.
+ *
+ * @private
+ * @param {Array} [array] The array to release.
+ */
+function releaseArray(array) {
+  array.length = 0;
+  if (arrayPool.length < maxPoolSize) {
+    arrayPool.push(array);
   }
-  return ret;
 }
 
-// see usage below
-function returnState(state) {
-  return state;
-}
+module.exports = releaseArray;
 
-var tweenState = {
-  easingTypes: easingTypes,
-  stackBehavior: {
-    ADDITIVE: 'ADDITIVE',
-    DESTRUCTIVE: 'DESTRUCTIVE',
+},{"lodash._arraypool":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._arraypool/index.js","lodash._maxpoolsize":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/** Used as the max size of the `arrayPool` and `objectPool` */
+var maxPoolSize = 40;
+
+module.exports = maxPoolSize;
+
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._slice/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/**
+ * Slices the `collection` from the `start` index up to, but not including,
+ * the `end` index.
+ *
+ * Note: This function is used instead of `Array#slice` to support node lists
+ * in IE < 9 and to ensure dense arrays are returned.
+ *
+ * @private
+ * @param {Array|Object|string} collection The collection to slice.
+ * @param {number} start The start index.
+ * @param {number} end The end index.
+ * @returns {Array} Returns the new array.
+ */
+function slice(array, start, end) {
+  start || (start = 0);
+  if (typeof end == 'undefined') {
+    end = array ? array.length : 0;
   }
-};
+  var index = -1,
+      length = end - start || 0,
+      result = Array(length < 0 ? 0 : length);
 
-tweenState.Mixin = {
-  getInitialState: function() {
-    return {
-      tweenQueue: [],
-    };
-  },
-
-  tweenState: function(a, b, c) {
-    // tweenState(stateNameString, config)
-    // tweenState(stateRefFunc, stateNameString, config)
-
-    // passing a state name string and retrieving it later from this.state
-    // doesn't work for values in deeply nested collections (unless you design
-    // the API to be able to parse 'this.state.my.nested[1]', meh). Passing a
-    // direct, resolved reference wouldn't work either, since that reference
-    // points to the old state rather than the subsequent new ones.
-    if (typeof a === 'string') {
-      c = b;
-      b = a;
-      a = returnState;
-    }
-    this._tweenState(a, b, c);
-  },
-
-  _tweenState: function(stateRefFunc, stateName, config) {
-    config = shallowClone(config);
-
-    var state = this._pendingState || this.state;
-    var stateRef = stateRefFunc(state);
-
-    // see the reasoning for these defaults at the top
-    config.stackBehavior = config.stackBehavior || DEFAULT_STACK_BEHAVIOR;
-    config.easing = config.easing || DEFAULT_EASING;
-    config.duration = config.duration == null ? DEFAULT_DURATION : config.duration;
-    config.beginValue = config.beginValue == null ? stateRef[stateName] : config.beginValue;
-    config.delay = config.delay == null ? DEFAULT_DELAY : config.delay;
-
-    var newTweenQueue = state.tweenQueue;
-    if (config.stackBehavior === tweenState.stackBehavior.DESTRUCTIVE) {
-      newTweenQueue = state.tweenQueue.filter(function(item) {
-        return item.stateName !== stateName || item.stateRefFunc(state) !== stateRef;
-      });
-    }
-
-    newTweenQueue.push({
-      stateRefFunc: stateRefFunc,
-      stateName: stateName,
-      config: config,
-      initTime: Date.now() + config.delay,
-    });
-
-    // tweenState calls setState
-    // sorry for mutating. No idea where in the state the value is
-    stateRef[stateName] = config.endValue;
-    // this will also include the above update
-    this.setState({tweenQueue: newTweenQueue});
-
-    if (newTweenQueue.length === 1) {
-      this.startRaf();
-    }
-  },
-
-  getTweeningValue: function(a, b) {
-    // see tweenState API
-    if (typeof a === 'string') {
-      b = a;
-      a = returnState;
-    }
-    return this._getTweeningValue(a, b);
-  },
-
-  _getTweeningValue: function(stateRefFunc, stateName) {
-    var state = this.state;
-    var stateRef = stateRefFunc(state);
-    var tweeningValue = stateRef[stateName];
-    var now = Date.now();
-
-    for (var i = 0; i < state.tweenQueue.length; i++) {
-      var item = state.tweenQueue[i];
-      var itemStateRef = item.stateRefFunc(state);
-      if (item.stateName !== stateName || itemStateRef !== stateRef) {
-        continue;
-      }
-
-      var progressTime = now - item.initTime > item.config.duration ?
-        item.config.duration :
-        Math.max(0, now - item.initTime);
-      // `now - item.initTime` can be negative if initTime is scheduled in the
-      // future by a delay. In this case we take 0
-
-      var contrib = -item.config.endValue + item.config.easing(
-        progressTime,
-        item.config.beginValue,
-        item.config.endValue,
-        item.config.duration
-        // TODO: some funcs accept a 5th param
-      );
-      tweeningValue += contrib;
-    }
-
-    return tweeningValue;
-  },
-
-  _rafCb: function() {
-    if (!this.isMounted()) {
-      return;
-    }
-
-    var state = this.state;
-    if (state.tweenQueue.length === 0) {
-      return;
-    }
-
-    var now = Date.now();
-    state.tweenQueue.forEach(function(item) {
-      if (now - item.initTime >= item.config.duration) {
-        item.config.onEnd && item.config.onEnd();
-      }
-    });
-
-    var newTweenQueue = state.tweenQueue.filter(function(item) {
-      return now - item.initTime < item.config.duration;
-    });
-
-    this.setState({
-      tweenQueue: newTweenQueue,
-    });
-
-    requestAnimationFrame(this._rafCb);
-  },
-
-  startRaf: function() {
-    requestAnimationFrame(this._rafCb);
-  },
-
-};
-
-module.exports = tweenState;
-
-},{"./easingTypes":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-tween-state/easingTypes.js"}],"/Users/contra/Projects/hymn/node_modules/react-swipeable/src/index.js":[function(require,module,exports){
-/* global window:true */
-'use strict';
-
-var React = require('react');
-var events = require('add-event-listener');
-var tweenState = require('react-tween-state');
-var merge = require('lodash.merge');
-var clone = require('lodash.clone');
-var Draggable = React.createFactory(require('react-draggable'));
-
-function getRotationAngle(v, max, angle) {
-  return Math.max(-angle, Math.min(angle, angle * (v / max)));
-}
-
-function rotate(deg) {
-  var v = 'rotate('+deg+'deg)';
-  return {
-    transform: v,
-    webkitTransform: v,
-    mozTransform: v,
-    oTransform: v,
-    msTransform: v
-  };
-}
-
-var Swipeable = React.createClass({
-  displayName: 'Swipeable',
-  mixins: [tweenState.Mixin],
-  propTypes: {
-    onDragStart: React.PropTypes.func,
-    onDragStop: React.PropTypes.func,
-    onDrag: React.PropTypes.func,
-    onSwipeRight: React.PropTypes.func,
-    onSwipeLeft: React.PropTypes.func,
-    zIndex: React.PropTypes.number,
-    rotationAngle: React.PropTypes.number,
-    axis: React.PropTypes.string,
-    incompleteAnimation: React.PropTypes.object,
-    completeAnimation: React.PropTypes.object
-  },
-
-  getDefaultProps: function(){
-    return {
-      rotationAngle: 20,
-      axis: 'both',
-      incompleteAnimation: {
-        easing: tweenState.easingTypes.easeOutElastic,
-        duration: 750,
-        endValue: 0
-      },
-      completeAnimation: {
-        easing: tweenState.easingTypes.easeOutQuad,
-        duration: 750,
-        endValue: 0
-      }
-    };
-  },
-
-  getInitialState: function(){
-    return {
-      rotation: 0,
-      breakpoint: null,
-      swiped: null,
-      leaning: null
-    };
-  },
-
-  componentDidMount: function(){
-    events.addEventListener(window, 'resize', this.setBreakPoint);
-    this.setBreakPoint();
-  },
-
-  componentWillUnmount: function() {
-    events.removeEventListener(window, 'resize', this.setBreakPoint);
-  },
-
-  setBreakPoint: function(){
-    var el = this.getDOMNode();
-    var breakpoint = el.offsetWidth / 4;
-    if (this.state.breakpoint !== breakpoint) {
-      this.setState({breakpoint: breakpoint});
-    }
-  },
-
-  componentDidUpdate: function(){
-    this.setBreakPoint();
-  },
-
-  handleDrag: function(event, ui){
-    var pos = ui.position.left;
-    var rotateAngle = getRotationAngle(pos, this.state.breakpoint, this.props.rotationAngle);
-
-    if (this.state.swiped) {
-      return this.setState({
-        rotation: rotateAngle
-      });
-    }
-
-    // determine which way its leaning
-    var leaning = null;
-    if (pos >= this.state.breakpoint) {
-      leaning = 'right';
-    } else if (pos <= -this.state.breakpoint) {
-      leaning = 'left';
-    }
-    ui.leaning = leaning;
-    
-    this.setState({
-      rotation: rotateAngle,
-      leaning: leaning
-    });
-
-    if (this.props.onDrag) {
-      this.props.onDrag(event, ui);
-    }
-  },
-
-  handleDragStop: function(event, ui){
-    if (this.state.swiped) {
-      return this.reset(false);
-    }
-
-    var pos = ui.position.left;
-
-    if (this.state.leaning === 'right') {
-      this.reset(true);
-      this.setState({swiped: 'right'}, this.props.onSwipeRight);
-    } else if (this.state.leaning === 'left') {
-      this.reset(true);
-      this.setState({swiped: 'left'}, this.props.onSwipeLeft);
-    }
-
-    if (!this.state.swiped &&
-      pos !== this.state.breakpoint &&
-      pos !== -this.state.breakpoint) {
-      this.reset(false);
-    }
-
-    if (this.props.onDragStop) {
-      this.props.onDragStop(event, ui);
-    }
-  },
-
-  reset: function(completed){
-    var animation = completed ?
-      this.props.completeAnimation :
-      this.props.incompleteAnimation;
-
-    if (animation) {
-      this.tweenState('rotation', clone(animation));
-    } else {
-      this.setState({rotation: 0});
-    }
-
-    this.refs.draggable.reset(clone(animation), clone(animation));
-  },
-
-  render: function(){
-    var defaultStyle = {
-      position: 'relative',
-      userSelect: 'none',
-      webkitUserSelect: 'none',
-      mozUserSelect: 'none',
-      msUserSelect: 'none',
-      oUserSelect: 'none',
-    };
-    var style = merge(defaultStyle, rotate(this.getTweeningValue('rotation')));
-    var draggable = Draggable({
-      ref: 'draggable',
-      axis: this.props.axis,
-      onStart: this.props.onDragStart,
-      onStop: this.handleDragStop,
-      onDrag: this.handleDrag,
-      zIndex: this.props.zIndex,
-      /*
-      ranges: {
-        x: [this.state.lowerLimit, this.state.upperLimit]
-      },
-      */
-      style: style,
-      className: this.props.className
-    }, this.props.children);
-
-    return draggable;
+  while (++index < length) {
+    result[index] = array[start + index];
   }
-});
+  return result;
+}
 
-module.exports = Swipeable;
-},{"add-event-listener":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/add-event-listener/index.js","lodash.clone":"/Users/contra/Projects/hymn/node_modules/lodash.clone/index.js","lodash.merge":"/Users/contra/Projects/hymn/node_modules/lodash.merge/index.js","react":"/Users/contra/Projects/hymn/node_modules/react/react.js","react-draggable":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-draggable/index.js","react-tween-state":"/Users/contra/Projects/hymn/node_modules/react-swipeable/node_modules/react-tween-state/index.js"}],"/Users/contra/Projects/hymn/node_modules/react/addons.js":[function(require,module,exports){
-module.exports = require('./lib/ReactWithAddons');
+module.exports = slice;
 
-},{"./lib/ReactWithAddons":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactWithAddons.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/AutoFocusMixin.js":[function(require,module,exports){
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js":[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+var objectTypes = require('lodash._objecttypes');
+
+/**
+ * Checks if `value` is the language type of Object.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Objects
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if the `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // check if the value is the ECMAScript language type of Object
+  // http://es5.github.io/#x8
+  // and avoid a V8 bug
+  // http://code.google.com/p/v8/issues/detail?id=2291
+  return !!(value && objectTypes[typeof value]);
+}
+
+module.exports = isObject;
+
+},{"lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
+module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js")
+},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/AutoFocusMixin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -5269,119 +1833,7 @@ var BeforeInputEventPlugin = {
 
 module.exports = BeforeInputEventPlugin;
 
-},{"./EventConstants":"/Users/contra/Projects/hymn/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./SyntheticInputEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticInputEvent.js","./keyOf":"/Users/contra/Projects/hymn/node_modules/react/lib/keyOf.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/CSSCore.js":[function(require,module,exports){
-(function (process){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule CSSCore
- * @typechecks
- */
-
-var invariant = require("./invariant");
-
-/**
- * The CSSCore module specifies the API (and implements most of the methods)
- * that should be used when dealing with the display of elements (via their
- * CSS classes and visibility on screen. It is an API focused on mutating the
- * display and not reading it as no logical state should be encoded in the
- * display of elements.
- */
-
-var CSSCore = {
-
-  /**
-   * Adds the class passed in to the element if it doesn't already have it.
-   *
-   * @param {DOMElement} element the element to set the class on
-   * @param {string} className the CSS className
-   * @return {DOMElement} the element passed in
-   */
-  addClass: function(element, className) {
-    ("production" !== process.env.NODE_ENV ? invariant(
-      !/\s/.test(className),
-      'CSSCore.addClass takes only a single class name. "%s" contains ' +
-      'multiple classes.', className
-    ) : invariant(!/\s/.test(className)));
-
-    if (className) {
-      if (element.classList) {
-        element.classList.add(className);
-      } else if (!CSSCore.hasClass(element, className)) {
-        element.className = element.className + ' ' + className;
-      }
-    }
-    return element;
-  },
-
-  /**
-   * Removes the class passed in from the element
-   *
-   * @param {DOMElement} element the element to set the class on
-   * @param {string} className the CSS className
-   * @return {DOMElement} the element passed in
-   */
-  removeClass: function(element, className) {
-    ("production" !== process.env.NODE_ENV ? invariant(
-      !/\s/.test(className),
-      'CSSCore.removeClass takes only a single class name. "%s" contains ' +
-      'multiple classes.', className
-    ) : invariant(!/\s/.test(className)));
-
-    if (className) {
-      if (element.classList) {
-        element.classList.remove(className);
-      } else if (CSSCore.hasClass(element, className)) {
-        element.className = element.className
-          .replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1')
-          .replace(/\s+/g, ' ') // multiple spaces to one
-          .replace(/^\s*|\s*$/g, ''); // trim the ends
-      }
-    }
-    return element;
-  },
-
-  /**
-   * Helper to add or remove a class from an element based on a condition.
-   *
-   * @param {DOMElement} element the element to set the class on
-   * @param {string} className the CSS className
-   * @param {*} bool condition to whether to add or remove the class
-   * @return {DOMElement} the element passed in
-   */
-  conditionClass: function(element, className, bool) {
-    return (bool ? CSSCore.addClass : CSSCore.removeClass)(element, className);
-  },
-
-  /**
-   * Tests whether the element has the class specified.
-   *
-   * @param {DOMNode|DOMWindow} element the element to set the class on
-   * @param {string} className the CSS className
-   * @return {boolean} true if the element has the class, false if not
-   */
-  hasClass: function(element, className) {
-    ("production" !== process.env.NODE_ENV ? invariant(
-      !/\s/.test(className),
-      'CSS.hasClass takes only a single class name.'
-    ) : invariant(!/\s/.test(className)));
-    if (element.classList) {
-      return !!className && element.classList.contains(className);
-    }
-    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
-  }
-
-};
-
-module.exports = CSSCore;
-
-}).call(this,require('_process'))
-},{"./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/CSSProperty.js":[function(require,module,exports){
+},{"./EventConstants":"/Users/contra/Projects/hymn/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./SyntheticInputEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticInputEvent.js","./keyOf":"/Users/contra/Projects/hymn/node_modules/react/lib/keyOf.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/CSSProperty.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -8747,48 +5199,7 @@ var HTMLDOMPropertyConfig = {
 
 module.exports = HTMLDOMPropertyConfig;
 
-},{"./DOMProperty":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMProperty.js","./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/LinkedStateMixin.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule LinkedStateMixin
- * @typechecks static-only
- */
-
-"use strict";
-
-var ReactLink = require("./ReactLink");
-var ReactStateSetters = require("./ReactStateSetters");
-
-/**
- * A simple mixin around ReactLink.forState().
- */
-var LinkedStateMixin = {
-  /**
-   * Create a ReactLink that's linked to part of this component's state. The
-   * ReactLink will have the current value of this.state[key] and will call
-   * setState() when a change is requested.
-   *
-   * @param {string} key state key to update. Note: you may want to use keyOf()
-   * if you're using Google Closure Compiler advanced mode.
-   * @return {ReactLink} ReactLink instance linking to the state.
-   */
-  linkState: function(key) {
-    return new ReactLink(
-      this.state[key],
-      ReactStateSetters.createStateKeySetter(this, key)
-    );
-  }
-};
-
-module.exports = LinkedStateMixin;
-
-},{"./ReactLink":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactLink.js","./ReactStateSetters":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactStateSetters.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/LinkedValueUtils.js":[function(require,module,exports){
+},{"./DOMProperty":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMProperty.js","./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/LinkedValueUtils.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -9801,209 +6212,7 @@ var ReactBrowserEventEmitter = assign({}, ReactEventEmitterMixin, {
 
 module.exports = ReactBrowserEventEmitter;
 
-},{"./EventConstants":"/Users/contra/Projects/hymn/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginHub.js","./EventPluginRegistry":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginRegistry.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactEventEmitterMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactEventEmitterMixin.js","./ViewportMetrics":"/Users/contra/Projects/hymn/node_modules/react/lib/ViewportMetrics.js","./isEventSupported":"/Users/contra/Projects/hymn/node_modules/react/lib/isEventSupported.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCSSTransitionGroup.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @typechecks
- * @providesModule ReactCSSTransitionGroup
- */
-
-"use strict";
-
-var React = require("./React");
-
-var assign = require("./Object.assign");
-
-var ReactTransitionGroup = React.createFactory(
-  require("./ReactTransitionGroup")
-);
-var ReactCSSTransitionGroupChild = React.createFactory(
-  require("./ReactCSSTransitionGroupChild")
-);
-
-var ReactCSSTransitionGroup = React.createClass({
-  displayName: 'ReactCSSTransitionGroup',
-
-  propTypes: {
-    transitionName: React.PropTypes.string.isRequired,
-    transitionEnter: React.PropTypes.bool,
-    transitionLeave: React.PropTypes.bool
-  },
-
-  getDefaultProps: function() {
-    return {
-      transitionEnter: true,
-      transitionLeave: true
-    };
-  },
-
-  _wrapChild: function(child) {
-    // We need to provide this childFactory so that
-    // ReactCSSTransitionGroupChild can receive updates to name, enter, and
-    // leave while it is leaving.
-    return ReactCSSTransitionGroupChild(
-      {
-        name: this.props.transitionName,
-        enter: this.props.transitionEnter,
-        leave: this.props.transitionLeave
-      },
-      child
-    );
-  },
-
-  render: function() {
-    return (
-      ReactTransitionGroup(
-        assign({}, this.props, {childFactory: this._wrapChild})
-      )
-    );
-  }
-});
-
-module.exports = ReactCSSTransitionGroup;
-
-},{"./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./React":"/Users/contra/Projects/hymn/node_modules/react/lib/React.js","./ReactCSSTransitionGroupChild":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCSSTransitionGroupChild.js","./ReactTransitionGroup":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTransitionGroup.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCSSTransitionGroupChild.js":[function(require,module,exports){
-(function (process){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @typechecks
- * @providesModule ReactCSSTransitionGroupChild
- */
-
-"use strict";
-
-var React = require("./React");
-
-var CSSCore = require("./CSSCore");
-var ReactTransitionEvents = require("./ReactTransitionEvents");
-
-var onlyChild = require("./onlyChild");
-
-// We don't remove the element from the DOM until we receive an animationend or
-// transitionend event. If the user screws up and forgets to add an animation
-// their node will be stuck in the DOM forever, so we detect if an animation
-// does not start and if it doesn't, we just call the end listener immediately.
-var TICK = 17;
-var NO_EVENT_TIMEOUT = 5000;
-
-var noEventListener = null;
-
-
-if ("production" !== process.env.NODE_ENV) {
-  noEventListener = function() {
-    console.warn(
-      'transition(): tried to perform an animation without ' +
-      'an animationend or transitionend event after timeout (' +
-      NO_EVENT_TIMEOUT + 'ms). You should either disable this ' +
-      'transition in JS or add a CSS animation/transition.'
-    );
-  };
-}
-
-var ReactCSSTransitionGroupChild = React.createClass({
-  displayName: 'ReactCSSTransitionGroupChild',
-
-  transition: function(animationType, finishCallback) {
-    var node = this.getDOMNode();
-    var className = this.props.name + '-' + animationType;
-    var activeClassName = className + '-active';
-    var noEventTimeout = null;
-
-    var endListener = function(e) {
-      if (e && e.target !== node) {
-        return;
-      }
-      if ("production" !== process.env.NODE_ENV) {
-        clearTimeout(noEventTimeout);
-      }
-
-      CSSCore.removeClass(node, className);
-      CSSCore.removeClass(node, activeClassName);
-
-      ReactTransitionEvents.removeEndEventListener(node, endListener);
-
-      // Usually this optional callback is used for informing an owner of
-      // a leave animation and telling it to remove the child.
-      finishCallback && finishCallback();
-    };
-
-    ReactTransitionEvents.addEndEventListener(node, endListener);
-
-    CSSCore.addClass(node, className);
-
-    // Need to do this to actually trigger a transition.
-    this.queueClass(activeClassName);
-
-    if ("production" !== process.env.NODE_ENV) {
-      noEventTimeout = setTimeout(noEventListener, NO_EVENT_TIMEOUT);
-    }
-  },
-
-  queueClass: function(className) {
-    this.classNameQueue.push(className);
-
-    if (!this.timeout) {
-      this.timeout = setTimeout(this.flushClassNameQueue, TICK);
-    }
-  },
-
-  flushClassNameQueue: function() {
-    if (this.isMounted()) {
-      this.classNameQueue.forEach(
-        CSSCore.addClass.bind(CSSCore, this.getDOMNode())
-      );
-    }
-    this.classNameQueue.length = 0;
-    this.timeout = null;
-  },
-
-  componentWillMount: function() {
-    this.classNameQueue = [];
-  },
-
-  componentWillUnmount: function() {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
-  },
-
-  componentWillEnter: function(done) {
-    if (this.props.enter) {
-      this.transition('enter', done);
-    } else {
-      done();
-    }
-  },
-
-  componentWillLeave: function(done) {
-    if (this.props.leave) {
-      this.transition('leave', done);
-    } else {
-      done();
-    }
-  },
-
-  render: function() {
-    return onlyChild(this.props.children);
-  }
-});
-
-module.exports = ReactCSSTransitionGroupChild;
-
-}).call(this,require('_process'))
-},{"./CSSCore":"/Users/contra/Projects/hymn/node_modules/react/lib/CSSCore.js","./React":"/Users/contra/Projects/hymn/node_modules/react/lib/React.js","./ReactTransitionEvents":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTransitionEvents.js","./onlyChild":"/Users/contra/Projects/hymn/node_modules/react/lib/onlyChild.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactChildren.js":[function(require,module,exports){
+},{"./EventConstants":"/Users/contra/Projects/hymn/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginHub.js","./EventPluginRegistry":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginRegistry.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactEventEmitterMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactEventEmitterMixin.js","./ViewportMetrics":"/Users/contra/Projects/hymn/node_modules/react/lib/ViewportMetrics.js","./isEventSupported":"/Users/contra/Projects/hymn/node_modules/react/lib/isEventSupported.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactChildren.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -10718,56 +6927,7 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 }).call(this,require('_process'))
-},{"./ReactDOMIDOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMIDOperations.js","./ReactMarkupChecksum":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMarkupChecksum.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./ReactReconcileTransaction":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactReconcileTransaction.js","./getReactRootElementInContainer":"/Users/contra/Projects/hymn/node_modules/react/lib/getReactRootElementInContainer.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./setInnerHTML":"/Users/contra/Projects/hymn/node_modules/react/lib/setInnerHTML.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponentWithPureRenderMixin.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
-* @providesModule ReactComponentWithPureRenderMixin
-*/
-
-"use strict";
-
-var shallowEqual = require("./shallowEqual");
-
-/**
- * If your React component's render function is "pure", e.g. it will render the
- * same result given the same props and state, provide this Mixin for a
- * considerable performance boost.
- *
- * Most React components have pure render functions.
- *
- * Example:
- *
- *   var ReactComponentWithPureRenderMixin =
- *     require('ReactComponentWithPureRenderMixin');
- *   React.createClass({
- *     mixins: [ReactComponentWithPureRenderMixin],
- *
- *     render: function() {
- *       return <div className={this.props.className}>foo</div>;
- *     }
- *   });
- *
- * Note: This only checks shallow equality for props and state. If these contain
- * complex data structures this mixin may have false-negatives for deeper
- * differences. Only mixin to components which have simple props and state, or
- * use `forceUpdate()` when you know deep data structures have changed.
- */
-var ReactComponentWithPureRenderMixin = {
-  shouldComponentUpdate: function(nextProps, nextState) {
-    return !shallowEqual(this.props, nextProps) ||
-           !shallowEqual(this.state, nextState);
-  }
-};
-
-module.exports = ReactComponentWithPureRenderMixin;
-
-},{"./shallowEqual":"/Users/contra/Projects/hymn/node_modules/react/lib/shallowEqual.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCompositeComponent.js":[function(require,module,exports){
+},{"./ReactDOMIDOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMIDOperations.js","./ReactMarkupChecksum":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMarkupChecksum.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./ReactReconcileTransaction":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactReconcileTransaction.js","./getReactRootElementInContainer":"/Users/contra/Projects/hymn/node_modules/react/lib/getReactRootElementInContainer.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./setInnerHTML":"/Users/contra/Projects/hymn/node_modules/react/lib/setInnerHTML.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCompositeComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -16370,80 +12530,7 @@ ReactLegacyElementFactory._isLegacyCallWarningEnabled = true;
 module.exports = ReactLegacyElementFactory;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./monitorCodeUse":"/Users/contra/Projects/hymn/node_modules/react/lib/monitorCodeUse.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactLink.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule ReactLink
- * @typechecks static-only
- */
-
-"use strict";
-
-/**
- * ReactLink encapsulates a common pattern in which a component wants to modify
- * a prop received from its parent. ReactLink allows the parent to pass down a
- * value coupled with a callback that, when invoked, expresses an intent to
- * modify that value. For example:
- *
- * React.createClass({
- *   getInitialState: function() {
- *     return {value: ''};
- *   },
- *   render: function() {
- *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
- *     return <input valueLink={valueLink} />;
- *   },
- *   this._handleValueChange: function(newValue) {
- *     this.setState({value: newValue});
- *   }
- * });
- *
- * We have provided some sugary mixins to make the creation and
- * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
- */
-
-var React = require("./React");
-
-/**
- * @param {*} value current value of the link
- * @param {function} requestChange callback to request a change
- */
-function ReactLink(value, requestChange) {
-  this.value = value;
-  this.requestChange = requestChange;
-}
-
-/**
- * Creates a PropType that enforces the ReactLink API and optionally checks the
- * type of the value being passed inside the link. Example:
- *
- * MyComponent.propTypes = {
- *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
- * }
- */
-function createLinkTypeChecker(linkType) {
-  var shapes = {
-    value: typeof linkType === 'undefined' ?
-      React.PropTypes.any.isRequired :
-      linkType.isRequired,
-    requestChange: React.PropTypes.func.isRequired
-  };
-  return React.PropTypes.shape(shapes);
-}
-
-ReactLink.PropTypes = {
-  link: createLinkTypeChecker
-};
-
-module.exports = ReactLink;
-
-},{"./React":"/Users/contra/Projects/hymn/node_modules/react/lib/React.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMarkupChecksum.js":[function(require,module,exports){
+},{"./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./monitorCodeUse":"/Users/contra/Projects/hymn/node_modules/react/lib/monitorCodeUse.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMarkupChecksum.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -18992,525 +15079,7 @@ PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
 
-},{"./CallbackQueue":"/Users/contra/Projects/hymn/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/contra/Projects/hymn/node_modules/react/lib/PooledClass.js","./ReactPutListenerQueue":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPutListenerQueue.js","./Transaction":"/Users/contra/Projects/hymn/node_modules/react/lib/Transaction.js","./emptyFunction":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactStateSetters.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule ReactStateSetters
- */
-
-"use strict";
-
-var ReactStateSetters = {
-  /**
-   * Returns a function that calls the provided function, and uses the result
-   * of that to set the component's state.
-   *
-   * @param {ReactCompositeComponent} component
-   * @param {function} funcReturningState Returned callback uses this to
-   *                                      determine how to update state.
-   * @return {function} callback that when invoked uses funcReturningState to
-   *                    determined the object literal to setState.
-   */
-  createStateSetter: function(component, funcReturningState) {
-    return function(a, b, c, d, e, f) {
-      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
-      if (partialState) {
-        component.setState(partialState);
-      }
-    };
-  },
-
-  /**
-   * Returns a single-argument callback that can be used to update a single
-   * key in the component's state.
-   *
-   * Note: this is memoized function, which makes it inexpensive to call.
-   *
-   * @param {ReactCompositeComponent} component
-   * @param {string} key The key in the state that you should update.
-   * @return {function} callback of 1 argument which calls setState() with
-   *                    the provided keyName and callback argument.
-   */
-  createStateKeySetter: function(component, key) {
-    // Memoize the setters.
-    var cache = component.__keySetters || (component.__keySetters = {});
-    return cache[key] || (cache[key] = createStateKeySetter(component, key));
-  }
-};
-
-function createStateKeySetter(component, key) {
-  // Partial state is allocated outside of the function closure so it can be
-  // reused with every call, avoiding memory allocation when this function
-  // is called.
-  var partialState = {};
-  return function stateKeySetter(value) {
-    partialState[key] = value;
-    component.setState(partialState);
-  };
-}
-
-ReactStateSetters.Mixin = {
-  /**
-   * Returns a function that calls the provided function, and uses the result
-   * of that to set the component's state.
-   *
-   * For example, these statements are equivalent:
-   *
-   *   this.setState({x: 1});
-   *   this.createStateSetter(function(xValue) {
-   *     return {x: xValue};
-   *   })(1);
-   *
-   * @param {function} funcReturningState Returned callback uses this to
-   *                                      determine how to update state.
-   * @return {function} callback that when invoked uses funcReturningState to
-   *                    determined the object literal to setState.
-   */
-  createStateSetter: function(funcReturningState) {
-    return ReactStateSetters.createStateSetter(this, funcReturningState);
-  },
-
-  /**
-   * Returns a single-argument callback that can be used to update a single
-   * key in the component's state.
-   *
-   * For example, these statements are equivalent:
-   *
-   *   this.setState({x: 1});
-   *   this.createStateKeySetter('x')(1);
-   *
-   * Note: this is memoized function, which makes it inexpensive to call.
-   *
-   * @param {string} key The key in the state that you should update.
-   * @return {function} callback of 1 argument which calls setState() with
-   *                    the provided keyName and callback argument.
-   */
-  createStateKeySetter: function(key) {
-    return ReactStateSetters.createStateKeySetter(this, key);
-  }
-};
-
-module.exports = ReactStateSetters;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTestUtils.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule ReactTestUtils
- */
-
-"use strict";
-
-var EventConstants = require("./EventConstants");
-var EventPluginHub = require("./EventPluginHub");
-var EventPropagators = require("./EventPropagators");
-var React = require("./React");
-var ReactElement = require("./ReactElement");
-var ReactBrowserEventEmitter = require("./ReactBrowserEventEmitter");
-var ReactMount = require("./ReactMount");
-var ReactTextComponent = require("./ReactTextComponent");
-var ReactUpdates = require("./ReactUpdates");
-var SyntheticEvent = require("./SyntheticEvent");
-
-var assign = require("./Object.assign");
-
-var topLevelTypes = EventConstants.topLevelTypes;
-
-function Event(suffix) {}
-
-/**
- * @class ReactTestUtils
- */
-
-/**
- * Todo: Support the entire DOM.scry query syntax. For now, these simple
- * utilities will suffice for testing purposes.
- * @lends ReactTestUtils
- */
-var ReactTestUtils = {
-  renderIntoDocument: function(instance) {
-    var div = document.createElement('div');
-    // None of our tests actually require attaching the container to the
-    // DOM, and doing so creates a mess that we rely on test isolation to
-    // clean up, so we're going to stop honoring the name of this method
-    // (and probably rename it eventually) if no problems arise.
-    // document.documentElement.appendChild(div);
-    return React.render(instance, div);
-  },
-
-  isElement: function(element) {
-    return ReactElement.isValidElement(element);
-  },
-
-  isElementOfType: function(inst, convenienceConstructor) {
-    return (
-      ReactElement.isValidElement(inst) &&
-      inst.type === convenienceConstructor.type
-    );
-  },
-
-  isDOMComponent: function(inst) {
-    return !!(inst && inst.mountComponent && inst.tagName);
-  },
-
-  isDOMComponentElement: function(inst) {
-    return !!(inst &&
-              ReactElement.isValidElement(inst) &&
-              !!inst.tagName);
-  },
-
-  isCompositeComponent: function(inst) {
-    return typeof inst.render === 'function' &&
-           typeof inst.setState === 'function';
-  },
-
-  isCompositeComponentWithType: function(inst, type) {
-    return !!(ReactTestUtils.isCompositeComponent(inst) &&
-             (inst.constructor === type.type));
-  },
-
-  isCompositeComponentElement: function(inst) {
-    if (!ReactElement.isValidElement(inst)) {
-      return false;
-    }
-    // We check the prototype of the type that will get mounted, not the
-    // instance itself. This is a future proof way of duck typing.
-    var prototype = inst.type.prototype;
-    return (
-      typeof prototype.render === 'function' &&
-      typeof prototype.setState === 'function'
-    );
-  },
-
-  isCompositeComponentElementWithType: function(inst, type) {
-    return !!(ReactTestUtils.isCompositeComponentElement(inst) &&
-             (inst.constructor === type));
-  },
-
-  isTextComponent: function(inst) {
-    return inst instanceof ReactTextComponent.type;
-  },
-
-  findAllInRenderedTree: function(inst, test) {
-    if (!inst) {
-      return [];
-    }
-    var ret = test(inst) ? [inst] : [];
-    if (ReactTestUtils.isDOMComponent(inst)) {
-      var renderedChildren = inst._renderedChildren;
-      var key;
-      for (key in renderedChildren) {
-        if (!renderedChildren.hasOwnProperty(key)) {
-          continue;
-        }
-        ret = ret.concat(
-          ReactTestUtils.findAllInRenderedTree(renderedChildren[key], test)
-        );
-      }
-    } else if (ReactTestUtils.isCompositeComponent(inst)) {
-      ret = ret.concat(
-        ReactTestUtils.findAllInRenderedTree(inst._renderedComponent, test)
-      );
-    }
-    return ret;
-  },
-
-  /**
-   * Finds all instance of components in the rendered tree that are DOM
-   * components with the class name matching `className`.
-   * @return an array of all the matches.
-   */
-  scryRenderedDOMComponentsWithClass: function(root, className) {
-    return ReactTestUtils.findAllInRenderedTree(root, function(inst) {
-      var instClassName = inst.props.className;
-      return ReactTestUtils.isDOMComponent(inst) && (
-        instClassName &&
-        (' ' + instClassName + ' ').indexOf(' ' + className + ' ') !== -1
-      );
-    });
-  },
-
-  /**
-   * Like scryRenderedDOMComponentsWithClass but expects there to be one result,
-   * and returns that one result, or throws exception if there is any other
-   * number of matches besides one.
-   * @return {!ReactDOMComponent} The one match.
-   */
-  findRenderedDOMComponentWithClass: function(root, className) {
-    var all =
-      ReactTestUtils.scryRenderedDOMComponentsWithClass(root, className);
-    if (all.length !== 1) {
-      throw new Error('Did not find exactly one match for class:' + className);
-    }
-    return all[0];
-  },
-
-
-  /**
-   * Finds all instance of components in the rendered tree that are DOM
-   * components with the tag name matching `tagName`.
-   * @return an array of all the matches.
-   */
-  scryRenderedDOMComponentsWithTag: function(root, tagName) {
-    return ReactTestUtils.findAllInRenderedTree(root, function(inst) {
-      return ReactTestUtils.isDOMComponent(inst) &&
-            inst.tagName === tagName.toUpperCase();
-    });
-  },
-
-  /**
-   * Like scryRenderedDOMComponentsWithTag but expects there to be one result,
-   * and returns that one result, or throws exception if there is any other
-   * number of matches besides one.
-   * @return {!ReactDOMComponent} The one match.
-   */
-  findRenderedDOMComponentWithTag: function(root, tagName) {
-    var all = ReactTestUtils.scryRenderedDOMComponentsWithTag(root, tagName);
-    if (all.length !== 1) {
-      throw new Error('Did not find exactly one match for tag:' + tagName);
-    }
-    return all[0];
-  },
-
-
-  /**
-   * Finds all instances of components with type equal to `componentType`.
-   * @return an array of all the matches.
-   */
-  scryRenderedComponentsWithType: function(root, componentType) {
-    return ReactTestUtils.findAllInRenderedTree(root, function(inst) {
-      return ReactTestUtils.isCompositeComponentWithType(
-        inst,
-        componentType
-      );
-    });
-  },
-
-  /**
-   * Same as `scryRenderedComponentsWithType` but expects there to be one result
-   * and returns that one result, or throws exception if there is any other
-   * number of matches besides one.
-   * @return {!ReactComponent} The one match.
-   */
-  findRenderedComponentWithType: function(root, componentType) {
-    var all = ReactTestUtils.scryRenderedComponentsWithType(
-      root,
-      componentType
-    );
-    if (all.length !== 1) {
-      throw new Error(
-        'Did not find exactly one match for componentType:' + componentType
-      );
-    }
-    return all[0];
-  },
-
-  /**
-   * Pass a mocked component module to this method to augment it with
-   * useful methods that allow it to be used as a dummy React component.
-   * Instead of rendering as usual, the component will become a simple
-   * <div> containing any provided children.
-   *
-   * @param {object} module the mock function object exported from a
-   *                        module that defines the component to be mocked
-   * @param {?string} mockTagName optional dummy root tag name to return
-   *                              from render method (overrides
-   *                              module.mockTagName if provided)
-   * @return {object} the ReactTestUtils object (for chaining)
-   */
-  mockComponent: function(module, mockTagName) {
-    mockTagName = mockTagName || module.mockTagName || "div";
-
-    var ConvenienceConstructor = React.createClass({displayName: 'ConvenienceConstructor',
-      render: function() {
-        return React.createElement(
-          mockTagName,
-          null,
-          this.props.children
-        );
-      }
-    });
-
-    module.mockImplementation(ConvenienceConstructor);
-
-    module.type = ConvenienceConstructor.type;
-    module.isReactLegacyFactory = true;
-
-    return this;
-  },
-
-  /**
-   * Simulates a top level event being dispatched from a raw event that occured
-   * on an `Element` node.
-   * @param topLevelType {Object} A type from `EventConstants.topLevelTypes`
-   * @param {!Element} node The dom to simulate an event occurring on.
-   * @param {?Event} fakeNativeEvent Fake native event to use in SyntheticEvent.
-   */
-  simulateNativeEventOnNode: function(topLevelType, node, fakeNativeEvent) {
-    fakeNativeEvent.target = node;
-    ReactBrowserEventEmitter.ReactEventListener.dispatchEvent(
-      topLevelType,
-      fakeNativeEvent
-    );
-  },
-
-  /**
-   * Simulates a top level event being dispatched from a raw event that occured
-   * on the `ReactDOMComponent` `comp`.
-   * @param topLevelType {Object} A type from `EventConstants.topLevelTypes`.
-   * @param comp {!ReactDOMComponent}
-   * @param {?Event} fakeNativeEvent Fake native event to use in SyntheticEvent.
-   */
-  simulateNativeEventOnDOMComponent: function(
-      topLevelType,
-      comp,
-      fakeNativeEvent) {
-    ReactTestUtils.simulateNativeEventOnNode(
-      topLevelType,
-      comp.getDOMNode(),
-      fakeNativeEvent
-    );
-  },
-
-  nativeTouchData: function(x, y) {
-    return {
-      touches: [
-        {pageX: x, pageY: y}
-      ]
-    };
-  },
-
-  Simulate: null,
-  SimulateNative: {}
-};
-
-/**
- * Exports:
- *
- * - `ReactTestUtils.Simulate.click(Element/ReactDOMComponent)`
- * - `ReactTestUtils.Simulate.mouseMove(Element/ReactDOMComponent)`
- * - `ReactTestUtils.Simulate.change(Element/ReactDOMComponent)`
- * - ... (All keys from event plugin `eventTypes` objects)
- */
-function makeSimulator(eventType) {
-  return function(domComponentOrNode, eventData) {
-    var node;
-    if (ReactTestUtils.isDOMComponent(domComponentOrNode)) {
-      node = domComponentOrNode.getDOMNode();
-    } else if (domComponentOrNode.tagName) {
-      node = domComponentOrNode;
-    }
-
-    var fakeNativeEvent = new Event();
-    fakeNativeEvent.target = node;
-    // We don't use SyntheticEvent.getPooled in order to not have to worry about
-    // properly destroying any properties assigned from `eventData` upon release
-    var event = new SyntheticEvent(
-      ReactBrowserEventEmitter.eventNameDispatchConfigs[eventType],
-      ReactMount.getID(node),
-      fakeNativeEvent
-    );
-    assign(event, eventData);
-    EventPropagators.accumulateTwoPhaseDispatches(event);
-
-    ReactUpdates.batchedUpdates(function() {
-      EventPluginHub.enqueueEvents(event);
-      EventPluginHub.processEventQueue();
-    });
-  };
-}
-
-function buildSimulators() {
-  ReactTestUtils.Simulate = {};
-
-  var eventType;
-  for (eventType in ReactBrowserEventEmitter.eventNameDispatchConfigs) {
-    /**
-     * @param {!Element || ReactDOMComponent} domComponentOrNode
-     * @param {?object} eventData Fake event data to use in SyntheticEvent.
-     */
-    ReactTestUtils.Simulate[eventType] = makeSimulator(eventType);
-  }
-}
-
-// Rebuild ReactTestUtils.Simulate whenever event plugins are injected
-var oldInjectEventPluginOrder = EventPluginHub.injection.injectEventPluginOrder;
-EventPluginHub.injection.injectEventPluginOrder = function() {
-  oldInjectEventPluginOrder.apply(this, arguments);
-  buildSimulators();
-};
-var oldInjectEventPlugins = EventPluginHub.injection.injectEventPluginsByName;
-EventPluginHub.injection.injectEventPluginsByName = function() {
-  oldInjectEventPlugins.apply(this, arguments);
-  buildSimulators();
-};
-
-buildSimulators();
-
-/**
- * Exports:
- *
- * - `ReactTestUtils.SimulateNative.click(Element/ReactDOMComponent)`
- * - `ReactTestUtils.SimulateNative.mouseMove(Element/ReactDOMComponent)`
- * - `ReactTestUtils.SimulateNative.mouseIn/ReactDOMComponent)`
- * - `ReactTestUtils.SimulateNative.mouseOut(Element/ReactDOMComponent)`
- * - ... (All keys from `EventConstants.topLevelTypes`)
- *
- * Note: Top level event types are a subset of the entire set of handler types
- * (which include a broader set of "synthetic" events). For example, onDragDone
- * is a synthetic event. Except when testing an event plugin or React's event
- * handling code specifically, you probably want to use ReactTestUtils.Simulate
- * to dispatch synthetic events.
- */
-
-function makeNativeSimulator(eventType) {
-  return function(domComponentOrNode, nativeEventData) {
-    var fakeNativeEvent = new Event(eventType);
-    assign(fakeNativeEvent, nativeEventData);
-    if (ReactTestUtils.isDOMComponent(domComponentOrNode)) {
-      ReactTestUtils.simulateNativeEventOnDOMComponent(
-        eventType,
-        domComponentOrNode,
-        fakeNativeEvent
-      );
-    } else if (!!domComponentOrNode.tagName) {
-      // Will allow on actual dom nodes.
-      ReactTestUtils.simulateNativeEventOnNode(
-        eventType,
-        domComponentOrNode,
-        fakeNativeEvent
-      );
-    }
-  };
-}
-
-var eventType;
-for (eventType in topLevelTypes) {
-  // Event type is stored as 'topClick' - we transform that to 'click'
-  var convenienceName = eventType.indexOf('top') === 0 ?
-    eventType.charAt(3).toLowerCase() + eventType.substr(4) : eventType;
-  /**
-   * @param {!Element || ReactDOMComponent} domComponentOrNode
-   * @param {?Event} nativeEventData Fake native event to use in SyntheticEvent.
-   */
-  ReactTestUtils.SimulateNative[convenienceName] =
-    makeNativeSimulator(eventType);
-}
-
-module.exports = ReactTestUtils;
-
-},{"./EventConstants":"/Users/contra/Projects/hymn/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginHub.js","./EventPropagators":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPropagators.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./React":"/Users/contra/Projects/hymn/node_modules/react/lib/React.js","./ReactBrowserEventEmitter":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./ReactTextComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTextComponent.js","./ReactUpdates":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactUpdates.js","./SyntheticEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticEvent.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTextComponent.js":[function(require,module,exports){
+},{"./CallbackQueue":"/Users/contra/Projects/hymn/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/contra/Projects/hymn/node_modules/react/lib/PooledClass.js","./ReactPutListenerQueue":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPutListenerQueue.js","./Transaction":"/Users/contra/Projects/hymn/node_modules/react/lib/Transaction.js","./emptyFunction":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTextComponent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -19616,408 +15185,7 @@ ReactTextComponentFactory.type = ReactTextComponent;
 
 module.exports = ReactTextComponentFactory;
 
-},{"./DOMPropertyOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponent.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./escapeTextForBrowser":"/Users/contra/Projects/hymn/node_modules/react/lib/escapeTextForBrowser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTransitionChildMapping.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @typechecks static-only
- * @providesModule ReactTransitionChildMapping
- */
-
-"use strict";
-
-var ReactChildren = require("./ReactChildren");
-
-var ReactTransitionChildMapping = {
-  /**
-   * Given `this.props.children`, return an object mapping key to child. Just
-   * simple syntactic sugar around ReactChildren.map().
-   *
-   * @param {*} children `this.props.children`
-   * @return {object} Mapping of key to child
-   */
-  getChildMapping: function(children) {
-    return ReactChildren.map(children, function(child) {
-      return child;
-    });
-  },
-
-  /**
-   * When you're adding or removing children some may be added or removed in the
-   * same render pass. We want to show *both* since we want to simultaneously
-   * animate elements in and out. This function takes a previous set of keys
-   * and a new set of keys and merges them with its best guess of the correct
-   * ordering. In the future we may expose some of the utilities in
-   * ReactMultiChild to make this easy, but for now React itself does not
-   * directly have this concept of the union of prevChildren and nextChildren
-   * so we implement it here.
-   *
-   * @param {object} prev prev children as returned from
-   * `ReactTransitionChildMapping.getChildMapping()`.
-   * @param {object} next next children as returned from
-   * `ReactTransitionChildMapping.getChildMapping()`.
-   * @return {object} a key set that contains all keys in `prev` and all keys
-   * in `next` in a reasonable order.
-   */
-  mergeChildMappings: function(prev, next) {
-    prev = prev || {};
-    next = next || {};
-
-    function getValueForKey(key) {
-      if (next.hasOwnProperty(key)) {
-        return next[key];
-      } else {
-        return prev[key];
-      }
-    }
-
-    // For each key of `next`, the list of keys to insert before that key in
-    // the combined list
-    var nextKeysPending = {};
-
-    var pendingKeys = [];
-    for (var prevKey in prev) {
-      if (next.hasOwnProperty(prevKey)) {
-        if (pendingKeys.length) {
-          nextKeysPending[prevKey] = pendingKeys;
-          pendingKeys = [];
-        }
-      } else {
-        pendingKeys.push(prevKey);
-      }
-    }
-
-    var i;
-    var childMapping = {};
-    for (var nextKey in next) {
-      if (nextKeysPending.hasOwnProperty(nextKey)) {
-        for (i = 0; i < nextKeysPending[nextKey].length; i++) {
-          var pendingNextKey = nextKeysPending[nextKey][i];
-          childMapping[nextKeysPending[nextKey][i]] = getValueForKey(
-            pendingNextKey
-          );
-        }
-      }
-      childMapping[nextKey] = getValueForKey(nextKey);
-    }
-
-    // Finally, add the keys which didn't appear before any key in `next`
-    for (i = 0; i < pendingKeys.length; i++) {
-      childMapping[pendingKeys[i]] = getValueForKey(pendingKeys[i]);
-    }
-
-    return childMapping;
-  }
-};
-
-module.exports = ReactTransitionChildMapping;
-
-},{"./ReactChildren":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactChildren.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTransitionEvents.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule ReactTransitionEvents
- */
-
-"use strict";
-
-var ExecutionEnvironment = require("./ExecutionEnvironment");
-
-/**
- * EVENT_NAME_MAP is used to determine which event fired when a
- * transition/animation ends, based on the style property used to
- * define that event.
- */
-var EVENT_NAME_MAP = {
-  transitionend: {
-    'transition': 'transitionend',
-    'WebkitTransition': 'webkitTransitionEnd',
-    'MozTransition': 'mozTransitionEnd',
-    'OTransition': 'oTransitionEnd',
-    'msTransition': 'MSTransitionEnd'
-  },
-
-  animationend: {
-    'animation': 'animationend',
-    'WebkitAnimation': 'webkitAnimationEnd',
-    'MozAnimation': 'mozAnimationEnd',
-    'OAnimation': 'oAnimationEnd',
-    'msAnimation': 'MSAnimationEnd'
-  }
-};
-
-var endEvents = [];
-
-function detectEvents() {
-  var testEl = document.createElement('div');
-  var style = testEl.style;
-
-  // On some platforms, in particular some releases of Android 4.x,
-  // the un-prefixed "animation" and "transition" properties are defined on the
-  // style object but the events that fire will still be prefixed, so we need
-  // to check if the un-prefixed events are useable, and if not remove them
-  // from the map
-  if (!('AnimationEvent' in window)) {
-    delete EVENT_NAME_MAP.animationend.animation;
-  }
-
-  if (!('TransitionEvent' in window)) {
-    delete EVENT_NAME_MAP.transitionend.transition;
-  }
-
-  for (var baseEventName in EVENT_NAME_MAP) {
-    var baseEvents = EVENT_NAME_MAP[baseEventName];
-    for (var styleName in baseEvents) {
-      if (styleName in style) {
-        endEvents.push(baseEvents[styleName]);
-        break;
-      }
-    }
-  }
-}
-
-if (ExecutionEnvironment.canUseDOM) {
-  detectEvents();
-}
-
-// We use the raw {add|remove}EventListener() call because EventListener
-// does not know how to remove event listeners and we really should
-// clean up. Also, these events are not triggered in older browsers
-// so we should be A-OK here.
-
-function addEventListener(node, eventName, eventListener) {
-  node.addEventListener(eventName, eventListener, false);
-}
-
-function removeEventListener(node, eventName, eventListener) {
-  node.removeEventListener(eventName, eventListener, false);
-}
-
-var ReactTransitionEvents = {
-  addEndEventListener: function(node, eventListener) {
-    if (endEvents.length === 0) {
-      // If CSS transitions are not supported, trigger an "end animation"
-      // event immediately.
-      window.setTimeout(eventListener, 0);
-      return;
-    }
-    endEvents.forEach(function(endEvent) {
-      addEventListener(node, endEvent, eventListener);
-    });
-  },
-
-  removeEndEventListener: function(node, eventListener) {
-    if (endEvents.length === 0) {
-      return;
-    }
-    endEvents.forEach(function(endEvent) {
-      removeEventListener(node, endEvent, eventListener);
-    });
-  }
-};
-
-module.exports = ReactTransitionEvents;
-
-},{"./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTransitionGroup.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule ReactTransitionGroup
- */
-
-"use strict";
-
-var React = require("./React");
-var ReactTransitionChildMapping = require("./ReactTransitionChildMapping");
-
-var assign = require("./Object.assign");
-var cloneWithProps = require("./cloneWithProps");
-var emptyFunction = require("./emptyFunction");
-
-var ReactTransitionGroup = React.createClass({
-  displayName: 'ReactTransitionGroup',
-
-  propTypes: {
-    component: React.PropTypes.any,
-    childFactory: React.PropTypes.func
-  },
-
-  getDefaultProps: function() {
-    return {
-      component: 'span',
-      childFactory: emptyFunction.thatReturnsArgument
-    };
-  },
-
-  getInitialState: function() {
-    return {
-      children: ReactTransitionChildMapping.getChildMapping(this.props.children)
-    };
-  },
-
-  componentWillReceiveProps: function(nextProps) {
-    var nextChildMapping = ReactTransitionChildMapping.getChildMapping(
-      nextProps.children
-    );
-    var prevChildMapping = this.state.children;
-
-    this.setState({
-      children: ReactTransitionChildMapping.mergeChildMappings(
-        prevChildMapping,
-        nextChildMapping
-      )
-    });
-
-    var key;
-
-    for (key in nextChildMapping) {
-      var hasPrev = prevChildMapping && prevChildMapping.hasOwnProperty(key);
-      if (nextChildMapping[key] && !hasPrev &&
-          !this.currentlyTransitioningKeys[key]) {
-        this.keysToEnter.push(key);
-      }
-    }
-
-    for (key in prevChildMapping) {
-      var hasNext = nextChildMapping && nextChildMapping.hasOwnProperty(key);
-      if (prevChildMapping[key] && !hasNext &&
-          !this.currentlyTransitioningKeys[key]) {
-        this.keysToLeave.push(key);
-      }
-    }
-
-    // If we want to someday check for reordering, we could do it here.
-  },
-
-  componentWillMount: function() {
-    this.currentlyTransitioningKeys = {};
-    this.keysToEnter = [];
-    this.keysToLeave = [];
-  },
-
-  componentDidUpdate: function() {
-    var keysToEnter = this.keysToEnter;
-    this.keysToEnter = [];
-    keysToEnter.forEach(this.performEnter);
-
-    var keysToLeave = this.keysToLeave;
-    this.keysToLeave = [];
-    keysToLeave.forEach(this.performLeave);
-  },
-
-  performEnter: function(key) {
-    this.currentlyTransitioningKeys[key] = true;
-
-    var component = this.refs[key];
-
-    if (component.componentWillEnter) {
-      component.componentWillEnter(
-        this._handleDoneEntering.bind(this, key)
-      );
-    } else {
-      this._handleDoneEntering(key);
-    }
-  },
-
-  _handleDoneEntering: function(key) {
-    var component = this.refs[key];
-    if (component.componentDidEnter) {
-      component.componentDidEnter();
-    }
-
-    delete this.currentlyTransitioningKeys[key];
-
-    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(
-      this.props.children
-    );
-
-    if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
-      // This was removed before it had fully entered. Remove it.
-      this.performLeave(key);
-    }
-  },
-
-  performLeave: function(key) {
-    this.currentlyTransitioningKeys[key] = true;
-
-    var component = this.refs[key];
-    if (component.componentWillLeave) {
-      component.componentWillLeave(this._handleDoneLeaving.bind(this, key));
-    } else {
-      // Note that this is somewhat dangerous b/c it calls setState()
-      // again, effectively mutating the component before all the work
-      // is done.
-      this._handleDoneLeaving(key);
-    }
-  },
-
-  _handleDoneLeaving: function(key) {
-    var component = this.refs[key];
-
-    if (component.componentDidLeave) {
-      component.componentDidLeave();
-    }
-
-    delete this.currentlyTransitioningKeys[key];
-
-    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(
-      this.props.children
-    );
-
-    if (currentChildMapping && currentChildMapping.hasOwnProperty(key)) {
-      // This entered again before it fully left. Add it again.
-      this.performEnter(key);
-    } else {
-      var newChildren = assign({}, this.state.children);
-      delete newChildren[key];
-      this.setState({children: newChildren});
-    }
-  },
-
-  render: function() {
-    // TODO: we could get rid of the need for the wrapper node
-    // by cloning a single child
-    var childrenToRender = {};
-    for (var key in this.state.children) {
-      var child = this.state.children[key];
-      if (child) {
-        // You may need to apply reactive updates to a child as it is leaving.
-        // The normal React way to do it won't work since the child will have
-        // already been removed. In case you need this behavior you can provide
-        // a childFactory function to wrap every child, even the ones that are
-        // leaving.
-        childrenToRender[key] = cloneWithProps(
-          this.props.childFactory(child),
-          {ref: key}
-        );
-      }
-    }
-    return React.createElement(
-      this.props.component,
-      this.props,
-      childrenToRender
-    );
-  }
-});
-
-module.exports = ReactTransitionGroup;
-
-},{"./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./React":"/Users/contra/Projects/hymn/node_modules/react/lib/React.js","./ReactTransitionChildMapping":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTransitionChildMapping.js","./cloneWithProps":"/Users/contra/Projects/hymn/node_modules/react/lib/cloneWithProps.js","./emptyFunction":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactUpdates.js":[function(require,module,exports){
+},{"./DOMPropertyOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponent.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./escapeTextForBrowser":"/Users/contra/Projects/hymn/node_modules/react/lib/escapeTextForBrowser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactUpdates.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -20307,61 +15475,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
-},{"./CallbackQueue":"/Users/contra/Projects/hymn/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/contra/Projects/hymn/node_modules/react/lib/PooledClass.js","./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./Transaction":"/Users/contra/Projects/hymn/node_modules/react/lib/Transaction.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactWithAddons.js":[function(require,module,exports){
-(function (process){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule ReactWithAddons
- */
-
-/**
- * This module exists purely in the open source project, and is meant as a way
- * to create a separate standalone build of React. This build has "addons", or
- * functionality we've built and think might be useful but doesn't have a good
- * place to live inside React core.
- */
-
-"use strict";
-
-var LinkedStateMixin = require("./LinkedStateMixin");
-var React = require("./React");
-var ReactComponentWithPureRenderMixin =
-  require("./ReactComponentWithPureRenderMixin");
-var ReactCSSTransitionGroup = require("./ReactCSSTransitionGroup");
-var ReactTransitionGroup = require("./ReactTransitionGroup");
-var ReactUpdates = require("./ReactUpdates");
-
-var cx = require("./cx");
-var cloneWithProps = require("./cloneWithProps");
-var update = require("./update");
-
-React.addons = {
-  CSSTransitionGroup: ReactCSSTransitionGroup,
-  LinkedStateMixin: LinkedStateMixin,
-  PureRenderMixin: ReactComponentWithPureRenderMixin,
-  TransitionGroup: ReactTransitionGroup,
-
-  batchedUpdates: ReactUpdates.batchedUpdates,
-  classSet: cx,
-  cloneWithProps: cloneWithProps,
-  update: update
-};
-
-if ("production" !== process.env.NODE_ENV) {
-  React.addons.Perf = require("./ReactDefaultPerf");
-  React.addons.TestUtils = require("./ReactTestUtils");
-}
-
-module.exports = React;
-
-}).call(this,require('_process'))
-},{"./LinkedStateMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/LinkedStateMixin.js","./React":"/Users/contra/Projects/hymn/node_modules/react/lib/React.js","./ReactCSSTransitionGroup":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCSSTransitionGroup.js","./ReactComponentWithPureRenderMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponentWithPureRenderMixin.js","./ReactDefaultPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDefaultPerf.js","./ReactTestUtils":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTestUtils.js","./ReactTransitionGroup":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTransitionGroup.js","./ReactUpdates":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactUpdates.js","./cloneWithProps":"/Users/contra/Projects/hymn/node_modules/react/lib/cloneWithProps.js","./cx":"/Users/contra/Projects/hymn/node_modules/react/lib/cx.js","./update":"/Users/contra/Projects/hymn/node_modules/react/lib/update.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/SVGDOMPropertyConfig.js":[function(require,module,exports){
+},{"./CallbackQueue":"/Users/contra/Projects/hymn/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/contra/Projects/hymn/node_modules/react/lib/PooledClass.js","./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./Transaction":"/Users/contra/Projects/hymn/node_modules/react/lib/Transaction.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/SVGDOMPropertyConfig.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -22270,66 +17384,7 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 
-},{"./camelize":"/Users/contra/Projects/hymn/node_modules/react/lib/camelize.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/cloneWithProps.js":[function(require,module,exports){
-(function (process){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @typechecks
- * @providesModule cloneWithProps
- */
-
-"use strict";
-
-var ReactElement = require("./ReactElement");
-var ReactPropTransferer = require("./ReactPropTransferer");
-
-var keyOf = require("./keyOf");
-var warning = require("./warning");
-
-var CHILDREN_PROP = keyOf({children: null});
-
-/**
- * Sometimes you want to change the props of a child passed to you. Usually
- * this is to add a CSS class.
- *
- * @param {object} child child component you'd like to clone
- * @param {object} props props you'd like to modify. They will be merged
- * as if you used `transferPropsTo()`.
- * @return {object} a clone of child with props merged in.
- */
-function cloneWithProps(child, props) {
-  if ("production" !== process.env.NODE_ENV) {
-    ("production" !== process.env.NODE_ENV ? warning(
-      !child.ref,
-      'You are calling cloneWithProps() on a child with a ref. This is ' +
-      'dangerous because you\'re creating a new child which will not be ' +
-      'added as a ref to its parent.'
-    ) : null);
-  }
-
-  var newProps = ReactPropTransferer.mergeProps(props, child.props);
-
-  // Use `child.props.children` if it is provided.
-  if (!newProps.hasOwnProperty(CHILDREN_PROP) &&
-      child.props.hasOwnProperty(CHILDREN_PROP)) {
-    newProps.children = child.props.children;
-  }
-
-  // The current API doesn't retain _owner and _context, which is why this
-  // doesn't use ReactElement.cloneAndReplaceProps.
-  return ReactElement.createElement(child.type, newProps);
-}
-
-module.exports = cloneWithProps;
-
-}).call(this,require('_process'))
-},{"./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactPropTransferer":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTransferer.js","./keyOf":"/Users/contra/Projects/hymn/node_modules/react/lib/keyOf.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/containsNode.js":[function(require,module,exports){
+},{"./camelize":"/Users/contra/Projects/hymn/node_modules/react/lib/camelize.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/containsNode.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -22610,46 +17665,7 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./createArrayFrom":"/Users/contra/Projects/hymn/node_modules/react/lib/createArrayFrom.js","./getMarkupWrap":"/Users/contra/Projects/hymn/node_modules/react/lib/getMarkupWrap.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/cx.js":[function(require,module,exports){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule cx
- */
-
-/**
- * This function is used to mark string literals representing CSS class names
- * so that they can be transformed statically. This allows for modularization
- * and minification of CSS class names.
- *
- * In static_upstream, this function is actually implemented, but it should
- * eventually be replaced with something more descriptive, and the transform
- * that is used in the main stack should be ported for use elsewhere.
- *
- * @param string|object className to modularize, or an object of key/values.
- *                      In the object case, the values are conditions that
- *                      determine if the className keys should be included.
- * @param [string ...]  Variable list of classNames in the string case.
- * @return string       Renderable space-separated CSS className.
- */
-function cx(classNames) {
-  if (typeof classNames == 'object') {
-    return Object.keys(classNames).filter(function(className) {
-      return classNames[className];
-    }).join(' ');
-  } else {
-    return Array.prototype.join.call(arguments, ' ');
-  }
-}
-
-module.exports = cx;
-
-},{}],"/Users/contra/Projects/hymn/node_modules/react/lib/dangerousStyleValue.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./createArrayFrom":"/Users/contra/Projects/hymn/node_modules/react/lib/createArrayFrom.js","./getMarkupWrap":"/Users/contra/Projects/hymn/node_modules/react/lib/getMarkupWrap.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/dangerousStyleValue.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -24725,175 +19741,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
-},{"./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactInstanceHandles.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/update.js":[function(require,module,exports){
-(function (process){
-/**
- * Copyright 2013-2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule update
- */
-
-"use strict";
-
-var assign = require("./Object.assign");
-var keyOf = require("./keyOf");
-var invariant = require("./invariant");
-
-function shallowCopy(x) {
-  if (Array.isArray(x)) {
-    return x.concat();
-  } else if (x && typeof x === 'object') {
-    return assign(new x.constructor(), x);
-  } else {
-    return x;
-  }
-}
-
-var COMMAND_PUSH = keyOf({$push: null});
-var COMMAND_UNSHIFT = keyOf({$unshift: null});
-var COMMAND_SPLICE = keyOf({$splice: null});
-var COMMAND_SET = keyOf({$set: null});
-var COMMAND_MERGE = keyOf({$merge: null});
-var COMMAND_APPLY = keyOf({$apply: null});
-
-var ALL_COMMANDS_LIST = [
-  COMMAND_PUSH,
-  COMMAND_UNSHIFT,
-  COMMAND_SPLICE,
-  COMMAND_SET,
-  COMMAND_MERGE,
-  COMMAND_APPLY
-];
-
-var ALL_COMMANDS_SET = {};
-
-ALL_COMMANDS_LIST.forEach(function(command) {
-  ALL_COMMANDS_SET[command] = true;
-});
-
-function invariantArrayCase(value, spec, command) {
-  ("production" !== process.env.NODE_ENV ? invariant(
-    Array.isArray(value),
-    'update(): expected target of %s to be an array; got %s.',
-    command,
-    value
-  ) : invariant(Array.isArray(value)));
-  var specValue = spec[command];
-  ("production" !== process.env.NODE_ENV ? invariant(
-    Array.isArray(specValue),
-    'update(): expected spec of %s to be an array; got %s. ' +
-    'Did you forget to wrap your parameter in an array?',
-    command,
-    specValue
-  ) : invariant(Array.isArray(specValue)));
-}
-
-function update(value, spec) {
-  ("production" !== process.env.NODE_ENV ? invariant(
-    typeof spec === 'object',
-    'update(): You provided a key path to update() that did not contain one ' +
-    'of %s. Did you forget to include {%s: ...}?',
-    ALL_COMMANDS_LIST.join(', '),
-    COMMAND_SET
-  ) : invariant(typeof spec === 'object'));
-
-  if (spec.hasOwnProperty(COMMAND_SET)) {
-    ("production" !== process.env.NODE_ENV ? invariant(
-      Object.keys(spec).length === 1,
-      'Cannot have more than one key in an object with %s',
-      COMMAND_SET
-    ) : invariant(Object.keys(spec).length === 1));
-
-    return spec[COMMAND_SET];
-  }
-
-  var nextValue = shallowCopy(value);
-
-  if (spec.hasOwnProperty(COMMAND_MERGE)) {
-    var mergeObj = spec[COMMAND_MERGE];
-    ("production" !== process.env.NODE_ENV ? invariant(
-      mergeObj && typeof mergeObj === 'object',
-      'update(): %s expects a spec of type \'object\'; got %s',
-      COMMAND_MERGE,
-      mergeObj
-    ) : invariant(mergeObj && typeof mergeObj === 'object'));
-    ("production" !== process.env.NODE_ENV ? invariant(
-      nextValue && typeof nextValue === 'object',
-      'update(): %s expects a target of type \'object\'; got %s',
-      COMMAND_MERGE,
-      nextValue
-    ) : invariant(nextValue && typeof nextValue === 'object'));
-    assign(nextValue, spec[COMMAND_MERGE]);
-  }
-
-  if (spec.hasOwnProperty(COMMAND_PUSH)) {
-    invariantArrayCase(value, spec, COMMAND_PUSH);
-    spec[COMMAND_PUSH].forEach(function(item) {
-      nextValue.push(item);
-    });
-  }
-
-  if (spec.hasOwnProperty(COMMAND_UNSHIFT)) {
-    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
-    spec[COMMAND_UNSHIFT].forEach(function(item) {
-      nextValue.unshift(item);
-    });
-  }
-
-  if (spec.hasOwnProperty(COMMAND_SPLICE)) {
-    ("production" !== process.env.NODE_ENV ? invariant(
-      Array.isArray(value),
-      'Expected %s target to be an array; got %s',
-      COMMAND_SPLICE,
-      value
-    ) : invariant(Array.isArray(value)));
-    ("production" !== process.env.NODE_ENV ? invariant(
-      Array.isArray(spec[COMMAND_SPLICE]),
-      'update(): expected spec of %s to be an array of arrays; got %s. ' +
-      'Did you forget to wrap your parameters in an array?',
-      COMMAND_SPLICE,
-      spec[COMMAND_SPLICE]
-    ) : invariant(Array.isArray(spec[COMMAND_SPLICE])));
-    spec[COMMAND_SPLICE].forEach(function(args) {
-      ("production" !== process.env.NODE_ENV ? invariant(
-        Array.isArray(args),
-        'update(): expected spec of %s to be an array of arrays; got %s. ' +
-        'Did you forget to wrap your parameters in an array?',
-        COMMAND_SPLICE,
-        spec[COMMAND_SPLICE]
-      ) : invariant(Array.isArray(args)));
-      nextValue.splice.apply(nextValue, args);
-    });
-  }
-
-  if (spec.hasOwnProperty(COMMAND_APPLY)) {
-    ("production" !== process.env.NODE_ENV ? invariant(
-      typeof spec[COMMAND_APPLY] === 'function',
-      'update(): expected spec of %s to be a function; got %s.',
-      COMMAND_APPLY,
-      spec[COMMAND_APPLY]
-    ) : invariant(typeof spec[COMMAND_APPLY] === 'function'));
-    nextValue = spec[COMMAND_APPLY](nextValue);
-  }
-
-  for (var k in spec) {
-    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
-      nextValue[k] = update(value[k], spec[k]);
-    }
-  }
-
-  return nextValue;
-}
-
-module.exports = update;
-
-}).call(this,require('_process'))
-},{"./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./keyOf":"/Users/contra/Projects/hymn/node_modules/react/lib/keyOf.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js":[function(require,module,exports){
+},{"./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactInstanceHandles.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -24941,144 +19789,7 @@ module.exports = warning;
 },{"./emptyFunction":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/react.js":[function(require,module,exports){
 module.exports = require('./lib/React');
 
-},{"./lib/React":"/Users/contra/Projects/hymn/node_modules/react/lib/React.js"}],"/Users/contra/Projects/hymn/node_modules/soundcloud-lookup/browser.js":[function(require,module,exports){
-'use strict';
-
-var request = require('browser-jsonp');
-
-function soundcloud(url, key, cb){
-  request({
-    url: 'http://api.soundcloud.com/resolve.json',
-    data: {
-      client_id: key,
-      url: url
-    },
-    error: cb,
-    success: function(data) {
-      if (data.stream_url) {
-        data.stream_url += '?client_id=' + key;
-      }
-      if (data.attachments_uri) {
-        data.attachments_uri += '?client_id=' + key;
-      }
-      cb(null, data);
-    }
-  });
-}
-
-module.exports = soundcloud;
-},{"browser-jsonp":"/Users/contra/Projects/hymn/node_modules/soundcloud-lookup/node_modules/browser-jsonp/lib/jsonp.js"}],"/Users/contra/Projects/hymn/node_modules/soundcloud-lookup/node_modules/browser-jsonp/lib/jsonp.js":[function(require,module,exports){
-(function() {
-  var JSONP, computedUrl, createElement, encode, noop, objectToURI, random, randomString;
-
-  createElement = function(tag) {
-    return window.document.createElement(tag);
-  };
-
-  encode = window.encodeURIComponent;
-
-  random = Math.random;
-
-  JSONP = function(options) {
-    var callback, done, head, params, script;
-    options = options ? options : {};
-    params = {
-      data: options.data || {},
-      error: options.error || noop,
-      success: options.success || noop,
-      beforeSend: options.beforeSend || noop,
-      complete: options.complete || noop,
-      url: options.url || ''
-    };
-    params.computedUrl = computedUrl(params);
-    if (params.url.length === 0) {
-      throw new Error('MissingUrl');
-    }
-    done = false;
-    if (params.beforeSend({}, params) !== false) {
-      callback = params.data[options.callbackName || 'callback'] = 'jsonp_' + randomString(15);
-      window[callback] = function(data) {
-        params.success(data, params);
-        params.complete(data, params);
-        try {
-          return delete window[callback];
-        } catch (_error) {
-          window[callback] = void 0;
-          return void 0;
-        }
-      };
-      script = createElement('script');
-      script.src = computedUrl(params);
-      script.async = true;
-      script.onerror = function(evt) {
-        params.error({
-          url: script.src,
-          event: evt
-        });
-        return params.complete({
-          url: script.src,
-          event: evt
-        }, params);
-      };
-      script.onload = script.onreadystatechange = function() {
-        if (!done && (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete')) {
-          done = true;
-          script.onload = script.onreadystatechange = null;
-          if (script && script.parentNode) {
-            script.parentNode.removeChild(script);
-          }
-          return script = null;
-        }
-      };
-      head = head || window.document.getElementsByTagName('head')[0] || window.document.documentElement;
-      return head.insertBefore(script, head.firstChild);
-    }
-  };
-
-  noop = function() {
-    return void 0;
-  };
-
-  computedUrl = function(params) {
-    var url;
-    url = params.url;
-    url += params.url.indexOf('?') < 0 ? '?' : '&';
-    url += objectToURI(params.data);
-    return url;
-  };
-
-  randomString = function(length) {
-    var str;
-    str = '';
-    while (str.length < length) {
-      str += random().toString(36)[2];
-    }
-    return str;
-  };
-
-  objectToURI = function(obj) {
-    var data, key, value;
-    data = [];
-    for (key in obj) {
-      value = obj[key];
-      data.push(encode(key) + '=' + encode(value));
-    }
-    return data.join('&');
-  };
-
-  if ((typeof define !== "undefined" && define !== null) && define.amd) {
-    define(function() {
-      return JSONP;
-    });
-  } else if ((typeof module !== "undefined" && module !== null) && module.exports) {
-    module.exports = JSONP;
-  } else {
-    this.JSONP = JSONP;
-  }
-
-}).call(this);
-
-},{}],"/Users/contra/Projects/hymn/src/ProgressBar.js":[function(require,module,exports){
+},{"./lib/React":"/Users/contra/Projects/hymn/node_modules/react/lib/React.js"}],"/Users/contra/Projects/hymn/src/ProgressBar.js":[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -25389,7 +20100,7 @@ var Player = React.createClass({
 });
 
 module.exports = Player;
-},{"./ProgressBar":"/Users/contra/Projects/hymn/src/ProgressBar.js","react":"/Users/contra/Projects/hymn/node_modules/react/react.js"}]},{},["./samples/soundcloud/src/index.js"])("./samples/soundcloud/src/index.js")
+},{"./ProgressBar":"/Users/contra/Projects/hymn/src/ProgressBar.js","react":"/Users/contra/Projects/hymn/node_modules/react/react.js"}]},{},["./samples/minimal/src/index.js"])("./samples/minimal/src/index.js")
 });
 
 

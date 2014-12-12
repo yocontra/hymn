@@ -17,6 +17,7 @@ var Player = React.createClass({
     loop: React.PropTypes.bool,
     muted: React.PropTypes.bool,
     preload: React.PropTypes.bool,
+    showProgress: React.PropTypes.bool,
 
     onPrev: React.PropTypes.func,
     onSkip: React.PropTypes.func,
@@ -28,7 +29,8 @@ var Player = React.createClass({
       autoPlay: false,
       loop: false,
       muted: false,
-      preload: true
+      preload: true,
+      showProgress: true
     };
   },
 
@@ -196,7 +198,10 @@ var Player = React.createClass({
       onSeek: this.seek
     });
 
-    var controlChildren = [playPause, progressBar];
+    var controlChildren = [playPause];
+    if (this.props.showProgress) {
+      controlChildren.push(progressBar);
+    }
     if (this.props.onPrev) {
       controlChildren.push(prevButton);
     }
