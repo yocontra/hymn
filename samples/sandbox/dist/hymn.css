@@ -46,23 +46,12 @@
   width: 300px;
 }
 .hymn-player .hymn-progress {
-  cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  vertical-align: middle;
-  border: none;
-  height: 5px;
-  width: 240px;
+  display: inline-block;
+  height: 10px;
+  width: 210px;
   background-color: rgba(0,0,0,0.1);
 }
-.hymn-player .hymn-progress::-webkit-progress-bar {
-  background-color: rgba(0,0,0,0.1);
-}
-.hymn-player .hymn-progress::-webkit-progress-value {
-  background-color: #039be5;
-}
-.hymn-player .hymn-progress::-moz-progress-bar {
+.hymn-player .hymn-progress .progress-value {
   background-color: #039be5;
 }
 .hymn-player .hymn-control {
@@ -92,6 +81,9 @@
 }
 .hymn-player .hymn-control:active {
   color: rgba(0,0,0,0.6);
+}
+.hymn-player .hymn-prev:before {
+  content: '\e603';
 }
 .hymn-player .hymn-skip:before {
   content: '\e604';

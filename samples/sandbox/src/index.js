@@ -32,6 +32,12 @@ var App = React.createClass({
       idx: 0
     };
   },
+  prevSong: function(){
+    var atStart = (this.state.idx === 0);
+    this.setState({
+      idx: (atStart ? this.state.songs.length-1 : --this.state.idx)
+    });
+  },
   nextSong: function(){
     var atEnd = (this.state.idx === this.state.songs.length-1);
     this.setState({
@@ -54,6 +60,7 @@ var App = React.createClass({
       album: song.album,
       title: song.title,
       onEnd: this.nextSong,
+      onPrev: this.prevSong,
       onSkip: this.nextSong
     }, mp3);
     return player;

@@ -7,7 +7,7 @@ var Player = React.createClass({
   displayName: 'Player',
   propTypes: {
     // custom info
-    title: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string,
     artist: React.PropTypes.string,
     album: React.PropTypes.string,
     artwork: React.PropTypes.string,
@@ -18,6 +18,7 @@ var Player = React.createClass({
     muted: React.PropTypes.bool,
     preload: React.PropTypes.bool,
 
+    onPrev: React.PropTypes.func,
     onSkip: React.PropTypes.func,
     onEnd: React.PropTypes.func
   },
@@ -124,20 +125,24 @@ var Player = React.createClass({
     }, this.props.children);
 
     // information
-    var artwork = this.props.Artwork || React.DOM.div({
-      key: 'artwork',
-      className: 'hymn-artwork',
-      style: {
-        backgroundImage: 'url('+this.props.artwork+')'
-      }
-    });
-
-    var title = React.DOM.p({
+    var artwork;
+    if (!this.props.artwork && !this.props.Artwork) {
+      artwork = null;
+    } else {
+      artwork = this.props.Artwork || React.DOM.div({
+        key: 'artwork',
+        className: 'hymn-artwork',
+        style: {
+          backgroundImage: 'url('+this.props.artwork+')'
+        }
+      });
+    }
+    var title = this.props.title ? React.DOM.p({
       ref: 'title',
       key: 'title',
       className: 'hymn-title',
       title: this.props.title
-    }, this.props.title);
+    }, this.props.title) : null;
 
     var album = this.props.album ? React.DOM.p({
       ref: 'album',
@@ -168,6 +173,13 @@ var Player = React.createClass({
       onClick: this.toggle
     });
 
+    var prevButton = React.DOM.button({
+      ref: 'prevButton',
+      key: 'prevButton',
+      className: 'hymn-control hymn-prev',
+      onClick: this.props.onPrev
+    });
+
     var skipButton = React.DOM.button({
       ref: 'skipButton',
       key: 'skipButton',
@@ -185,6 +197,9 @@ var Player = React.createClass({
     });
 
     var controlChildren = [playPause, progressBar];
+    if (this.props.onPrev) {
+      controlChildren.push(prevButton);
+    }
     if (this.props.onSkip) {
       controlChildren.push(skipButton);
     }

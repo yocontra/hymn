@@ -13,8 +13,8 @@ controlBarHeight = 25px
 controlButtonWidth = 30px
 playerHeight = artworkHeight + controlBarHeight
 playerWidth = artworkWidth
-progressBarHeight = 5px
-progressBarWidth = playerWidth - (controlButtonWidth * 2)
+progressBarHeight = 10px
+progressBarWidth = playerWidth - (controlButtonWidth * 3)
 
 infoWidth = artworkWidth
 infoHideHeight = controlBarHeight * 2
@@ -95,19 +95,12 @@ reset-button()
     width: playerWidth
 
   .hymn-progress
-    reset-progress()
-
+    display: inline-block
     height: progressBarHeight
     width: progressBarWidth
     background-color: progressBackground
 
-    &::-webkit-progress-bar
-      background-color: progressBackground
-
-    &::-webkit-progress-value
-      background-color: progressColor
-
-    &::-moz-progress-bar
+    .progress-value
       background-color: progressColor
 
   .hymn-control
@@ -123,6 +116,10 @@ reset-button()
 
     &:active
       color: lighterColor
+
+  .hymn-prev
+    &:before
+      content: '\e603'
 
   .hymn-skip
     &:before
