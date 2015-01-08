@@ -705,11 +705,12 @@ if (!nativeCreate) {
 module.exports = baseCreate;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -790,12 +791,57 @@ function baseCreateWrapper(bindData) {
 module.exports = baseCreateWrapper;
 
 },{"lodash._basecreate":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/index.js","lodash._setbinddata":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/index.js","lodash._slice":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._slice/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basebind/node_modules/lodash._basecreate/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
+(function (global){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+var isNative = require('lodash._isnative'),
+    isObject = require('lodash.isobject'),
+    noop = require('lodash.noop');
+
+/* Native method shortcuts for methods with the same name as other `lodash` methods */
+var nativeCreate = isNative(nativeCreate = Object.create) && nativeCreate;
+
+/**
+ * The base implementation of `_.create` without support for assigning
+ * properties to the created object.
+ *
+ * @private
+ * @param {Object} prototype The object to inherit from.
+ * @returns {Object} Returns the new object.
+ */
+function baseCreate(prototype, properties) {
+  return isObject(prototype) ? nativeCreate(prototype) : {};
+}
+// fallback for browsers without `Object.create`
+if (!nativeCreate) {
+  baseCreate = (function() {
+    function Object() {}
+    return function(prototype) {
+      if (isObject(prototype)) {
+        Object.prototype = prototype;
+        var result = new Object;
+        Object.prototype = null;
+      }
+      return result || global.Object();
+    };
+  }());
+}
+
+module.exports = baseCreate;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js","lodash.noop":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash._isnative/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash._basecreatewrapper/node_modules/lodash._basecreate/node_modules/lodash.noop/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash.noop/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -898,9 +944,10 @@ support.funcNames = typeof Function.name == 'string';
 module.exports = support;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.support/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1151,8 +1198,8 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 module.exports = keys;
 
 },{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js","lodash._shimkeys":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js","lodash.isobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash.keys/node_modules/lodash._shimkeys/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1240,8 +1287,8 @@ var isArray = nativeIsArray || function(value) {
 module.exports = isArray;
 
 },{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isarray/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1304,8 +1351,8 @@ var isPlainObject = !getPrototypeOf ? shimIsPlainObject : function(value) {
 module.exports = isPlainObject;
 
 },{"lodash._isnative":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._isnative/index.js","lodash._shimisplainobject":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._isnative/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash._setbinddata/node_modules/lodash._isnative/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1416,10 +1463,10 @@ var forIn = function(collection, callback, thisArg) {
 module.exports = forIn;
 
 },{"lodash._basecreatecallback":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/index.js","lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.forin/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.isplainobject/node_modules/lodash._shimisplainobject/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basecreatecallback/node_modules/lodash.bind/node_modules/lodash._createwrapper/node_modules/lodash.isfunction/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1485,8 +1532,8 @@ function releaseArray(array) {
 module.exports = releaseArray;
 
 },{"lodash._arraypool":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._arraypool/index.js","lodash._maxpoolsize":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._arraypool/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._getarray/node_modules/lodash._arraypool/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._releasearray/node_modules/lodash._maxpoolsize/index.js":[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -1583,8 +1630,8 @@ function isObject(value) {
 module.exports = isObject;
 
 },{"lodash._objecttypes":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash.isobject/node_modules/lodash._objecttypes/index.js":[function(require,module,exports){
-module.exports=require("/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js")
-},{"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js":"/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/AutoFocusMixin.js":[function(require,module,exports){
+arguments[4]["/Users/contra/Projects/hymn/node_modules/lodash.merge/node_modules/lodash._basemerge/node_modules/lodash.forown/node_modules/lodash._objecttypes/index.js"][0].apply(exports,arguments)
+},{}],"/Users/contra/Projects/hymn/node_modules/react/lib/AutoFocusMixin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -1852,7 +1899,6 @@ module.exports = BeforeInputEventPlugin;
  */
 var isUnitlessNumber = {
   columnCount: true,
-  fillOpacity: true,
   flex: true,
   flexGrow: true,
   flexShrink: true,
@@ -1864,7 +1910,11 @@ var isUnitlessNumber = {
   orphans: true,
   widows: true,
   zIndex: true,
-  zoom: true
+  zoom: true,
+
+  // SVG-related properties
+  fillOpacity: true,
+  strokeOpacity: true
 };
 
 /**
@@ -2084,6 +2134,7 @@ var CSSPropertyOperations = {
 module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
+
 },{"./CSSProperty":"/Users/contra/Projects/hymn/node_modules/react/lib/CSSProperty.js","./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./camelizeStyleName":"/Users/contra/Projects/hymn/node_modules/react/lib/camelizeStyleName.js","./dangerousStyleValue":"/Users/contra/Projects/hymn/node_modules/react/lib/dangerousStyleValue.js","./hyphenateStyleName":"/Users/contra/Projects/hymn/node_modules/react/lib/hyphenateStyleName.js","./memoizeStringOnly":"/Users/contra/Projects/hymn/node_modules/react/lib/memoizeStringOnly.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/CallbackQueue.js":[function(require,module,exports){
 (function (process){
 /**
@@ -2184,6 +2235,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
+
 },{"./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/contra/Projects/hymn/node_modules/react/lib/PooledClass.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ChangeEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -3025,6 +3077,7 @@ var DOMChildrenOperations = {
 module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
+
 },{"./Danger":"/Users/contra/Projects/hymn/node_modules/react/lib/Danger.js","./ReactMultiChildUpdateTypes":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMultiChildUpdateTypes.js","./getTextContentAccessor":"/Users/contra/Projects/hymn/node_modules/react/lib/getTextContentAccessor.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/DOMProperty.js":[function(require,module,exports){
 (function (process){
 /**
@@ -3324,6 +3377,7 @@ var DOMProperty = {
 module.exports = DOMProperty;
 
 }).call(this,require('_process'))
+
 },{"./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/DOMPropertyOperations.js":[function(require,module,exports){
 (function (process){
 /**
@@ -3521,6 +3575,7 @@ var DOMPropertyOperations = {
 module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
+
 },{"./DOMProperty":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMProperty.js","./escapeTextForBrowser":"/Users/contra/Projects/hymn/node_modules/react/lib/escapeTextForBrowser.js","./memoizeStringOnly":"/Users/contra/Projects/hymn/node_modules/react/lib/memoizeStringOnly.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/Danger.js":[function(require,module,exports){
 (function (process){
 /**
@@ -3707,6 +3762,7 @@ var Danger = {
 module.exports = Danger;
 
 }).call(this,require('_process'))
+
 },{"./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./createNodesFromMarkup":"/Users/contra/Projects/hymn/node_modules/react/lib/createNodesFromMarkup.js","./emptyFunction":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js","./getMarkupWrap":"/Users/contra/Projects/hymn/node_modules/react/lib/getMarkupWrap.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/DefaultEventPluginOrder.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -4049,6 +4105,7 @@ var EventListener = {
 module.exports = EventListener;
 
 }).call(this,require('_process'))
+
 },{"./emptyFunction":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginHub.js":[function(require,module,exports){
 (function (process){
 /**
@@ -4325,6 +4382,7 @@ var EventPluginHub = {
 module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
+
 },{"./EventPluginRegistry":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginRegistry.js","./EventPluginUtils":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginUtils.js","./accumulateInto":"/Users/contra/Projects/hymn/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/contra/Projects/hymn/node_modules/react/lib/forEachAccumulated.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginRegistry.js":[function(require,module,exports){
 (function (process){
 /**
@@ -4605,6 +4663,7 @@ var EventPluginRegistry = {
 module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
+
 },{"./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginUtils.js":[function(require,module,exports){
 (function (process){
 /**
@@ -4826,6 +4885,7 @@ var EventPluginUtils = {
 module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
+
 },{"./EventConstants":"/Users/contra/Projects/hymn/node_modules/react/lib/EventConstants.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/EventPropagators.js":[function(require,module,exports){
 (function (process){
 /**
@@ -4968,6 +5028,7 @@ var EventPropagators = {
 module.exports = EventPropagators;
 
 }).call(this,require('_process'))
+
 },{"./EventConstants":"/Users/contra/Projects/hymn/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginHub.js","./accumulateInto":"/Users/contra/Projects/hymn/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/contra/Projects/hymn/node_modules/react/lib/forEachAccumulated.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -5104,7 +5165,11 @@ var HTMLDOMPropertyConfig = {
     draggable: null,
     encType: null,
     form: MUST_USE_ATTRIBUTE,
+    formAction: MUST_USE_ATTRIBUTE,
+    formEncType: MUST_USE_ATTRIBUTE,
+    formMethod: MUST_USE_ATTRIBUTE,
     formNoValidate: HAS_BOOLEAN_VALUE,
+    formTarget: MUST_USE_ATTRIBUTE,
     frameBorder: MUST_USE_ATTRIBUTE,
     height: MUST_USE_ATTRIBUTE,
     hidden: MUST_USE_ATTRIBUTE | HAS_BOOLEAN_VALUE,
@@ -5119,6 +5184,8 @@ var HTMLDOMPropertyConfig = {
     list: MUST_USE_ATTRIBUTE,
     loop: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     manifest: MUST_USE_ATTRIBUTE,
+    marginHeight: null,
+    marginWidth: null,
     max: null,
     maxLength: MUST_USE_ATTRIBUTE,
     media: MUST_USE_ATTRIBUTE,
@@ -5355,6 +5422,7 @@ var LinkedValueUtils = {
 module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
+
 },{"./ReactPropTypes":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTypes.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/LocalEventTrapMixin.js":[function(require,module,exports){
 (function (process){
 /**
@@ -5405,6 +5473,7 @@ var LocalEventTrapMixin = {
 module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
+
 },{"./ReactBrowserEventEmitter":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserEventEmitter.js","./accumulateInto":"/Users/contra/Projects/hymn/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/contra/Projects/hymn/node_modules/react/lib/forEachAccumulated.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/MobileSafariClickEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -5626,6 +5695,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 }).call(this,require('_process'))
+
 },{"./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/React.js":[function(require,module,exports){
 (function (process){
 /**
@@ -5809,11 +5879,12 @@ if ("production" !== process.env.NODE_ENV) {
 
 // Version exists only in the open-source version of React, not in Facebook's
 // internal version.
-React.version = '0.12.1';
+React.version = '0.12.2';
 
 module.exports = React;
 
 }).call(this,require('_process'))
+
 },{"./DOMPropertyOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMPropertyOperations.js","./EventPluginUtils":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginUtils.js","./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactChildren":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactChildren.js","./ReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponent.js","./ReactCompositeComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCompositeComponent.js","./ReactContext":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./ReactDOM":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOM.js","./ReactDOMComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMComponent.js","./ReactDefaultInjection":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDefaultInjection.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElementValidator.js","./ReactInstanceHandles":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactInstanceHandles.js","./ReactLegacyElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactLegacyElement.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./ReactMultiChild":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMultiChild.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./ReactPropTypes":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTypes.js","./ReactServerRendering":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactServerRendering.js","./ReactTextComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTextComponent.js","./deprecated":"/Users/contra/Projects/hymn/node_modules/react/lib/deprecated.js","./onlyChild":"/Users/contra/Projects/hymn/node_modules/react/lib/onlyChild.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserComponentMixin.js":[function(require,module,exports){
 (function (process){
 /**
@@ -5857,6 +5928,7 @@ var ReactBrowserComponentMixin = {
 module.exports = ReactBrowserComponentMixin;
 
 }).call(this,require('_process'))
+
 },{"./ReactEmptyComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactEmptyComponent.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserEventEmitter.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -6362,6 +6434,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 }).call(this,require('_process'))
+
 },{"./PooledClass":"/Users/contra/Projects/hymn/node_modules/react/lib/PooledClass.js","./traverseAllChildren":"/Users/contra/Projects/hymn/node_modules/react/lib/traverseAllChildren.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponent.js":[function(require,module,exports){
 (function (process){
 /**
@@ -6805,6 +6878,7 @@ var ReactComponent = {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
+
 },{"./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactOwner.js","./ReactUpdates":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactUpdates.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./keyMirror":"/Users/contra/Projects/hymn/node_modules/react/lib/keyMirror.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponentBrowserEnvironment.js":[function(require,module,exports){
 (function (process){
 /**
@@ -6927,6 +7001,7 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 }).call(this,require('_process'))
+
 },{"./ReactDOMIDOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMIDOperations.js","./ReactMarkupChecksum":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMarkupChecksum.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./ReactReconcileTransaction":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactReconcileTransaction.js","./getReactRootElementInContainer":"/Users/contra/Projects/hymn/node_modules/react/lib/getReactRootElementInContainer.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./setInnerHTML":"/Users/contra/Projects/hymn/node_modules/react/lib/setInnerHTML.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCompositeComponent.js":[function(require,module,exports){
 (function (process){
 /**
@@ -8367,6 +8442,7 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
+
 },{"./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponent.js","./ReactContext":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElementValidator.js","./ReactEmptyComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactEmptyComponent.js","./ReactErrorUtils":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactErrorUtils.js","./ReactLegacyElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactLegacyElement.js","./ReactOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactOwner.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./ReactPropTransferer":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTransferer.js","./ReactPropTypeLocationNames":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTypeLocationNames.js","./ReactPropTypeLocations":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTypeLocations.js","./ReactUpdates":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactUpdates.js","./instantiateReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./keyMirror":"/Users/contra/Projects/hymn/node_modules/react/lib/keyMirror.js","./keyOf":"/Users/contra/Projects/hymn/node_modules/react/lib/keyOf.js","./mapObject":"/Users/contra/Projects/hymn/node_modules/react/lib/mapObject.js","./monitorCodeUse":"/Users/contra/Projects/hymn/node_modules/react/lib/monitorCodeUse.js","./shouldUpdateReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/shouldUpdateReactComponent.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactContext.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -8646,6 +8722,7 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
+
 },{"./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElementValidator.js","./ReactLegacyElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactLegacyElement.js","./mapObject":"/Users/contra/Projects/hymn/node_modules/react/lib/mapObject.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMButton.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -9198,6 +9275,7 @@ assign(
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
+
 },{"./CSSPropertyOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/CSSPropertyOperations.js","./DOMProperty":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMProperty.js","./DOMPropertyOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactBrowserEventEmitter":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponent.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./ReactMultiChild":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMultiChild.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./escapeTextForBrowser":"/Users/contra/Projects/hymn/node_modules/react/lib/escapeTextForBrowser.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./isEventSupported":"/Users/contra/Projects/hymn/node_modules/react/lib/isEventSupported.js","./keyOf":"/Users/contra/Projects/hymn/node_modules/react/lib/keyOf.js","./monitorCodeUse":"/Users/contra/Projects/hymn/node_modules/react/lib/monitorCodeUse.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMForm.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -9434,6 +9512,7 @@ var ReactDOMIDOperations = {
 module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
+
 },{"./CSSPropertyOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/CSSPropertyOperations.js","./DOMChildrenOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMChildrenOperations.js","./DOMPropertyOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMPropertyOperations.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./setInnerHTML":"/Users/contra/Projects/hymn/node_modules/react/lib/setInnerHTML.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMImg.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -9660,6 +9739,7 @@ var ReactDOMInput = ReactCompositeComponent.createClass({
 module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
+
 },{"./AutoFocusMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/AutoFocusMixin.js","./DOMPropertyOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMPropertyOperations.js","./LinkedValueUtils":"/Users/contra/Projects/hymn/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactUpdates.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMOption.js":[function(require,module,exports){
 (function (process){
 /**
@@ -9713,6 +9793,7 @@ var ReactDOMOption = ReactCompositeComponent.createClass({
 module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
+
 },{"./ReactBrowserComponentMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMSelect.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -10247,6 +10328,7 @@ var ReactDOMTextarea = ReactCompositeComponent.createClass({
 module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
+
 },{"./AutoFocusMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/AutoFocusMixin.js","./DOMPropertyOperations":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMPropertyOperations.js","./LinkedValueUtils":"/Users/contra/Projects/hymn/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactUpdates":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactUpdates.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDefaultBatchingStrategy.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -10449,6 +10531,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
+
 },{"./BeforeInputEventPlugin":"/Users/contra/Projects/hymn/node_modules/react/lib/BeforeInputEventPlugin.js","./ChangeEventPlugin":"/Users/contra/Projects/hymn/node_modules/react/lib/ChangeEventPlugin.js","./ClientReactRootIndex":"/Users/contra/Projects/hymn/node_modules/react/lib/ClientReactRootIndex.js","./CompositionEventPlugin":"/Users/contra/Projects/hymn/node_modules/react/lib/CompositionEventPlugin.js","./DefaultEventPluginOrder":"/Users/contra/Projects/hymn/node_modules/react/lib/DefaultEventPluginOrder.js","./EnterLeaveEventPlugin":"/Users/contra/Projects/hymn/node_modules/react/lib/EnterLeaveEventPlugin.js","./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./HTMLDOMPropertyConfig":"/Users/contra/Projects/hymn/node_modules/react/lib/HTMLDOMPropertyConfig.js","./MobileSafariClickEventPlugin":"/Users/contra/Projects/hymn/node_modules/react/lib/MobileSafariClickEventPlugin.js","./ReactBrowserComponentMixin":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactComponentBrowserEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactComponentBrowserEnvironment.js","./ReactDOMButton":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMButton.js","./ReactDOMComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMComponent.js","./ReactDOMForm":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMForm.js","./ReactDOMImg":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMImg.js","./ReactDOMInput":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMInput.js","./ReactDOMOption":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMOption.js","./ReactDOMSelect":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMSelect.js","./ReactDOMTextarea":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDOMTextarea.js","./ReactDefaultBatchingStrategy":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDefaultBatchingStrategy.js","./ReactDefaultPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDefaultPerf.js","./ReactEventListener":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactEventListener.js","./ReactInjection":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactInjection.js","./ReactInstanceHandles":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMount.js","./SVGDOMPropertyConfig":"/Users/contra/Projects/hymn/node_modules/react/lib/SVGDOMPropertyConfig.js","./SelectEventPlugin":"/Users/contra/Projects/hymn/node_modules/react/lib/SelectEventPlugin.js","./ServerReactRootIndex":"/Users/contra/Projects/hymn/node_modules/react/lib/ServerReactRootIndex.js","./SimpleEventPlugin":"/Users/contra/Projects/hymn/node_modules/react/lib/SimpleEventPlugin.js","./createFullPageComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/createFullPageComponent.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactDefaultPerf.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -11093,7 +11176,7 @@ ReactElement.createElement = function(type, config, children) {
   }
 
   // Resolve default props
-  if (type.defaultProps) {
+  if (type && type.defaultProps) {
     var defaultProps = type.defaultProps;
     for (propName in defaultProps) {
       if (typeof props[propName] === 'undefined') {
@@ -11161,7 +11244,9 @@ ReactElement.isValidElement = function(object) {
 module.exports = ReactElement;
 
 }).call(this,require('_process'))
+
 },{"./ReactContext":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElementValidator.js":[function(require,module,exports){
+(function (process){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -11187,6 +11272,7 @@ var ReactPropTypeLocations = require("./ReactPropTypeLocations");
 var ReactCurrentOwner = require("./ReactCurrentOwner");
 
 var monitorCodeUse = require("./monitorCodeUse");
+var warning = require("./warning");
 
 /**
  * Warn if there's no key explicitly set on dynamic arrays of children or
@@ -11384,6 +11470,15 @@ function checkPropTypes(componentName, propTypes, props, location) {
 var ReactElementValidator = {
 
   createElement: function(type, props, children) {
+    // We warn in this case but don't throw. We expect the element creation to
+    // succeed and there will likely be errors in render.
+    ("production" !== process.env.NODE_ENV ? warning(
+      type != null,
+      'React.createElement: type should not be null or undefined. It should ' +
+        'be a string (for DOM elements) or a ReactClass (for composite ' +
+        'components).'
+    ) : null);
+
     var element = ReactElement.createElement.apply(this, arguments);
 
     // The result can be nullish if a mock or a custom function is used.
@@ -11396,22 +11491,24 @@ var ReactElementValidator = {
       validateChildKeys(arguments[i], type);
     }
 
-    var name = type.displayName;
-    if (type.propTypes) {
-      checkPropTypes(
-        name,
-        type.propTypes,
-        element.props,
-        ReactPropTypeLocations.prop
-      );
-    }
-    if (type.contextTypes) {
-      checkPropTypes(
-        name,
-        type.contextTypes,
-        element._context,
-        ReactPropTypeLocations.context
-      );
+    if (type) {
+      var name = type.displayName;
+      if (type.propTypes) {
+        checkPropTypes(
+          name,
+          type.propTypes,
+          element.props,
+          ReactPropTypeLocations.prop
+        );
+      }
+      if (type.contextTypes) {
+        checkPropTypes(
+          name,
+          type.contextTypes,
+          element._context,
+          ReactPropTypeLocations.context
+        );
+      }
     }
     return element;
   },
@@ -11429,7 +11526,9 @@ var ReactElementValidator = {
 
 module.exports = ReactElementValidator;
 
-},{"./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocations":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTypeLocations.js","./monitorCodeUse":"/Users/contra/Projects/hymn/node_modules/react/lib/monitorCodeUse.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactEmptyComponent.js":[function(require,module,exports){
+}).call(this,require('_process'))
+
+},{"./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocations":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTypeLocations.js","./monitorCodeUse":"/Users/contra/Projects/hymn/node_modules/react/lib/monitorCodeUse.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactEmptyComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -11506,6 +11605,7 @@ var ReactEmptyComponent = {
 module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
+
 },{"./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactErrorUtils.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -12283,6 +12383,7 @@ var ReactInstanceHandles = {
 module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
+
 },{"./ReactRootIndex":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactRootIndex.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactLegacyElement.js":[function(require,module,exports){
 (function (process){
 /**
@@ -12530,6 +12631,7 @@ ReactLegacyElementFactory._isLegacyCallWarningEnabled = true;
 module.exports = ReactLegacyElementFactory;
 
 }).call(this,require('_process'))
+
 },{"./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./monitorCodeUse":"/Users/contra/Projects/hymn/node_modules/react/lib/monitorCodeUse.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMarkupChecksum.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -13276,6 +13378,7 @@ ReactMount.renderComponent = deprecated(
 module.exports = ReactMount;
 
 }).call(this,require('_process'))
+
 },{"./DOMProperty":"/Users/contra/Projects/hymn/node_modules/react/lib/DOMProperty.js","./ReactBrowserEventEmitter":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactInstanceHandles.js","./ReactLegacyElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactLegacyElement.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./containsNode":"/Users/contra/Projects/hymn/node_modules/react/lib/containsNode.js","./deprecated":"/Users/contra/Projects/hymn/node_modules/react/lib/deprecated.js","./getReactRootElementInContainer":"/Users/contra/Projects/hymn/node_modules/react/lib/getReactRootElementInContainer.js","./instantiateReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./shouldUpdateReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/shouldUpdateReactComponent.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMultiChild.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -13804,12 +13907,13 @@ function createInstanceForTag(tag, props, parentType) {
 
 var ReactNativeComponent = {
   createInstanceForTag: createInstanceForTag,
-  injection: ReactNativeComponentInjection,
+  injection: ReactNativeComponentInjection
 };
 
 module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
+
 },{"./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactOwner.js":[function(require,module,exports){
 (function (process){
 /**
@@ -13966,6 +14070,7 @@ var ReactOwner = {
 module.exports = ReactOwner;
 
 }).call(this,require('_process'))
+
 },{"./emptyObject":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyObject.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js":[function(require,module,exports){
 (function (process){
 /**
@@ -14050,6 +14155,7 @@ function _noMeasure(objName, fnName, func) {
 module.exports = ReactPerf;
 
 }).call(this,require('_process'))
+
 },{"_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTransferer.js":[function(require,module,exports){
 (function (process){
 /**
@@ -14217,6 +14323,7 @@ var ReactPropTransferer = {
 module.exports = ReactPropTransferer;
 
 }).call(this,require('_process'))
+
 },{"./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./emptyFunction":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./joinClasses":"/Users/contra/Projects/hymn/node_modules/react/lib/joinClasses.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTypeLocationNames.js":[function(require,module,exports){
 (function (process){
 /**
@@ -14245,6 +14352,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
+
 },{"_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPropTypeLocations.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -14966,6 +15074,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
+
 },{"./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactInstanceHandles.js","./ReactMarkupChecksum":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactMarkupChecksum.js","./ReactServerRenderingTransaction":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactServerRenderingTransaction.js","./instantiateReactComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ReactServerRenderingTransaction.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -15475,6 +15584,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
+
 },{"./CallbackQueue":"/Users/contra/Projects/hymn/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/contra/Projects/hymn/node_modules/react/lib/PooledClass.js","./ReactCurrentOwner":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCurrentOwner.js","./ReactPerf":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactPerf.js","./Transaction":"/Users/contra/Projects/hymn/node_modules/react/lib/Transaction.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/SVGDOMPropertyConfig.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -16221,6 +16331,7 @@ var SimpleEventPlugin = {
 module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
+
 },{"./EventConstants":"/Users/contra/Projects/hymn/node_modules/react/lib/EventConstants.js","./EventPluginUtils":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPluginUtils.js","./EventPropagators":"/Users/contra/Projects/hymn/node_modules/react/lib/EventPropagators.js","./SyntheticClipboardEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticClipboardEvent.js","./SyntheticDragEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticDragEvent.js","./SyntheticEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticEvent.js","./SyntheticFocusEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticFocusEvent.js","./SyntheticKeyboardEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticKeyboardEvent.js","./SyntheticMouseEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticMouseEvent.js","./SyntheticTouchEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticTouchEvent.js","./SyntheticUIEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticUIEvent.js","./SyntheticWheelEvent":"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticWheelEvent.js","./getEventCharCode":"/Users/contra/Projects/hymn/node_modules/react/lib/getEventCharCode.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","./keyOf":"/Users/contra/Projects/hymn/node_modules/react/lib/keyOf.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/SyntheticClipboardEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17178,6 +17289,7 @@ var Transaction = {
 module.exports = Transaction;
 
 }).call(this,require('_process'))
+
 },{"./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/ViewportMetrics.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17276,6 +17388,7 @@ function accumulateInto(current, next) {
 module.exports = accumulateInto;
 
 }).call(this,require('_process'))
+
 },{"./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/adler32.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17575,6 +17688,7 @@ function createFullPageComponent(tag) {
 module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
+
 },{"./ReactCompositeComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactCompositeComponent.js","./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/createNodesFromMarkup.js":[function(require,module,exports){
 (function (process){
 /**
@@ -17665,6 +17779,7 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
+
 },{"./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./createArrayFrom":"/Users/contra/Projects/hymn/node_modules/react/lib/createArrayFrom.js","./getMarkupWrap":"/Users/contra/Projects/hymn/node_modules/react/lib/getMarkupWrap.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/dangerousStyleValue.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17774,6 +17889,7 @@ function deprecated(namespace, oldName, newName, ctx, fn) {
 module.exports = deprecated;
 
 }).call(this,require('_process'))
+
 },{"./Object.assign":"/Users/contra/Projects/hymn/node_modules/react/lib/Object.assign.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17832,6 +17948,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = emptyObject;
 
 }).call(this,require('_process'))
+
 },{"_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/escapeTextForBrowser.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17942,6 +18059,7 @@ function flattenChildren(children) {
 module.exports = flattenChildren;
 
 }).call(this,require('_process'))
+
 },{"./ReactTextComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactTextComponent.js","./traverseAllChildren":"/Users/contra/Projects/hymn/node_modules/react/lib/traverseAllChildren.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/focusNode.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -18383,6 +18501,7 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
+
 },{"./ExecutionEnvironment":"/Users/contra/Projects/hymn/node_modules/react/lib/ExecutionEnvironment.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/getNodeForCharacterOffset.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -18758,6 +18877,7 @@ function instantiateReactComponent(element, parentCompositeType) {
 module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
+
 },{"./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactEmptyComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactEmptyComponent.js","./ReactLegacyElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactLegacyElement.js","./ReactNativeComponent":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactNativeComponent.js","./warning":"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js":[function(require,module,exports){
 (function (process){
 /**
@@ -18815,6 +18935,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
+
 },{"_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/isEventSupported.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -19073,6 +19194,7 @@ var keyMirror = function(obj) {
 module.exports = keyMirror;
 
 }).call(this,require('_process'))
+
 },{"./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/keyOf.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -19230,6 +19352,7 @@ function monitorCodeUse(eventName, data) {
 module.exports = monitorCodeUse;
 
 }).call(this,require('_process'))
+
 },{"./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/onlyChild.js":[function(require,module,exports){
 (function (process){
 /**
@@ -19270,6 +19393,7 @@ function onlyChild(children) {
 module.exports = onlyChild;
 
 }).call(this,require('_process'))
+
 },{"./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/performance.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -19558,6 +19682,7 @@ function toArray(obj) {
 module.exports = toArray;
 
 }).call(this,require('_process'))
+
 },{"./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/traverseAllChildren.js":[function(require,module,exports){
 (function (process){
 /**
@@ -19741,6 +19866,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
+
 },{"./ReactElement":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/contra/Projects/hymn/node_modules/react/lib/ReactInstanceHandles.js","./invariant":"/Users/contra/Projects/hymn/node_modules/react/lib/invariant.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/lib/warning.js":[function(require,module,exports){
 (function (process){
 /**
@@ -19786,6 +19912,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = warning;
 
 }).call(this,require('_process'))
+
 },{"./emptyFunction":"/Users/contra/Projects/hymn/node_modules/react/lib/emptyFunction.js","_process":"/Users/contra/Projects/hymn/node_modules/browserify/node_modules/process/browser.js"}],"/Users/contra/Projects/hymn/node_modules/react/react.js":[function(require,module,exports){
 module.exports = require('./lib/React');
 

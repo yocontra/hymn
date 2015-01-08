@@ -179,7 +179,7 @@ gulp.task('soundcloud-static', function(){
 
 gulp.task('sample-server', function(cb){
   var port = parseInt(process.env.PORT) || 9090;
-  var rootFolder = path.join(__dirname, './samples/minimal/dist');
+  var rootFolder = path.join(__dirname, './samples/soundcloud/dist');
   var server = http.createServer(ecstatic({root: rootFolder}));
   server.listen(port, cb);
 });
@@ -188,6 +188,8 @@ gulp.task('deploy', function(){
   return gulp.src('./samples/sandbox/dist/**/*')
     .pipe(deploy());
 });
+
+lr.listen();
 
 gulp.task('default', [
   'js', 'samples', 'static',

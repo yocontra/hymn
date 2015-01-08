@@ -26,7 +26,6 @@
   transform: translateY(0);
 }
 .hymn-player .hymn-artwork {
-  -webkit-transition: all 0.4s ease-in-out 0.4s;
   transition: all 0.4s ease-in-out 0.4s;
   -webkit-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
@@ -73,7 +72,6 @@
   color: inherit;
   height: 25px;
   width: 30px;
-  -webkit-transition: color 0.05s;
   transition: color 0.05s;
 }
 .hymn-player .hymn-control:hover {
@@ -95,7 +93,6 @@
   content: '\e601';
 }
 .hymn-player .hymn-info {
-  -webkit-transition: all 0.4s ease-in-out 0.4s;
   transition: all 0.4s ease-in-out 0.4s;
   -webkit-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);

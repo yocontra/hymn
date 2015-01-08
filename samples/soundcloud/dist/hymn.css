@@ -91,7 +91,6 @@
   position: relative;
   height: 50%;
   max-height: 500px;
-  background: -webkit-linear-gradient(left bottom, #f82769 0%, #d8aa6d 100%);
   background: linear-gradient(to right top, #f82769 0%, #d8aa6d 100%);
 }
 .hymn-player .hymn-artwork-container .hymn-artwork {
@@ -207,7 +206,6 @@
 }
 .hymn-player .hymn-controls .hymn-progress {
   width: 100%;
-  -webkit-transition: height 0.2s ease-in-out;
   transition: height 0.2s ease-in-out;
   position: absolute;
   bottom: 0;
