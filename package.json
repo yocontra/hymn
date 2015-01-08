@@ -1,7 +1,7 @@
 {
   "name": "hymn",
   "description": "React audio player component",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "http://github.com/wearefractal/hymn",
   "repository": {
     "type": "git",
